@@ -1,0 +1,60 @@
+//Theme variables overrides
+$primary: "Larsseit";
+
+// These are the defaults, but you can override any values
+$font-family-sans-serif: "Larsseit", "Nunito", "Noto Sans CJK HK", "sans-serif" !default;
+$font-family-serif: Georgia, "Times New Roman", Times, serif !default;
+$font-family-monospace: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace !default;
+$font-family-base: $font-family-sans-serif !default;
+
+// Colors
+$blue-100: #d9e5ff;
+$blue-800: #4982ff;
+$blue-900: #3d6ed9;
+
+$gray-100: #d1d0cc;
+$gray-300: rgba(245, 245, 245, 0.8);
+$gray-500: #ebe9e5;
+$gray-700: #abaaa7;
+$gray-800: #61605e;
+$gray-900: #82817f;
+$black: #020202 !default;
+$black-50: rgba($black, 0.5);
+$black-80: #575254;
+$black-90: #3c393b;
+$black-100: #222021;
+$yellow: #ffca00;
+$background: #e5e5e5;
+$neutral: #fafafa;
+$danger-color: #ff6b6b;
+$success-color: #7ec186;
+$warning-color: #ffca00;
+$primary-color: $blue-800;
+
+// // Sizing
+// $basePx: 5px;
+// $spacer: 1rem;
+// $spacers: (
+//     6: (
+//         $spacer * 3.5,
+//     ),
+//     7: (
+//         $spacer * 4,
+//     ),
+//     8: (
+//         $spacer * 4.5,
+//     ),
+//     9: (
+//         $spacer * 5,
+//     ),
+//     10: (
+//         $spacer * 5.5,
+//     ),
+// );
+
+//Border variables
+$border-radius: 0.2rem;
+$border-radius-sm: 0.6rem;
+$border-radius-md: 0.7rem;
+$border-radius-lg: 1.2rem;
