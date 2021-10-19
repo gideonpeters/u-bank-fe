@@ -27,7 +27,7 @@
                     <div class="d-flex w-100 flex-column align-center">
                         <v-avatar size="120">
                             <img
-                                src="https://randomuser.me/api/portraits/women/81.jpg"
+                                src="https://randomuser.me/api/portraits/men/80.jpg"
                             />
                         </v-avatar>
                         <div class="mt-5 mb-1 text-h6">Jeffery Ehikioya</div>
