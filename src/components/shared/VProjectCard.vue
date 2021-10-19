@@ -2,7 +2,7 @@
     <v-card
         @click="goToProject"
         class="mx-auto py-4 px-6 rounded-xl pointer"
-        color="secondary"
+        color="tertiary-light"
         flat
         width="320"
         max-width="350"
