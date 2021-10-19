@@ -1,3 +1,29 @@
 .pointer {
     cursor: pointer;
 }
+
+.z-4 {
+    position: relative;
+    z-index: 100000000 !important;
+}
+
+.z-1 {
+    position: relative;
+    z-index: 1 !important;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed !important ;
+}
+
+.relative {
+    position: relative;
+}
+
+.v-shadow {
+    box-shadow: 0px 14px 34px rgba(34, 37, 169, 0.4);
+}

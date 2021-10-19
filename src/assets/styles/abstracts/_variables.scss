@@ -2,11 +2,15 @@
 $primary: "Larsseit";
 
 // These are the defaults, but you can override any values
-$font-family-sans-serif: "Larsseit", "Nunito", "Noto Sans CJK HK", "sans-serif" !default;
-$font-family-serif: Georgia, "Times New Roman", Times, serif !default;
-$font-family-monospace: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace !default;
-$font-family-base: $font-family-sans-serif !default;
+$font-family: "Raleway";
+$body-font-family: "Raleway";
+
+.v-application {
+    [class*="text-"] {
+        font-family: $font-family, sans-serif !important;
+    }
+    font-family: $font-family, sans-serif !important;
+}
 
 // Colors
 $blue-100: #d9e5ff;

@@ -1,13 +1,13 @@
 <template>
     <auth>
-        <v-row justify="center" align="center">
+        <v-row justify="center" align="center" class="w-100">
             <v-col cols="12">
                 <div class="text-left mb-2">
                     <div class="text-lg-h4 text-h5 font-weight-bold">
                         Login 🚪
                     </div>
                     <div class="text-body mt-2 mb-5 grey--text">
-                        Welcome to Networth, Let's get you logged in
+                        Welcome to Net Worth, Let's get you logged in
                     </div>
                 </div>
             </v-col>
@@ -35,7 +35,12 @@
                 ></v-checkbox>
             </v-col>
             <v-col cols="12" sm="12" md="12">
-                <v-btn block depressed color="primary" class="py-6"
+                <v-btn
+                    block
+                    depressed
+                    color="primary"
+                    class="py-6"
+                    @click="login"
                     >Login</v-btn
                 >
             </v-col>
@@ -66,7 +71,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Auth from "../layouts/Auth.vue";
-import { SIGNUP } from "../router/endpoints";
+import { DASHBOARD, SIGNUP } from "../router/endpoints";
 
 export default Vue.extend({
     components: { Auth },
@@ -80,8 +85,8 @@ export default Vue.extend({
         };
     },
     methods: {
-        submit() {
-            this.$router.push({ name: "" });
+        login() {
+            this.$router.push({ name: DASHBOARD.NAME });
         },
         goToSignUp() {
             this.$router.push({ name: SIGNUP.NAME });

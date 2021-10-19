@@ -2,6 +2,7 @@
     <v-card flat color="transparent" class="d-flex" width="100%" no-gutters>
         <v-card flat color="transparent" width="30%">
             <v-select
+                hide-details
                 shaped
                 class="overflow-hidden rounded-tr-0 rounded-br-0"
                 v-model="countryCode"

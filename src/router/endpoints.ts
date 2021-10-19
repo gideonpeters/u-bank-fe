@@ -27,6 +27,7 @@ export const RESET_PASSWORD = {
     NAME: "auth.reset-password",
     META: {
         layout: "public",
+        title: "Reset Password",
     },
 };
 
@@ -35,6 +36,7 @@ export const CHANGE_PASSWORD = {
     NAME: "auth.change-password",
     META: {
         layout: "public",
+        title: "Change Password",
     },
 };
 
@@ -43,5 +45,60 @@ export const DASHBOARD = {
     NAME: "main.dashboard",
     META: {
         layout: "private",
+        title: "Dashboard",
+    },
+};
+
+export const WALLET = {
+    PATH: "/wallet",
+    NAME: "main.wallet",
+    META: {
+        layout: "private",
+        title: "My Wallet",
+    },
+};
+
+export const PROJECTS = {
+    PATH: "/projects",
+    NAME: "main.projects",
+    META: {
+        layout: "private",
+        title: "Projects",
+    },
+};
+
+export const PROJECT_DETAILS = {
+    PATH: "/projects/:projectId",
+    NAME: "main.projects.details",
+    META: {
+        layout: "private",
+        title: "Project Details",
+    },
+};
+
+export const PROFILE = {
+    PATH: "/profile",
+    NAME: "main.profile",
+    META: {
+        layout: "private",
+        title: "Profile",
+    },
+};
+
+export const PORTFOLIO = {
+    PATH: "/portfolio",
+    NAME: "main.portfolio",
+    META: {
+        layout: "private",
+        title: "Portfolio",
+    },
+};
+
+export const SETTINGS = {
+    PATH: "/settings",
+    NAME: "main.settings",
+    META: {
+        layout: "private",
+        title: "Settings",
     },
 };

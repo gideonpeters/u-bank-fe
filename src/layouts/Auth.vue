@@ -1,5 +1,5 @@
 <template>
-    <v-row class="fill-height" no-gutters>
+    <v-row class="fill-height w-100" no-gutters>
         <v-col cols="5" md="5" class="d-md-block d-none">
             <v-card tile flat color="primary" class="fill-height">
                 <v-row no-gutters class="fill-height">
