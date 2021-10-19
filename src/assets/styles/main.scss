@@ -7,19 +7,19 @@
 
 @import "./themes/_theme.scss";
 
-.v-application {
-    [class*="text-"] {
-        font-family: $font-family, sans-serif !important;
-    }
-    font-family: $font-family, sans-serif !important;
-}
+// .v-application {
+//     [class*="text-"] {
+//         font-family: $font-family, sans-serif !important;
+//     }
+//     font-family: $font-family, sans-serif !important;
+// }
 
-*,
-html,
-body {
-    font-family: $font-family, sans-serif !important;
-}
+// *,
+// html,
+// body {
+//     font-family: $font-family, sans-serif !important;
+// }
 
-v-app {
-    font-family: $body-font-family !important;
-}
+// v-app {
+//     font-family: $body-font-family !important;
+// }

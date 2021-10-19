@@ -24,7 +24,7 @@
                 <v-tabs-items v-model="tab">
                     <v-tab-item v-for="(item, indx) in tabItems" :key="indx">
                         <available-projects v-if="indx === 0" />
-                        <available-projects v-if="indx === 1" />
+                        <my-projects v-if="indx === 1" />
                         <available-projects v-if="indx === 2" />
                         <available-projects v-if="indx === 3" />
                         <available-projects v-if="indx === 4" />
@@ -38,6 +38,7 @@
 <script lang="ts">
 import Vue from "vue";
 import AvailableProjects from "../components/projects/AvailableProjects.vue";
+import MyProjects from "../components/projects/MyProjects.vue";
 // import AvailableProjects from "./../components/projects/AvailableProjects.vue";
 
 interface TabItem {
@@ -49,6 +50,7 @@ interface TabItem {
 export default Vue.extend({
     components: {
         AvailableProjects,
+        MyProjects,
         // AvailableProjects,
     },
     data(): {
