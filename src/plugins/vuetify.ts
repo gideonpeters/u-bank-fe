@@ -9,8 +9,8 @@ export default new Vuetify({
     theme: {
         themes: {
             light: {
-                "primary": "#00162E",
-                "secondary": "#F2B431",
+                "primary": "#3D41D7",
+                "secondary": "#FCF5E5",
                 "accent": "#8c9eff",
                 "error": "#FF6B6B",
                 "success": "#25B825",
@@ -19,8 +19,8 @@ export default new Vuetify({
                 "tertiary-light": "#F6F8FF",
             },
             dark: {
-                "primary": "#00162E",
-                "secondary": "#F2B431",
+                "primary": "#3D41D7",
+                "secondary": "#FCF5E5",
                 "accent": "#8c9eff",
                 "error": "#FF6B6B",
                 "success": "#25B825",
