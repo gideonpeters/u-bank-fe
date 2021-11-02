@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                         </v-col>
-                        <v-col cols="12" sm="12" md="4">
+                        <v-col cols="12" sm="12" md="6">
                             <v-text-field
                                 shaped
                                 label="First Name*"
@@ -81,7 +81,7 @@
                                 filled
                             ></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="12" md="4">
+                        <!-- <v-col cols="12" sm="12" md="4">
                             <v-text-field
                                 shaped
                                 label="Middle Name"
@@ -89,8 +89,8 @@
                                 hide-details
                                 filled
                             ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="12" md="4">
+                        </v-col> -->
+                        <v-col cols="12" sm="12" md="6">
                             <v-text-field
                                 shaped
                                 label="Last Name*"
@@ -109,14 +109,20 @@
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="6">
-                            <v-phone-field v-model="form.phoneNumber" />
+                            <v-text-field
+                                shaped
+                                label="Phone Number*"
+                                v-model="form.phoneNumber"
+                                hide-details
+                                filled
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
                             <v-text-field
                                 shaped
-                                label="Referrer's Username"
+                                label="Who referred you?"
                                 v-model="form.referrer"
-                                hide-details
+                                hint="Enter referrer's username"
                                 filled
                             ></v-text-field>
                         </v-col>
@@ -127,7 +133,16 @@
                                     depressed
                                     color="primary"
                                     class="py-6 px-10"
-                                    @click="onboardingStepper = 2"
+                                    :loading="isResolving"
+                                    :hint="`${
+                                        resolvedReferrer
+                                            ? 'You were referred by ' +
+                                              resolvedReferrer
+                                            : ''
+                                    }`"
+                                    :disabled="step1Disabled"
+                                    persistent-hint
+                                    @click="resolveReferrer"
                                     >Next</v-btn
                                 >
                             </div>
@@ -360,6 +375,8 @@ export default Vue.extend({
     components: { Auth },
     data(): {
         onboardingStepper: number;
+        isResolving: boolean;
+        resolvedReferrer: string;
         form: {
             firstName: string;
             middleName?: string;
@@ -380,6 +397,8 @@ export default Vue.extend({
     } {
         return {
             onboardingStepper: 1,
+            isResolving: false,
+            resolvedReferrer: "",
             form: {
                 firstName: "",
                 middleName: "",
@@ -419,12 +438,60 @@ export default Vue.extend({
                 passwordMatch: (value) => value == this.form.password,
             };
         },
+        step1Disabled(): boolean {
+            return (
+                !this.form.firstName ||
+                !this.form.lastName ||
+                !this.form.email ||
+                !this.form.phoneNumber
+            );
+        },
     },
 
     methods: {
+        async resolveReferrer() {
+            try {
+                if (this.form.referrer) {
+                    this.resolvedReferrer = "";
+                    this.isResolving = true;
+                    const res = await this.$store.dispatch(
+                        "auth/resolveReferrer",
+                        this.form,
+                    );
+                    if (res.status) {
+                        this.resolvedReferrer = res.data;
+                    }
+                    this.$store.commit("openSnackbar", res.message, {
+                        root: true,
+                    });
+                }
+            } finally {
+                this.isResolving = false;
+                this.onboardingStepper++;
+            }
+        },
+        async checkUsername() {
+            try {
+                this.isResolving = true;
+                const res = await this.$store.dispatch(
+                    "auth/checkUsername",
+                    this.form,
+                );
+                if (res.status) {
+                    this.onboardingStepper++;
+                } else {
+                    this.$store.commit("openSnackbar", res.message, {
+                        root: true,
+                    });
+                }
+            } finally {
+                this.isResolving = false;
+            }
+        },
         submit() {
             this.$router.push({ name: "" });
         },
+
         goToLogin() {
             this.$router.push({ name: LOGIN.NAME });
         },

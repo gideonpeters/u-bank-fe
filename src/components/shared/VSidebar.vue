@@ -107,11 +107,11 @@ export default Vue.extend({
                     icon: "portfolio-icon",
                     route: PORTFOLIO.NAME,
                 },
-                {
-                    title: "Settings",
-                    icon: "settings-icon",
-                    route: SETTINGS.NAME,
-                },
+                // {
+                //     title: "Settings",
+                //     icon: "settings-icon",
+                //     route: SETTINGS.NAME,
+                // },
             ],
         };
     },

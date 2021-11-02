@@ -7,6 +7,20 @@
                 </transition>
             </component>
         </div>
+        <v-snackbar
+            top
+            right
+            outlined
+            height="50"
+            color="primary"
+            v-model="snackbar.isActive"
+            :timeout="snackbar.timeout"
+        >
+            {{ snackbar.text }}
+            <v-btn small color="secondary" text @click="closeSnackbar"
+                >Close</v-btn
+            >
+        </v-snackbar>
     </v-app>
 </template>
 
@@ -20,16 +34,24 @@ export default {
         layout() {
             return this.$route.meta.layout || "public";
         },
+        snackbar() {
+            return this.$store.state.snackbar;
+        },
+    },
+    methods: {
+        closeSnackbar() {
+            return this.$store.commit("closeSnackbar");
+        },
     },
 };
 </script>
 
 <style lang="scss">
-.nw-body {
-    height: 100vh;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
+// .nw-body {
+//     height: 100vh;
+//     min-height: 100vh;
+//     box-sizing: border-box;
+// }
 
 .v-application {
     font-family: $body-font-family, sans-serif !important;
@@ -55,9 +77,9 @@ v-app {
 // }
 
 // ::v-deep html,
-// body {
-//     font-family: $font-family, sans-serif !important;
-// }
+body {
+    overflow-x: hidden;
+}
 
 // ::v-deep v-app {
 //     font-family: $body-font-family !important;

@@ -1,3 +1,3 @@
 <template>
-    <h1>Portfolio</h1>
+    <h1 class="mt-10">Coming Soon...</h1>
 </template>

@@ -9,6 +9,14 @@ import Public from "./layouts/Public.vue";
 Vue.component("private", Private);
 Vue.component("public", Public);
 
+import "./http/index";
+import { http } from "./http/index";
+
+const authToken = localStorage.getItem("token");
+if (authToken) {
+    http.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
+}
+
 // global components import
 const requireComponent = require.context(
     "./components/shared/",

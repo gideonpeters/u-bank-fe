@@ -1,6 +1,6 @@
 <template>
     <v-row class="fill-height w-100" no-gutters>
-        <v-col cols="5" md="5" class="d-md-block d-none">
+        <v-col cols="12" md="5" class="d-md-block d-none">
             <v-card tile flat color="primary" class="fill-height">
                 <v-row no-gutters class="fill-height">
                     <v-col cols="12">
@@ -22,7 +22,7 @@
                             class="
                                 text-lg-h3 text-h4
                                 font-weight-bold
-                                text-left
+                                text-md-left text-center
                             "
                         >
                             Net Worth

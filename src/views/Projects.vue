@@ -25,9 +25,9 @@
                     <v-tab-item v-for="(item, indx) in tabItems" :key="indx">
                         <available-projects v-if="indx === 0" />
                         <my-projects v-if="indx === 1" />
-                        <available-projects v-if="indx === 2" />
+                        <!-- <available-projects v-if="indx === 2" />
                         <available-projects v-if="indx === 3" />
-                        <available-projects v-if="indx === 4" />
+                        <available-projects v-if="indx === 4" /> -->
                     </v-tab-item>
                 </v-tabs-items>
             </v-card>
@@ -67,16 +67,16 @@ export default Vue.extend({
                 },
                 {
                     tab: "my-projects",
-                    title: "My Projects",
+                    title: "My Subscriptions",
                     content: "Tab 2 Content",
                 },
-                { tab: "sales", title: "Sales", content: "Tab 3 Content" },
-                {
-                    tab: "my-offers",
-                    title: "My Offers",
-                    content: "Tab 3 Content",
-                },
-                { tab: "my-bids", title: "My Bids", content: "Tab 4 Content" },
+                // { tab: "sales", title: "Sales", content: "Tab 3 Content" },
+                // {
+                //     tab: "my-offers",
+                //     title: "My Offers",
+                //     content: "Tab 3 Content",
+                // },
+                // { tab: "my-bids", title: "My Bids", content: "Tab 4 Content" },
             ],
         };
     },

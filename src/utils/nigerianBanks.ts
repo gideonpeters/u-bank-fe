@@ -1,4 +1,4 @@
-export default {
+export const nigerianBanks = {
     "044": "Access Bank",
     "063": "Access Bank (Diamond)",
     "035A": "ALAT by WEMA",
@@ -25,4 +25,20 @@ export default {
     "215": "Unity Bank",
     "035": "Wema Bank",
     "057": "Zenith Bank",
+};
+
+export const banks: { code: string; name: string }[] = Object.entries(
+    nigerianBanks,
+).map((bank) => {
+    return {
+        code: bank[0],
+        name: bank[1],
+    };
+});
+
+export const getBankName = (bankCode: string | number) => {
+    const bank = banks.find(
+        (bank: { code: string | number }) => bank.code == bankCode,
+    );
+    return bank!.name;
 };

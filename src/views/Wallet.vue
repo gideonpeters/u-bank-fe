@@ -1,21 +1,44 @@
 <template>
-    <div>
-        <v-row class="mt-10">
-            <v-col cols="12" md="6">
+    <div class="w-100">
+        <v-row class="mt-10 w-100">
+            <v-col cols="12" md="5">
                 <v-card flat class="rounded-xl pa-5" color="secondary">
-                    <div class="text-h6">Balance</div>
-                    <div class="text-h4 mt-5">N50,000,000.00</div>
+                    <div class="d-flex">
+                        <v-icon color="black">mdi-piggy-bank</v-icon>
+                        <div class="text-h6 ml-2">Balance</div>
+                    </div>
+                    <div class="text-h4 mt-5">{{ balance }}</div>
                     <div class="d-flex mt-16">
                         <div>
-                            <div>TOTAL INFLOW</div>
-                            <div>10,000,000.00</div>
+                            <div class="success--text text-caption">
+                                TOTAL INFLOW
+                            </div>
+                            <div class="d-flex">
+                                <v-icon size="15" color="success"
+                                    >mdi-arrow-top-right</v-icon
+                                >
+                                <div class="success--text ml-1 text-caption">
+                                    {{ totalInflow }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="ml-4">
-                            <div>TOTAL OUTFLOW</div>
-                            <div>10,000,000.00</div>
+                        <div class="ml-5">
+                            <div class="error--text text-caption">
+                                TOTAL OUTFLOW
+                            </div>
+                            <div class="d-flex">
+                                <v-icon size="15" color="error"
+                                    >mdi-arrow-bottom-right</v-icon
+                                >
+                                <div class="error--text ml-1 text-caption">
+                                    {{ totalOutflow }}
+                                </div>
+                            </div>
                         </div>
                         <div class="ml-auto">
                             <v-btn
+                                @click="topupDialog = true"
+                                :loading="isLoadingBalance"
                                 depressed
                                 rounded
                                 color="primary"
@@ -32,7 +55,8 @@
                     flat
                     height="150px"
                     color="primary"
-                    class="v-shadow rounded-xl pa-5 mb-2"
+                    class="v-shadow rounded-xl pa-5 mb-2 pointer"
+                    @click="addBankDialog = true"
                 >
                     <div
                         class="
@@ -43,15 +67,18 @@
                             fill-height
                         "
                     >
-                        <v-svg name="withdraw-icon" class="white--text"></v-svg>
-                        <div class="white--text mt-4">Add Bank Account</div>
+                        <v-icon color="white">mdi-bank</v-icon>
+                        <div class="white--text mt-4 text-center">
+                            Add Bank Account
+                        </div>
                     </div>
                 </v-card>
                 <v-card
                     flat
                     height="150px"
                     color="tertiary-light"
-                    class="rounded-xl pa-5"
+                    class="rounded-xl pa-5 pointer"
+                    @click="withdrawDialog = true"
                 >
                     <div
                         class="
@@ -67,28 +94,86 @@
                     </div>
                 </v-card>
             </v-col>
-            <v-col cols="12" md="4">
-                <div class="text-h6">Bank Accounts</div>
+            <v-col cols="12" md="5">
+                <div class="text-h6 mb-2">Bank Accounts</div>
+                <v-card flat max-height="250px" class="overflow-y-auto">
+                    <div
+                        class="d-flex w-100 align-center mb-5"
+                        v-for="(bankAccount, i) in bankAccounts"
+                        :key="i"
+                    >
+                        <v-card
+                            flat
+                            color="black"
+                            height="85px"
+                            width="100px"
+                            class="rounded-xl mr-3"
+                        ></v-card>
+                        <div>
+                            <div>{{ bankAccount.account_name }}</div>
+                            <div>
+                                {{ bankAccount.bank_name }} ({{
+                                    bankAccount.account_number
+                                }})
+                            </div>
+                        </div>
+                    </div>
+                </v-card>
             </v-col>
         </v-row>
-        <v-row class="mt-10" align="end">
+        <v-row class="mt-10" align="start">
             <v-col cols="12" md="8">
                 <div>
-                    <div class="text-h6">Transaction History</div>
-                    <v-card flat>
-                        <v-data-table
-                            hide-default-header
-                            hide-default-footer
-                            :headers="transactionHeaders"
-                            :items="transactions"
-                            :items-per-page="5"
-                        >
-                            <template #item.status>
-                                <v-icon size="18" class="success--text"
-                                    >mdi-arrow-down</v-icon
-                                >
-                            </template>
-                        </v-data-table>
+                    <v-card flat color="transparent">
+                        <v-tabs v-model="tab" background-color="transparent">
+                            <v-tab v-for="(item, ix) in tabItems" :key="ix">
+                                {{ item }}
+                            </v-tab>
+                        </v-tabs>
+                        <v-tabs-items v-model="tab">
+                            <v-tab-item
+                                v-for="(item, indx) in tabItems"
+                                :key="indx"
+                            >
+                                <v-card flat v-if="indx === 0">
+                                    <v-data-table
+                                        hide-default-header
+                                        hide-default-footer
+                                        :loading="isLoadingTransactions"
+                                        :headers="transactionHeaders"
+                                        :items="transactions"
+                                        :items-per-page="5"
+                                    >
+                                        <template #item.status="{ item }">
+                                            <v-icon
+                                                size="18"
+                                                :class="{
+                                                    'success--text':
+                                                        item.type == 'debit',
+                                                    'error--text':
+                                                        item.type == 'credit',
+                                                }"
+                                                >{{
+                                                    item.type == "debit"
+                                                        ? "mdi-arrow-down"
+                                                        : "mdi-arrow-up"
+                                                }}</v-icon
+                                            >
+                                        </template>
+                                    </v-data-table>
+                                </v-card>
+                                <v-card flat v-if="indx === 1">
+                                    <v-data-table
+                                        hide-default-header
+                                        hide-default-footer
+                                        :loading="isLoadingReferrals"
+                                        :headers="referralHeaders"
+                                        :items="referrals"
+                                        :items-per-page="5"
+                                    />
+                                </v-card>
+                            </v-tab-item>
+                        </v-tabs-items>
                     </v-card>
                 </div>
             </v-col>
@@ -108,14 +193,62 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-row>
+            <v-col>
+                <add-bank-dialog
+                    v-model="addBankDialog"
+                    @toggle="addBankDialog = $event"
+                    @completed="fetchBankAccounts"
+                />
+            </v-col>
+            <v-col>
+                <topup-dialog
+                    v-model="topupDialog"
+                    @toggle="topupDialog = $event"
+                    @completed="fetchWallet"
+                />
+            </v-col>
+            <v-col>
+                <withdraw-dialog
+                    :walletBalance="balance"
+                    :bankAccounts="bankAccounts"
+                    v-model="withdrawDialog"
+                    @toggle="withdrawDialog = $event"
+                    @completed="fetchWallet"
+                />
+            </v-col>
+        </v-row>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+
+import AddBankDialog from "@/components/wallet/AddBankDialog.vue";
+import TopupDialog from "@/components/wallet/TopupDialog.vue";
+
+import { getBankName } from "@/utils/nigerianBanks";
+import WithdrawDialog from "@/components/wallet/WithdrawDialog.vue";
+
 export default Vue.extend({
+    components: { AddBankDialog, TopupDialog, WithdrawDialog },
     data() {
         return {
+            isLoadingBalance: true,
+            isLoadingBankAccounts: true,
+            isLoadingTransactions: false,
+            isLoadingReferrals: false,
+            addBankDialog: false,
+            topupDialog: false,
+            withdrawDialog: false,
+            balance: 0,
+            tab: null,
+            totalInflow: 0,
+            totalOutflow: 0,
+            tabItems: ["Transactions", "Referrals"],
+            bankAccounts: [],
+            transactions: [],
+            referrals: [],
             transactionHeaders: [
                 {
                     text: "",
@@ -123,32 +256,87 @@ export default Vue.extend({
                     sortable: false,
                     value: "status",
                 },
+                { text: "", value: "amount" },
                 { text: "", value: "description" },
-                { text: "", value: "datetime" },
+                { text: "", value: "created_at" },
             ],
-            transactions: [
+            referralHeaders: [
                 {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
+                    text: "",
+                    align: "start",
+                    sortable: false,
+                    value: "name",
                 },
-                {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
-                },
-                {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
-                },
-                {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
-                },
+                { text: "", value: "email" },
+                { text: "", value: "phone_number" },
             ],
         };
+    },
+
+    methods: {
+        async fetchWallet() {
+            try {
+                this.topupDialog = false;
+                this.withdrawDialog = false;
+                this.isLoadingBalance = true;
+                const res = await this.$store.dispatch(
+                    "transactions/fetchWallet",
+                );
+                this.balance = res.data.balance;
+                this.totalInflow = res.data.total_inflow;
+                this.totalOutflow = res.data.total_outflow;
+                this.isLoadingBalance = false;
+            } finally {
+                this.isLoadingBalance = false;
+            }
+        },
+        async fetchReferrals() {
+            try {
+                this.isLoadingReferrals = true;
+                const res = await this.$store.dispatch("auth/fetchReferrals");
+                this.referrals = res.data;
+            } finally {
+                this.isLoadingReferrals = false;
+            }
+        },
+        async fetchBankAccounts() {
+            try {
+                this.addBankDialog = false;
+                this.isLoadingBankAccounts = true;
+                const res = await this.$store.dispatch(
+                    "transactions/fetchBankAccounts",
+                );
+                this.bankAccounts = res.data?.map((bankAccount: any) => {
+                    return {
+                        bank_name: getBankName(bankAccount.bank_code),
+                        ...bankAccount,
+                    };
+                });
+
+                this.isLoadingBankAccounts = false;
+            } finally {
+                this.isLoadingBankAccounts = false;
+            }
+        },
+        async fetchTransactions() {
+            try {
+                this.isLoadingTransactions = true;
+                const res = await this.$store.dispatch(
+                    "transactions/fetchTransactions",
+                );
+                this.transactions = res.data;
+
+                this.isLoadingTransactions = false;
+            } finally {
+                this.isLoadingTransactions = false;
+            }
+        },
+    },
+    mounted() {
+        this.fetchWallet();
+        this.fetchBankAccounts();
+        this.fetchTransactions();
+        this.fetchReferrals();
     },
 });
 </script>

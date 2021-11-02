@@ -76,6 +76,15 @@ export const PROJECT_DETAILS = {
     },
 };
 
+export const SUBSCRIPTION_DETAILS = {
+    PATH: "/subscriptions/:subscriptionId",
+    NAME: "main.subscriptions.details",
+    META: {
+        layout: "private",
+        title: "Subscription Details",
+    },
+};
+
 export const PROFILE = {
     PATH: "/profile",
     NAME: "main.profile",

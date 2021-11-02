@@ -3,7 +3,7 @@
         <v-col cols="12" md="3">
             <div class="d-flex w-100 flex-column align-center justify-center">
                 <v-avatar size="120">
-                    <img src="https://randomuser.me/api/portraits/men/80.jpg" />
+                    <img :src="form.profileImage" />
                 </v-avatar>
                 <div class="mt-5 mb-1 text-h6">Jeffery Ehikioya</div>
                 <div class="mb-5 grey--text">jeff@gmail.com</div>
@@ -146,17 +146,45 @@ import Vue from "vue";
 export default Vue.extend({
     data() {
         return {
+            isLoading: false,
+            profile: {
+                client: {},
+            },
             form: {
                 firstName: "",
                 middleName: "",
                 lastName: "",
                 email: "",
+                profileImage: "",
                 phoneNumber: "",
                 password: "",
                 confirmPassword: "",
                 referrer: "",
             },
         };
+    },
+    methods: {
+        async fetchProfile() {
+            try {
+                this.isLoading = true;
+                const res = await this.$store.dispatch("auth/fetchProfile");
+
+                this.profile = res.data;
+                this.matchForm(this.profile);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        matchForm(profile: any) {
+            this.form.firstName = profile.client.first_name;
+            this.form.middleName = profile.client.middle_name;
+            this.form.lastName = profile.client.last_name;
+            this.form.email = profile.email;
+            this.form.phoneNumber = profile.client.phone_number;
+        },
+    },
+    mounted() {
+        this.fetchProfile();
     },
 });
 </script>

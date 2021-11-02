@@ -9,6 +9,7 @@ import {
     PROJECT_DETAILS,
     SETTINGS,
     SIGNUP,
+    SUBSCRIPTION_DETAILS,
     WALLET,
 } from "./endpoints";
 
@@ -63,6 +64,15 @@ const routes: RouteConfig[] = [
                 /* webpackChunkName: "projects" */ "../views/ProjectDetails.vue"
             ),
         meta: PROJECT_DETAILS.META,
+    },
+    {
+        path: SUBSCRIPTION_DETAILS.PATH,
+        name: SUBSCRIPTION_DETAILS.NAME,
+        component: () =>
+            import(
+                /* webpackChunkName: "projects" */ "../views/SubscriptionDetails.vue"
+            ),
+        meta: SUBSCRIPTION_DETAILS.META,
     },
     {
         path: PROFILE.PATH,
