@@ -7,7 +7,7 @@
                         Login 🚪
                     </div>
                     <div class="text-body mt-2 mb-5 grey--text">
-                        Welcome to Net Worth, Let's get you logged in
+                        Welcome to Abode, Let's get you logged in
                     </div>
                 </div>
             </v-col>

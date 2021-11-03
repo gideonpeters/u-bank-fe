@@ -67,8 +67,7 @@
                                     Basic Information 👨🏽‍💻
                                 </div>
                                 <div class="text-body mt-2 mb-5 grey--text">
-                                    Welcome to Networth, Let's get you
-                                    registered
+                                    Welcome to Abode, Let's get you registered
                                 </div>
                             </div>
                         </v-col>
@@ -147,27 +146,12 @@
                                 >
                             </div>
                         </v-col>
-                    </v-row>
-                </transition>
-                <transition name="fade">
-                    <v-row v-if="onboardingStepper === 2">
-                        <v-col cols="12">
-                            <div class="text-left mb-2">
-                                <div
-                                    class="text-lg-h4 text-h5 font-weight-bold"
-                                >
-                                    Access Information 🔐
-                                </div>
-                                <div class="text-body mt-2 mb-5 grey--text">
-                                    Choose a username and set your password
-                                </div>
-                            </div>
-                        </v-col>
+
                         <v-col cols="12" sm="12" md="12">
                             <v-text-field
                                 shaped
                                 label="Username*"
-                                v-model="form.firstName"
+                                v-model="form.username"
                                 hide-details
                                 filled
                             ></v-text-field>
@@ -210,6 +194,22 @@
                                 filled
                             ></v-text-field>
                         </v-col>
+                    </v-row>
+                </transition>
+                <transition name="fade">
+                    <v-row v-if="onboardingStepper === 8">
+                        <v-col cols="12">
+                            <div class="text-left mb-2">
+                                <div
+                                    class="text-lg-h4 text-h5 font-weight-bold"
+                                >
+                                    Access Information 🔐
+                                </div>
+                                <div class="text-body mt-2 mb-5 grey--text">
+                                    Choose a username and set your password
+                                </div>
+                            </div>
+                        </v-col>
 
                         <v-col cols="12" sm="12" md="12">
                             <div
@@ -239,7 +239,7 @@
                     </v-row>
                 </transition>
                 <transition name="fade">
-                    <v-row v-if="onboardingStepper === 3">
+                    <v-row v-if="onboardingStepper === 2">
                         <v-col cols="12">
                             <div class="text-left mb-2">
                                 <div
@@ -305,7 +305,7 @@
                     </v-row>
                 </transition>
                 <transition name="fade">
-                    <v-row v-if="onboardingStepper === 4">
+                    <v-row v-if="onboardingStepper === 3">
                         <v-col cols="12">
                             <div class="text-left mb-2">
                                 <div
@@ -340,7 +340,7 @@
                     </v-row>
                 </transition>
                 <transition name="fade">
-                    <v-row v-if="onboardingStepper !== 4">
+                    <v-row v-if="onboardingStepper !== 3">
                         <v-col cols="12" sm="12" md="12">
                             <div
                                 class="
@@ -381,6 +381,7 @@ export default Vue.extend({
             firstName: string;
             middleName?: string;
             lastName: string;
+            username: string;
             email: string;
             phoneNumber: string;
             password: string;
@@ -403,6 +404,7 @@ export default Vue.extend({
                 firstName: "",
                 middleName: "",
                 lastName: "",
+                username: "",
                 email: "",
                 phoneNumber: "",
                 password: "",
@@ -460,14 +462,16 @@ export default Vue.extend({
                     );
                     if (res.status) {
                         this.resolvedReferrer = res.data;
+                        this.onboardingStepper++;
                     }
                     this.$store.commit("openSnackbar", res.message, {
                         root: true,
                     });
+                } else {
+                    this.onboardingStepper++;
                 }
             } finally {
                 this.isResolving = false;
-                this.onboardingStepper++;
             }
         },
         async checkUsername() {
@@ -475,6 +479,24 @@ export default Vue.extend({
                 this.isResolving = true;
                 const res = await this.$store.dispatch(
                     "auth/checkUsername",
+                    this.form,
+                );
+                if (res.status) {
+                    this.onboardingStepper++;
+                } else {
+                    this.$store.commit("openSnackbar", res.message, {
+                        root: true,
+                    });
+                }
+            } finally {
+                this.isResolving = false;
+            }
+        },
+        async checkEmail() {
+            try {
+                this.isResolving = true;
+                const res = await this.$store.dispatch(
+                    "auth/checkEmail",
                     this.form,
                 );
                 if (res.status) {

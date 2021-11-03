@@ -20,7 +20,7 @@
                             flex-column
                         "
                     >
-                        Net Worth
+                        Abode
                     </div>
                 </v-list-item>
                 <v-list-item>

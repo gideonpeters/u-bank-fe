@@ -79,7 +79,13 @@
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="6">
-                    <v-phone-field v-model="form.phoneNumber" />
+                    <v-text-field
+                        shaped
+                        label="Phone Number*"
+                        v-model="form.phoneNumber"
+                        hide-details
+                        filled
+                    ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="6">
                     <v-text-field
@@ -115,8 +121,15 @@
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="6">
-                    <v-phone-field v-model="form.phoneNumber" />
+                    <v-text-field
+                        shaped
+                        label="Phone Number*"
+                        v-model="form.nextOfKinPhoneNumber"
+                        hide-details
+                        filled
+                    ></v-text-field>
                 </v-col>
+
                 <v-col cols="12" sm="12" md="6">
                     <v-text-field
                         shaped
@@ -160,6 +173,11 @@ export default Vue.extend({
                 password: "",
                 confirmPassword: "",
                 referrer: "",
+                nextOfKinName: "",
+                nextOfKinEmail: "",
+                nextOfKinAddress: "",
+                nextOfKinRelationship: "",
+                nextOfKinPhoneNumber: "",
             },
         };
     },

@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </transition>
-                <div>
+                <!-- <div>
                     <v-badge avatar bordered overlap class="pointer">
                         <template v-slot:badge>
                             <v-avatar size="10"> 1 </v-avatar>
@@ -57,7 +57,7 @@
 
                         <v-icon>mdi-bell</v-icon>
                     </v-badge>
-                </div>
+                </div> -->
             </div>
             <!-- <div class="overflow-y-auto"> -->
             <div class="d-flex w-100">

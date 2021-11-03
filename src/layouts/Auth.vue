@@ -25,7 +25,7 @@
                                 text-md-left text-center
                             "
                         >
-                            Net Worth
+                            Abode
                         </div>
                     </v-col>
                     <v-col cols="12" md="8">
