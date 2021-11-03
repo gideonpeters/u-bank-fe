@@ -7,7 +7,7 @@
                         <v-icon color="black">mdi-piggy-bank</v-icon>
                         <div class="text-h6 ml-2">Balance</div>
                     </div>
-                    <div class="text-h4 mt-5">{{ balance }}</div>
+                    <div class="text-h4 mt-5">{{ formatMoney(balance) }}</div>
                     <div class="d-flex mt-16">
                         <div>
                             <div class="success--text text-caption">
@@ -18,7 +18,7 @@
                                     >mdi-arrow-top-right</v-icon
                                 >
                                 <div class="success--text ml-1 text-caption">
-                                    {{ totalInflow }}
+                                    {{ formatMoney(totalInflow) }}
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                                     >mdi-arrow-bottom-right</v-icon
                                 >
                                 <div class="error--text ml-1 text-caption">
-                                    {{ totalOutflow }}
+                                    {{ formatMoney(totalOutflow) }}
                                 </div>
                             </div>
                         </div>
@@ -97,6 +97,9 @@
             <v-col cols="12" md="5">
                 <div class="text-h6 mb-2">Bank Accounts</div>
                 <v-card flat max-height="250px" class="overflow-y-auto">
+                    <div v-if="bankAccounts.length === 0" class="py-5">
+                        No Bank Accounts Added
+                    </div>
                     <div
                         class="d-flex w-100 align-center mb-5"
                         v-for="(bankAccount, i) in bankAccounts"
@@ -160,6 +163,12 @@
                                                 }}</v-icon
                                             >
                                         </template>
+                                        <template #item.created_at="{ item }">
+                                            {{ formatDate(item.created_at) }}
+                                        </template>
+                                        <template #item.amount="{ item }">
+                                            {{ formatMoney(item.amount) }}
+                                        </template>
                                     </v-data-table>
                                 </v-card>
                                 <v-card flat v-if="indx === 1">
@@ -185,7 +194,9 @@
                     class="rounded-xl pa-5 d-flex flex-column align-center"
                 >
                     <div class="white--text text-center mb-10 my-8">
-                        Share your referral link to earn up to 5% commission
+                        Share your username
+                        <b>{{ loggedInUser.username }}</b> to your referrals &
+                        to earn up to 5% commission
                     </div>
                     <v-btn block color="white" class="text-none mt-16 py-5"
                         >Copy</v-btn
@@ -229,6 +240,8 @@ import TopupDialog from "@/components/wallet/TopupDialog.vue";
 
 import { getBankName } from "@/utils/nigerianBanks";
 import WithdrawDialog from "@/components/wallet/WithdrawDialog.vue";
+import { mapState } from "vuex";
+import { formatDate, formatMoney } from "@/utils/helpers";
 
 export default Vue.extend({
     components: { AddBankDialog, TopupDialog, WithdrawDialog },
@@ -272,8 +285,13 @@ export default Vue.extend({
             ],
         };
     },
+    computed: {
+        ...mapState("auth", ["loggedInUser"]),
+    },
 
     methods: {
+        formatDate,
+        formatMoney,
         async fetchWallet() {
             try {
                 this.topupDialog = false;

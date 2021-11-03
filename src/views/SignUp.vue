@@ -28,28 +28,28 @@
 
                             <v-stepper-content step="1"> </v-stepper-content>
 
-                            <v-stepper-step
+                            <!-- <v-stepper-step
                                 :complete="onboardingStepper > 2"
                                 step="2"
                             >
                                 Configure your login details 🔐
-                            </v-stepper-step>
+                            </v-stepper-step> -->
 
-                            <v-stepper-content step="2"> </v-stepper-content>
+                            <!-- <v-stepper-content step="2"> </v-stepper-content> -->
 
                             <v-stepper-step
-                                :complete="onboardingStepper > 3"
-                                step="3"
+                                :complete="onboardingStepper > 2"
+                                step="2"
                             >
                                 Interests 🕵🏽‍♂️
                             </v-stepper-step>
 
-                            <v-stepper-content step="3"> </v-stepper-content>
+                            <v-stepper-content step="2"> </v-stepper-content>
 
-                            <v-stepper-step step="4">
+                            <v-stepper-step step="3">
                                 Lets go 🚀
                             </v-stepper-step>
-                            <v-stepper-content step="4"> </v-stepper-content>
+                            <v-stepper-content step="3"> </v-stepper-content>
                         </v-stepper>
                     </div>
                 </v-col>
@@ -127,30 +127,9 @@
                         </v-col>
 
                         <v-col cols="12" sm="12" md="12">
-                            <div class="d-flex justify-end mt-8">
-                                <v-btn
-                                    depressed
-                                    color="primary"
-                                    class="py-6 px-10"
-                                    :loading="isResolving"
-                                    :hint="`${
-                                        resolvedReferrer
-                                            ? 'You were referred by ' +
-                                              resolvedReferrer
-                                            : ''
-                                    }`"
-                                    :disabled="step1Disabled"
-                                    persistent-hint
-                                    @click="resolveReferrer"
-                                    >Next</v-btn
-                                >
-                            </div>
-                        </v-col>
-
-                        <v-col cols="12" sm="12" md="12">
                             <v-text-field
                                 shaped
-                                label="Username*"
+                                label="Choose a username*"
                                 v-model="form.username"
                                 hide-details
                                 filled
@@ -193,6 +172,26 @@
                                 hide-details
                                 filled
                             ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12">
+                            <div class="d-flex justify-end mt-8">
+                                <v-btn
+                                    depressed
+                                    color="primary"
+                                    class="py-6 px-10"
+                                    :loading="isResolving"
+                                    :hint="`${
+                                        resolvedReferrer
+                                            ? 'You were referred by ' +
+                                              resolvedReferrer
+                                            : ''
+                                    }`"
+                                    :disabled="step1Disabled"
+                                    persistent-hint
+                                    @click="signup"
+                                    >Next</v-btn
+                                >
+                            </div>
                         </v-col>
                     </v-row>
                 </transition>
@@ -445,7 +444,9 @@ export default Vue.extend({
                 !this.form.firstName ||
                 !this.form.lastName ||
                 !this.form.email ||
-                !this.form.phoneNumber
+                !this.form.phoneNumber ||
+                !this.form.username ||
+                !this.form.password
             );
         },
     },
@@ -497,6 +498,24 @@ export default Vue.extend({
                 this.isResolving = true;
                 const res = await this.$store.dispatch(
                     "auth/checkEmail",
+                    this.form,
+                );
+                if (res.status) {
+                    this.onboardingStepper++;
+                } else {
+                    this.$store.commit("openSnackbar", res.message, {
+                        root: true,
+                    });
+                }
+            } finally {
+                this.isResolving = false;
+            }
+        },
+        async signup() {
+            try {
+                this.isResolving = true;
+                const res = await this.$store.dispatch(
+                    "auth/signup",
                     this.form,
                 );
                 if (res.status) {

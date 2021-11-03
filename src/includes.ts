@@ -11,10 +11,12 @@ Vue.component("public", Public);
 
 import "./http/index";
 import { http } from "./http/index";
+import store from "./store";
 
 const authToken = localStorage.getItem("token");
 if (authToken) {
     http.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
+    store.dispatch("auth/fetchProfile");
 }
 
 // global components import

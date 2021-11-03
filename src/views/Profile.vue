@@ -2,11 +2,13 @@
     <v-row class="mt-5">
         <v-col cols="12" md="3">
             <div class="d-flex w-100 flex-column align-center justify-center">
-                <v-avatar size="120">
-                    <img :src="form.profileImage" />
+                <v-avatar size="120" color="tertiary-light">
+                    <img v-if="form.profileImage" :src="form.profileImage" />
                 </v-avatar>
-                <div class="mt-5 mb-1 text-h6">Jeffery Ehikioya</div>
-                <div class="mb-5 grey--text">jeff@gmail.com</div>
+                <div class="mt-5 mb-1 text-h6">
+                    {{ form.firstName }} {{ form.lastName }}
+                </div>
+                <div class="mb-5 grey--text">{{ form.email }}</div>
             </div>
             <div class="d-flex justify-center mt-5">
                 <v-btn

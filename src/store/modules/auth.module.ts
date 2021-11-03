@@ -13,9 +13,18 @@ const state = {
 
 const getters = {};
 
-const mutations = {};
+const mutations = <MutationTree<State>>{
+    setUser(_, payload) {
+        state.loggedInUser = payload;
+    },
+};
 
 const actions = <ActionTree<State, any>>{
+    async signup(_, payload) {
+        const res = await AuthService.signup(payload);
+
+        return res;
+    },
     async login({ commit }, { loginId, password }) {
         const res = await AuthService.login({
             loginId,
@@ -48,9 +57,10 @@ const actions = <ActionTree<State, any>>{
 
         return res;
     },
-    async fetchProfile() {
+    async fetchProfile({ commit }) {
         const res = await AuthService.fetchProfile();
 
+        commit("setUser", res.data);
         return res;
     },
     async fetchReferrals() {

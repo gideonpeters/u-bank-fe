@@ -25,14 +25,23 @@
                 </v-list-item>
                 <v-list-item>
                     <div class="d-flex w-100 flex-column align-center">
-                        <v-avatar size="120">
+                        <v-avatar size="120" color="tertiary-light">
                             <img
-                                src="https://randomuser.me/api/portraits/men/80.jpg"
+                                v-if="loggedInUser.client.profile_image"
+                                :src="loggedInUser.client.profile_image"
                             />
+                            <span
+                                class="black--text text-h4"
+                                v-if="!loggedInUser.client.profile_image"
+                                >{{ loggedInUser.client.first_name[0] }}
+                                {{ loggedInUser.client.last_name[0] }}</span
+                            >
                         </v-avatar>
-                        <div class="mt-5 mb-1 text-h6">Jeffery Ehikioya</div>
+                        <div class="mt-5 mb-1 text-h6">
+                            {{ loggedInUser.name }}
+                        </div>
                         <div class="mb-5 grey--text text--lighten-2">
-                            jeff@gmail.com
+                            {{ loggedInUser.email }}
                         </div>
                     </div>
                 </v-list-item>
@@ -76,6 +85,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { mapState } from "vuex";
 import {
     DASHBOARD,
     LOGIN,
@@ -114,6 +124,9 @@ export default Vue.extend({
                 // },
             ],
         };
+    },
+    computed: {
+        ...mapState("auth", ["loggedInUser"]),
     },
     methods: {
         logout() {

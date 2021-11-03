@@ -1,6 +1,41 @@
+import { resolveRequestError } from "@/utils/auth";
 import { http } from "./../http/index";
 
 export default class AuthService {
+    static async signup({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password,
+        username,
+        referrer,
+    }: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phoneNumber: string;
+        password: string;
+        username: string;
+        referrer: string;
+    }) {
+        try {
+            const res = await http.post("/auth/register", {
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                phone_number: phoneNumber,
+                password,
+                username,
+                referrer,
+            });
+
+            return res.data;
+        } catch (error: any) {
+            resolveRequestError(error);
+        }
+    }
+
     static async login({
         loginId,
         password,
@@ -8,12 +43,16 @@ export default class AuthService {
         loginId: string;
         password: string;
     }) {
-        const res = await http.post("/auth/login", {
-            login_id: loginId,
-            password,
-        });
+        try {
+            const res = await http.post("/auth/login", {
+                login_id: loginId,
+                password,
+            });
 
-        return res.data;
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
     }
 
     static async fetchActivityLogs() {
