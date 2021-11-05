@@ -39,6 +39,18 @@ const actions = <ActionTree<State, any>>{
 
         return res;
     },
+
+    async createOffer(_, payload) {
+        const res = await ProjectService.createOffer(payload);
+
+        return res;
+    },
+
+    async fetchBids(_, { offerId }) {
+        const res = await ProjectService.fetchBids(offerId);
+
+        return res;
+    },
 };
 
 export default {

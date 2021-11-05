@@ -173,13 +173,16 @@
                                 </v-card>
                                 <v-card flat v-if="indx === 1">
                                     <v-data-table
-                                        hide-default-header
                                         hide-default-footer
                                         :loading="isLoadingReferrals"
                                         :headers="referralHeaders"
                                         :items="referrals"
                                         :items-per-page="5"
-                                    />
+                                    >
+                                        <template #item.created_at="{ item }">
+                                            {{ formatDate(item.created_at) }}
+                                        </template></v-data-table
+                                    >
                                 </v-card>
                             </v-tab-item>
                         </v-tabs-items>
@@ -275,13 +278,14 @@ export default Vue.extend({
             ],
             referralHeaders: [
                 {
-                    text: "",
+                    text: "Name",
                     align: "start",
                     sortable: false,
                     value: "name",
                 },
-                { text: "", value: "email" },
-                { text: "", value: "phone_number" },
+                { text: "Email", value: "email" },
+                { text: "Phone Number", value: "client.phone_number" },
+                { text: "Registered on", value: "created_at" },
             ],
         };
     },

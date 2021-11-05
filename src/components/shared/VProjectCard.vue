@@ -12,7 +12,7 @@
             height="200px"
             :src="project.image_url"
         >
-            <div class="d-flex project-card__status">
+            <div class="d-flex project-card__status" v-if="false">
                 <div class="error px-4 py-2 font-weight-medium">LATEST</div>
             </div>
             <v-card-title>{{ project.name }}</v-card-title>

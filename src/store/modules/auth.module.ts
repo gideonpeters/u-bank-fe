@@ -7,7 +7,12 @@ class State {
 }
 
 const state = {
-    loggedInUser: {},
+    loggedInUser: {
+        client: {
+            firstName: "",
+            lastName: "",
+        },
+    },
     authToken: localStorage.getItem("token") || "",
 };
 
@@ -25,7 +30,7 @@ const actions = <ActionTree<State, any>>{
 
         return res;
     },
-    async login({ commit }, { loginId, password }) {
+    async login({ commit, dispatch }, { loginId, password }) {
         const res = await AuthService.login({
             loginId,
             password,
@@ -33,6 +38,7 @@ const actions = <ActionTree<State, any>>{
 
         if (res.status) {
             AuthService.authenticateUser(res.data.token);
+            dispatch("fetchProfile");
         }
 
         commit("openSnackbar", res.message, { root: true });
@@ -65,6 +71,11 @@ const actions = <ActionTree<State, any>>{
     },
     async fetchReferrals() {
         const res = await AuthService.fetchReferrals();
+
+        return res;
+    },
+    async collectInterests(_, payload) {
+        const res = await AuthService.collectInterests(payload);
 
         return res;
     },

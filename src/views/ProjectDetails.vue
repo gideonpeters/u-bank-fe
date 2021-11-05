@@ -18,11 +18,11 @@
                 </v-img>
             </v-card>
         </v-col>
-        <v-col cols="8">
+        <v-col cols="12" md="8">
             <div class="black--text font-weight-bold mt-5 mb-2">
                 Description
             </div>
-            <div v-html="project.description"></div>
+            <div v-html="project.description" style="font-size: 18px"></div>
             <div class="d-flex align-center mt-8">
                 <v-progress-linear
                     :value="project.percent_funded"
@@ -31,23 +31,37 @@
                 {{ project.percent_funded }}%
             </div>
             <v-row class="mt-8">
-                <v-col cols="6" class="mb-3">
+                <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
                         Unit Price: N{{ project.unit_price }}
                     </div>
                 </v-col>
-                <v-col cols="6" class="mb-3">
+                <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
                         Available Units: {{ project.expected_slots }} unit(s)
                     </div>
                 </v-col>
-                <v-col cols="6" class="mb-3">
+                <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Launched At:
+                        Launched On:
                         {{ formatDate(project.launched_at, DateTime.DATE_MED) }}
+                    </div>
+                </v-col>
+                <v-col cols="12" md="6" class="mb-3">
+                    <div class="d-flex">
+                        <v-svg name="detail-icon" class="mr-2"></v-svg>
+                        Potential Growth:
+                        {{ project.potential_growth }}
+                    </div>
+                </v-col>
+                <v-col cols="12" md="6" class="mb-3">
+                    <div class="d-flex">
+                        <v-svg name="detail-icon" class="mr-2"></v-svg>
+                        Holding Period:
+                        {{ project.max_duration }} month(s)
                     </div>
                 </v-col>
             </v-row>

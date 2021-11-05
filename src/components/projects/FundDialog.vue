@@ -18,7 +18,7 @@
                 <v-card-text>
                     <v-container>
                         <v-row>
-                            <v-col cols="12">
+                            <v-col cols="12" md="6">
                                 <v-text-field
                                     shaped
                                     filled
@@ -32,7 +32,7 @@
                                     required
                                 ></v-text-field>
                             </v-col>
-                            <v-col cols="12">
+                            <v-col cols="12" md="6">
                                 <v-text-field
                                     shaped
                                     filled
@@ -43,18 +43,7 @@
                                     required
                                 ></v-text-field>
                             </v-col>
-                            <v-col cols="12">
-                                <v-text-field
-                                    shaped
-                                    filled
-                                    :readonly="form.type == 'wallet'"
-                                    :rules="[rules.required]"
-                                    v-model="form.reference"
-                                    label="Reference(e.g. Transaction ref or Date)*"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
+                            <v-col cols="12" md="6">
                                 <v-select
                                     shaped
                                     filled
@@ -72,6 +61,7 @@
                             </v-col>
                             <v-col
                                 cols="12"
+                                md="6"
                                 v-if="form.type === 'bank_transfer'"
                             >
                                 <v-select
@@ -86,7 +76,26 @@
                                     required
                                 ></v-select>
                             </v-col>
-                            <v-col cols="12" v-if="form.type != 'wallet'">
+                            <v-col
+                                cols="12"
+                                md="6"
+                                v-if="form.type == 'bank_transfer'"
+                            >
+                                <v-text-field
+                                    shaped
+                                    filled
+                                    :readonly="form.type == 'wallet'"
+                                    :rules="[rules.required]"
+                                    v-model="form.reference"
+                                    label="Reference(e.g. Transaction ref or Date)*"
+                                    required
+                                ></v-text-field>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                                v-if="form.type != 'wallet'"
+                            >
                                 <v-file-input
                                     filled
                                     v-model="form.proof"
@@ -103,23 +112,19 @@
                     </v-container>
                     <small>*indicates required field</small>
                 </v-card-text>
-                <v-card-actions>
+                <v-card-actions class="mt-10">
                     <v-spacer></v-spacer>
-                    <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="$emit('toggle', false)"
-                    >
-                        Close
+                    <v-btn color="error" text @click="$emit('toggle', false)">
+                        Cancel
                     </v-btn>
 
                     <v-btn
+                        depressed
                         :loading="isSaving"
-                        color="blue darken-1"
-                        text
+                        color="success"
                         @click="fund"
                     >
-                        Save
+                        Proceed
                     </v-btn>
                 </v-card-actions>
             </v-card>

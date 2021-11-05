@@ -80,15 +80,6 @@
                                 filled
                             ></v-text-field>
                         </v-col>
-                        <!-- <v-col cols="12" sm="12" md="4">
-                            <v-text-field
-                                shaped
-                                label="Middle Name"
-                                v-model="form.middleName"
-                                hide-details
-                                filled
-                            ></v-text-field>
-                        </v-col> -->
                         <v-col cols="12" sm="12" md="6">
                             <v-text-field
                                 shaped
@@ -285,18 +276,19 @@
                                     mt-8
                                 "
                             >
-                                <v-btn
+                                <!-- <v-btn
                                     depressed
                                     color="primary"
                                     class="py-6 px-10"
                                     @click="onboardingStepper = 2"
                                     >Back</v-btn
-                                >
+                                > -->
                                 <v-btn
                                     depressed
                                     color="primary"
                                     class="py-6 px-10"
-                                    @click="onboardingStepper = 4"
+                                    :loading="isResolving"
+                                    @click="collectInterests"
                                     >Next</v-btn
                                 >
                             </div>
@@ -527,6 +519,25 @@ export default Vue.extend({
                 }
             } finally {
                 this.isResolving = false;
+            }
+        },
+        async collectInterests() {
+            try {
+                this.isResolving = true;
+                this.onboardingStepper++;
+                const res = await this.$store.dispatch(
+                    "auth/collectInterests",
+                    this.form,
+                );
+                if (res.status) {
+                } else {
+                    this.$store.commit("openSnackbar", res.message, {
+                        root: true,
+                    });
+                }
+            } finally {
+                this.isResolving = false;
+                this.goToLogin();
             }
         },
         submit() {

@@ -1,5 +1,5 @@
 <template>
-    <v-card class="h-100 w-100" flat width="100%">
+    <v-card class="h-100 relative w-100" flat>
         <v-navigation-drawer
             width="100%"
             class="z-4 w-100 py-10"
@@ -7,6 +7,16 @@
             color="primary"
             v-bind="$attrs"
         >
+            <v-btn
+                v-if="isMobile"
+                @click="$emit('toggle', false)"
+                icon
+                class="absolute"
+                color="white"
+                style="top: 15px; right: 15px"
+            >
+                <v-icon size="45px">mdi-close</v-icon>
+            </v-btn>
             <template v-slot:prepend>
                 <v-list-item>
                     <div
@@ -97,6 +107,12 @@ import {
 } from "../../router/endpoints";
 export default Vue.extend({
     inheritAttrs: true,
+    props: {
+        isMobile: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             items: [

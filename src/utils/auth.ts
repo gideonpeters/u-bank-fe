@@ -56,6 +56,7 @@ function errorHandler(e: any) {
     } else {
         app.$store.commit("openSnackbar", data);
     }
+    app.$store.commit("openSnackbar", e.response.message);
 
     return {
         status,

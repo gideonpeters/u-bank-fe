@@ -55,6 +55,28 @@ export default class AuthService {
         }
     }
 
+    static async collectInterests({
+        email,
+        expectations,
+        interests,
+    }: {
+        email: string;
+        expectations: string;
+        interests: string[];
+    }) {
+        try {
+            const res = await http.post("clients/collect-interests", {
+                email,
+                type_interests: interests.toString(),
+                volume_interests: expectations,
+            });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
     static async fetchActivityLogs() {
         const res = await http.get(`activity-logs`);
 

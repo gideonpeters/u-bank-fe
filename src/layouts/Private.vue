@@ -1,55 +1,66 @@
 <template>
-    <div class="d-flex overflow-y-hidden">
+    <div>
         <v-sidebar
+            @toggle="drawer = $event"
+            isMobile
             app
-            v-model="drawer"
             absolute
+            class="z-5"
             temporary
-            class="d-none d-md-flex"
+            v-model="drawer"
+            :fixed="false"
             v-if="$vuetify.breakpoint.smAndDown"
         />
-        <v-card
-            max-height="100vh"
-            height="100vh"
-            min-width="330px"
-            flat
-            color="transparent"
-            class="d-none d-lg-flex align-center overflow-y-hidden pl-5 pr-10"
-        >
+        <div class="d-flex overflow-y-hidden">
             <v-card
-                min-width="330"
-                max-width="330"
-                color="transparent"
+                v-if="!$vuetify.breakpoint.smAndDown"
+                max-height="100vh"
+                height="100vh"
+                min-width="330px"
                 flat
-                height="95%"
-                class="h-100 rounded-xl pa-5 fixed"
+                color="transparent"
+                class="
+                    d-none d-lg-flex
+                    align-center
+                    overflow-y-hidden
+                    pl-5
+                    pr-10
+                "
             >
-                <v-sidebar permanent floating />
+                <v-card
+                    min-width="330"
+                    max-width="330"
+                    color="transparent"
+                    flat
+                    height="95%"
+                    class="h-100 rounded-xl pa-5 fixed"
+                >
+                    <v-sidebar permanent floating />
+                </v-card>
             </v-card>
-        </v-card>
-        <div class="container mt-5 mx-10">
-            <div class="d-flex w-100 justify-space-between align-center">
-                <transition name="fade">
-                    <div class="d-flex align-center">
-                        <v-btn
-                            class="mr-3"
-                            depressed
-                            icon
-                            @click="drawer = !drawer"
-                            v-if="$vuetify.breakpoint.smAndDown"
-                        >
-                            <v-icon>mdi-menu</v-icon>
-                        </v-btn>
+            <div class="container mt-5 mx-md-10 mx-3">
+                <div class="d-flex w-100 justify-space-between align-center">
+                    <transition name="fade">
+                        <div class="d-flex align-center">
+                            <v-btn
+                                class="mr-3"
+                                depressed
+                                icon
+                                @click="drawer = !drawer"
+                                v-if="$vuetify.breakpoint.smAndDown"
+                            >
+                                <v-icon>mdi-menu</v-icon>
+                            </v-btn>
 
-                        <div
-                            class="text-md-h4 text-h5 font-weight-medium"
-                            :key="title"
-                        >
-                            {{ title }}
+                            <div
+                                class="text-md-h4 text-h5 font-weight-medium"
+                                :key="title"
+                            >
+                                {{ title }}
+                            </div>
                         </div>
-                    </div>
-                </transition>
-                <!-- <div>
+                    </transition>
+                    <!-- <div>
                     <v-badge avatar bordered overlap class="pointer">
                         <template v-slot:badge>
                             <v-avatar size="10"> 1 </v-avatar>
@@ -58,14 +69,15 @@
                         <v-icon>mdi-bell</v-icon>
                     </v-badge>
                 </div> -->
+                </div>
+                <!-- <div class="overflow-y-auto"> -->
+                <div class="d-flex w-100">
+                    <transition name="fade"> <router-view /> </transition>
+                </div>
+                <!-- </div> -->
+                <!-- <v-main class="nw-body"> -->
+                <!-- </v-main> -->
             </div>
-            <!-- <div class="overflow-y-auto"> -->
-            <div class="d-flex w-100">
-                <transition name="fade"> <router-view /> </transition>
-            </div>
-            <!-- </div> -->
-            <!-- <v-main class="nw-body"> -->
-            <!-- </v-main> -->
         </div>
     </div>
 </template>

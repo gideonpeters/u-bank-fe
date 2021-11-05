@@ -1,17 +1,17 @@
 //Theme variables overrides
-$primary: "Larsseit";
+$primary: "Patua One";
 
 // These are the defaults, but you can override any values
-$font-family: "Raleway";
-$body-font-family: "Raleway";
-$heading-font-family: "Raleway";
-$title-font: "Raleway";
+$font-family: "Patua One";
+$body-font-family: "Patua One";
+$heading-font-family: "Patua One";
+$title-font: "Patua One";
 
 .v-application {
-    font-family: $body-font-family, sans-serif !important;
+    font-family: $body-font-family, cursive !important;
     .title {
         // To pin point specific classes of some components
-        font-family: $title-font, sans-serif !important;
+        font-family: $title-font, cursive !important;
     }
 }
 

@@ -1,3 +1,4 @@
+import { resolveRequestError } from "@/utils/auth";
 import { http } from "./../http/index";
 
 export default class ProjectService {
@@ -15,6 +16,12 @@ export default class ProjectService {
 
     static async fetchProjectById(id: string | number) {
         const res = await http.get(`/projects/${id}`);
+
+        return res.data;
+    }
+
+    static async fetchBids(id: string | number) {
+        const res = await http.get(`/offers/${id}/bids`);
 
         return res.data;
     }
@@ -50,5 +57,27 @@ export default class ProjectService {
         });
 
         return res.data;
+    }
+
+    static async createOffer({
+        subscriptionId,
+        unitPrice,
+        units,
+    }: {
+        subscriptionId: string | number;
+        unitPrice: string | number;
+        units: number;
+    }) {
+        try {
+            const res = await http.post(`funds/${subscriptionId}/sell`, {
+                fund_id: subscriptionId,
+                unit_price: unitPrice,
+                units,
+            });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
     }
 }
