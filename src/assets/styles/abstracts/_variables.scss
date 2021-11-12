@@ -1,22 +1,22 @@
 //Theme variables overrides
-$primary: "Patua One";
+$primary: "Lato";
 
 // These are the defaults, but you can override any values
-$font-family: "Patua One";
-$body-font-family: "Patua One";
-$heading-font-family: "Patua One";
-$title-font: "Patua One";
+$font-family: "Lato";
+$body-font-family: "Lato";
+$heading-font-family: "Lato";
+$title-font: "Lato";
 
 .v-application {
-    font-family: $body-font-family, cursive !important;
+    font-family: $body-font-family, sans-serif !important;
     .title {
         // To pin point specific classes of some components
-        font-family: $title-font, cursive !important;
+        font-family: $title-font, sans-serif !important;
     }
 }
 
 .v-app {
-    font-family: $body-font-family !important;
+    font-family: $body-font-family sans-serif !important;
 }
 
 // Colors

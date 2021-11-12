@@ -85,6 +85,15 @@ export const SUBSCRIPTION_DETAILS = {
     },
 };
 
+export const OFFER_DETAILS = {
+    PATH: "/offers/:offerId",
+    NAME: "main.offers.details",
+    META: {
+        layout: "private",
+        title: "Offer Details",
+    },
+};
+
 export const PROFILE = {
     PATH: "/profile",
     NAME: "main.profile",

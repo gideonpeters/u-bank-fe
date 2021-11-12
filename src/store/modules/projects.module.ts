@@ -16,6 +16,12 @@ const actions = <ActionTree<State, any>>{
         return res;
     },
 
+    async fetchAllOffers() {
+        const res = await ProjectService.fetchAllOffers();
+
+        return res;
+    },
+
     async fetchFundedProjects() {
         const res = await ProjectService.fetchFundedProjects();
 
@@ -34,6 +40,12 @@ const actions = <ActionTree<State, any>>{
         return res;
     },
 
+    async fetchOfferById(_, id) {
+        const res = await ProjectService.fetchOfferById(id);
+
+        return res;
+    },
+
     async fundProject(_, payload) {
         const res = await ProjectService.fundProject(payload);
 
@@ -42,6 +54,12 @@ const actions = <ActionTree<State, any>>{
 
     async createOffer(_, payload) {
         const res = await ProjectService.createOffer(payload);
+
+        return res;
+    },
+
+    async createBid(_, payload) {
+        const res = await ProjectService.createBid(payload);
 
         return res;
     },

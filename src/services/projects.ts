@@ -26,8 +26,20 @@ export default class ProjectService {
         return res.data;
     }
 
+    static async fetchAllOffers() {
+        const res = await http.get(`/offers`);
+
+        return res.data;
+    }
+
     static async fetchSubscriptionById(id: string | number) {
         const res = await http.get(`/funds/${id}`);
+
+        return res.data;
+    }
+
+    static async fetchOfferById(id: string | number) {
+        const res = await http.get(`/offers/${id}`);
 
         return res.data;
     }
@@ -72,6 +84,28 @@ export default class ProjectService {
             const res = await http.post(`funds/${subscriptionId}/sell`, {
                 fund_id: subscriptionId,
                 unit_price: unitPrice,
+                units,
+            });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async createBid({
+        offerId,
+        amount,
+        units,
+    }: {
+        offerId: string | number;
+        amount: string | number;
+        units: number;
+    }) {
+        try {
+            const res = await http.post(`offers/${offerId}/bid`, {
+                offer_id: offerId,
+                amount,
                 units,
             });
 

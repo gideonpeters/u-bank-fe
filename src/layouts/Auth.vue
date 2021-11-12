@@ -18,14 +18,13 @@
             >
                 <v-row justify="center" align="start" class="fill-height">
                     <v-col cols="12" md="8">
-                        <div
-                            class="
-                                text-lg-h3 text-h4
-                                font-weight-bold
-                                text-md-left text-center
-                            "
-                        >
-                            Abode
+                        <div class="d-flex justify-center">
+                            <v-img
+                                src="./../assets/images/abode_logo--gold.png"
+                                contain
+                                width="180px"
+                                height="200px"
+                            ></v-img>
                         </div>
                     </v-col>
                     <v-col cols="12" md="8">

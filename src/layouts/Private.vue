@@ -38,7 +38,7 @@
                     <v-sidebar permanent floating />
                 </v-card>
             </v-card>
-            <div class="container mt-5 mx-md-10 mx-3">
+            <div class="container mt-5 mx-md-10 mx-3 overflow-x-hidden">
                 <div class="d-flex w-100 justify-space-between align-center">
                     <transition name="fade">
                         <div class="d-flex align-center">

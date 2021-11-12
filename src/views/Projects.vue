@@ -1,45 +1,63 @@
 <template>
-    <v-row class="mt-5">
-        <v-col cols="12">
-            <v-card
-                flat
-                class="rounded-xl w-100"
-                color="tertiary-light"
-                height="250px"
-            ></v-card>
-        </v-col>
-        <v-col>
-            <v-card flat color="transparent">
-                <v-tabs v-model="tab" background-color="transparent">
-                    <v-tab
-                        exact
-                        replace
-                        v-for="item in tabItems"
-                        :key="item.tab"
-                        @click="$router.replace({ query: { tab: item.tab } })"
+    <div class="w-100">
+        <v-row class="mt-5 w-100">
+            <v-col cols="12">
+                <v-card
+                    flat
+                    class="rounded-xl w-100"
+                    color="tertiary-light"
+                    height="250px"
+                ></v-card>
+            </v-col>
+        </v-row>
+        <v-row class="w-100">
+            <v-col cols="12">
+                <v-card
+                    flat
+                    color="transparent"
+                    max-width="100%"
+                    class="w-100 overflow-x-hidden px-0 mx-0"
+                >
+                    <v-tabs
+                        v-model="tab"
+                        background-color="transparent"
+                        class="px-0 mx-0 w-100"
                     >
-                        {{ item.title }}
-                    </v-tab>
-                </v-tabs>
-                <v-tabs-items v-model="tab">
-                    <v-tab-item v-for="(item, indx) in tabItems" :key="indx">
-                        <available-projects v-if="indx === 0" />
-                        <my-projects v-if="indx === 1" />
-                        <!-- <available-projects v-if="indx === 2" />
-                        <available-projects v-if="indx === 3" />
-                        <available-projects v-if="indx === 4" /> -->
-                    </v-tab-item>
-                </v-tabs-items>
-            </v-card>
-        </v-col>
-    </v-row>
+                        <v-tab
+                            exact
+                            replace
+                            v-for="item in tabItems"
+                            :key="item.tab"
+                            @click="
+                                $router.replace({
+                                    query: { tab: item.tab },
+                                })
+                            "
+                        >
+                            {{ item.title }}
+                        </v-tab>
+                    </v-tabs>
+                    <v-tabs-items v-model="tab">
+                        <v-tab-item
+                            v-for="(item, indx) in tabItems"
+                            :key="indx"
+                        >
+                            <available-projects v-if="indx === 0" />
+                            <my-projects v-if="indx === 1" />
+                            <available-offers v-if="indx === 2" />
+                        </v-tab-item>
+                    </v-tabs-items>
+                </v-card>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import AvailableProjects from "../components/projects/AvailableProjects.vue";
+import AvailableOffers from "../components/projects/AvailableOffers.vue";
 import MyProjects from "../components/projects/MyProjects.vue";
-// import AvailableProjects from "./../components/projects/AvailableProjects.vue";
 
 interface TabItem {
     title: string;
@@ -51,7 +69,7 @@ export default Vue.extend({
     components: {
         AvailableProjects,
         MyProjects,
-        // AvailableProjects,
+        AvailableOffers,
     },
     data(): {
         tab: number | string | string[] | null | undefined | TabItem;
@@ -71,11 +89,11 @@ export default Vue.extend({
                     content: "Tab 2 Content",
                 },
                 // { tab: "sales", title: "Sales", content: "Tab 3 Content" },
-                // {
-                //     tab: "my-offers",
-                //     title: "My Offers",
-                //     content: "Tab 3 Content",
-                // },
+                {
+                    tab: "available-offers",
+                    title: "Available Offers",
+                    content: "Tab 3 Content",
+                },
                 // { tab: "my-bids", title: "My Bids", content: "Tab 4 Content" },
             ],
         };

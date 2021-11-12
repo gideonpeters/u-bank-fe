@@ -19,19 +19,12 @@
             </v-btn>
             <template v-slot:prepend>
                 <v-list-item>
-                    <div
-                        class="
-                            font-weight-bold
-                            d-flex
-                            w-100
-                            mb-8
-                            text-h5
-                            align-center
-                            flex-column
-                        "
-                    >
-                        Abode
-                    </div>
+                    <v-img
+                        src="./../../assets/images/abode_logo--white.png"
+                        contain
+                        width="150px"
+                        height="150px"
+                    ></v-img>
                 </v-list-item>
                 <v-list-item>
                     <div class="d-flex w-100 flex-column align-center">

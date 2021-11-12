@@ -14,11 +14,11 @@
             >
                 <v-img
                     class="white--text align-end rounded-xl w-100 h-100"
-                    :src="subscription.project.image_url"
+                    :src="offer.fund.project.image_url"
                     gradient="to bottom left, rgba(100,115,201,.33), rgba(25,32,72,.7)"
                 >
                     <v-card-title class="text-h4">{{
-                        subscription.project.name
+                        offer.fund.project.name
                     }}</v-card-title>
                 </v-img>
             </v-card>
@@ -27,62 +27,55 @@
             <div class="black--text font-weight-bold mt-5 mb-2">
                 Description
             </div>
-            <div v-html="subscription.project.description"></div>
+            <div v-html="offer.fund.project.description"></div>
             <div class="d-flex align-center mt-8">
                 <v-progress-linear
-                    :value="subscription.project.percent_funded"
+                    :value="offer.fund.project.percent_funded"
                     class="mr-2"
                 ></v-progress-linear>
-                {{ subscription.project.percent_funded }}%
+                {{ offer.fund.project.percent_funded }}%
             </div>
             <v-row class="mt-8">
                 <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Unit Price: N{{ subscription.project.unit_price }}
+                        Unit Price: N{{ offer.fund.project.unit_price }}
+                    </div>
+                </v-col>
+                <v-col cols="12" md="6" class="mb-3">
+                    <div class="d-flex">
+                        <v-svg name="detail-icon" class="mr-2"></v-svg>
+                        Offered Unit Price: N{{ offer.unit_price }}
                     </div>
                 </v-col>
                 <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
                         Available Units:
-                        {{ subscription.project.expected_slots }} unit(s)
+                        {{ offer.units }} unit(s)
                     </div>
                 </v-col>
-                <v-col cols="12" md="6" class="mb-3">
-                    <div class="d-flex">
-                        <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Launched At:
-                        {{
-                            formatDate(
-                                subscription.project.launched_at,
-                                DateTime.DATE_MED,
-                            )
-                        }}
-                    </div>
-                </v-col>
+
                 <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
                         Acquired On:
                         {{
-                            formatDate(
-                                subscription.created_at,
-                                DateTime.DATE_MED,
-                            )
+                            formatDate(offer.fund.created_at, DateTime.DATE_MED)
                         }}
                     </div>
                 </v-col>
                 <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Growth: {{ subscription.project.growth }}%
+                        Potential Growth:
+                        {{ offer.fund.project.potential_growth }}
                     </div>
                 </v-col>
                 <v-col cols="12" md="6" class="mb-3">
                     <div class="d-flex">
                         <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Number of units: {{ subscription.units }} unit(s)
+                        Growth so Far: {{ offer.fund.project.growth }}%
                     </div>
                 </v-col>
             </v-row>
@@ -174,16 +167,7 @@
                 @click="offerDialog = true"
                 >Sell As Individual</v-btn
             >
-            <v-btn
-                v-if="isOwner"
-                color="black"
-                block
-                dark
-                depressed
-                class="text-none mt-8"
-                @click="sellAsGroupDialog = true"
-                >Sell As Group</v-btn
-            >
+
             <!-- <v-btn color="tertiary-light" block depressed class="text-none mt-8"
                 >Share Project</v-btn
             > -->
@@ -191,24 +175,26 @@
         <v-col cols="12">
             <create-offer-dialog
                 v-model="offerDialog"
-                :fund="subscription"
+                :fund="offer.fund"
                 @toggle="offerDialog = $event"
                 @completed="
                     offerDialog = false;
-                    fetchSubscriptionById;
+                    fetchOfferById;
                 "
             />
         </v-col>
         <v-col>
-            <bids-dialog v-model="bidsDialog" :offer="selectedOffer" />
+            <bids-dialog
+                @toggle="bidsDialog = $event"
+                v-model="bidsDialog"
+                :offer="selectedOffer"
+            />
         </v-col>
         <v-col>
-            <create-bid-dialog v-model="createBidDialog" :fund="subscription" />
-        </v-col>
-        <v-col>
-            <sell-as-group-dialog
-                v-model="sellAsGroupDialog"
-                @toggle="sellAsGroupDialog = $event"
+            <create-bid-dialog
+                @toggle="createBidDialog = $event"
+                v-model="createBidDialog"
+                :offer="offer"
             />
         </v-col>
     </v-row>
@@ -221,7 +207,6 @@ import { DateTime } from "luxon";
 import { PROJECTS, PROJECT_DETAILS } from "@/router/endpoints";
 import CreateOfferDialog from "@/components/subscriptions/CreateOfferDialog.vue";
 import BidsDialog from "@/components/subscriptions/BidsDialog.vue";
-import SellAsGroupDialog from "@/components/subscriptions/SellAsGroupDialog.vue";
 import { mapState } from "vuex";
 import CreateBidDialog from "@/components/subscriptions/CreateBidDialog.vue";
 
@@ -229,7 +214,6 @@ export default Vue.extend({
     components: {
         BidsDialog,
         CreateOfferDialog,
-        SellAsGroupDialog,
         CreateBidDialog,
     },
     data() {
@@ -243,9 +227,11 @@ export default Vue.extend({
             sellAsGroupDialog: false,
             DateTime,
             selectedOffer: {},
-            subscription: {
-                project: {
-                    id: "0",
+            offer: {
+                fund: {
+                    project: {
+                        id: "0",
+                    },
                 },
             },
             offerHeaders: [
@@ -295,17 +281,17 @@ export default Vue.extend({
 
             return res;
         },
-        async fetchSubscriptionById() {
+        async fetchOfferById() {
             try {
                 this.isLoading = true;
-                const subscriptionId = this.$route.params.subscriptionId;
+                const offerId = this.$route.params.offerId;
 
                 const res = await this.$store.dispatch(
-                    "projects/fetchSubscriptionById",
-                    subscriptionId,
+                    "projects/fetchOfferById",
+                    offerId,
                 );
 
-                this.subscription = res.data;
+                this.offer = res.data;
 
                 this.isLoading = false;
             } finally {
@@ -319,13 +305,13 @@ export default Vue.extend({
             this.$router.push({
                 name: PROJECT_DETAILS.NAME,
                 params: {
-                    projectId: this.subscription.project.id,
+                    projectId: this.offer.fund.project.id,
                 },
             });
         },
     },
     mounted() {
-        this.fetchSubscriptionById();
+        this.fetchOfferById();
     },
 });
 </script>

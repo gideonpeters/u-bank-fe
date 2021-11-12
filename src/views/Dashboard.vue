@@ -15,6 +15,7 @@
                             min-height="150px"
                             flat
                             class="
+                                pointer
                                 flex-column
                                 rounded-xl
                                 v-shadow

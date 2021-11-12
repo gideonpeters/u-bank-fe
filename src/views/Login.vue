@@ -13,6 +13,7 @@
             </v-col>
             <v-col cols="12">
                 <v-text-field
+                    shaped
                     label="Email/Username"
                     :rules="[rules.required]"
                     v-model="form.loginId"
