@@ -9,11 +9,11 @@
             temporary
             v-model="drawer"
             :fixed="false"
-            v-if="$vuetify.breakpoint.smAndDown"
+            v-if="$vuetify.breakpoint.mdAndDown"
         />
         <div class="d-flex overflow-y-hidden">
             <v-card
-                v-if="!$vuetify.breakpoint.smAndDown"
+                v-if="!$vuetify.breakpoint.mdAndDown"
                 max-height="100vh"
                 height="100vh"
                 min-width="330px"
@@ -47,7 +47,7 @@
                                 depressed
                                 icon
                                 @click="drawer = !drawer"
-                                v-if="$vuetify.breakpoint.smAndDown"
+                                v-if="$vuetify.breakpoint.mdAndDown"
                             >
                                 <v-icon>mdi-menu</v-icon>
                             </v-btn>

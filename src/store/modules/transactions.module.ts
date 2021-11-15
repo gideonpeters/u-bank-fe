@@ -49,6 +49,11 @@ const actions = <ActionTree<State, any>>{
 
         return res;
     },
+    async resolveBankAccount(_, payload) {
+        const res = await TransactionService.resolveBankAccount(payload);
+
+        return res;
+    },
     async topup(_, payload) {
         const res = await TransactionService.topup(payload);
 

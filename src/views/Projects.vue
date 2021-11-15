@@ -80,7 +80,7 @@ export default Vue.extend({
             tabItems: [
                 {
                     tab: "available",
-                    title: "Available",
+                    title: "Offers",
                     content: "Tab 1 Content",
                 },
                 {
@@ -91,7 +91,7 @@ export default Vue.extend({
                 // { tab: "sales", title: "Sales", content: "Tab 3 Content" },
                 {
                     tab: "available-offers",
-                    title: "Available Offers",
+                    title: "Asset Market",
                     content: "Tab 3 Content",
                 },
                 // { tab: "my-bids", title: "My Bids", content: "Tab 4 Content" },

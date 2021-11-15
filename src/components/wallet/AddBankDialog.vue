@@ -9,27 +9,6 @@
                     <v-container>
                         <v-row>
                             <v-col cols="12">
-                                <v-text-field
-                                    shaped
-                                    filled
-                                    :rules="[rules.required, rules.min]"
-                                    v-model="form.accountNumber"
-                                    label="Account Number*"
-                                    type="number"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                                <v-text-field
-                                    shaped
-                                    filled
-                                    :rules="[rules.required]"
-                                    v-model="form.accountName"
-                                    label="Account Name*"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
                                 <v-select
                                     shaped
                                     filled
@@ -42,6 +21,25 @@
                                     required
                                 ></v-select>
                             </v-col>
+                            <v-col cols="12" v-if="form.bankCode">
+                                <v-text-field
+                                    shaped
+                                    filled
+                                    :rules="[rules.required, rules.min]"
+                                    v-model="form.accountNumber"
+                                    label="Account Number*"
+                                    :hint="
+                                        resolvedBankAccount
+                                            ? resolvedBankAccount.account_name
+                                            : ''
+                                    "
+                                    persistent-hint
+                                    type="number"
+                                    :loading="isResolving"
+                                    required
+                                ></v-text-field>
+                            </v-col>
+
                             <v-col cols="12" v-if="sentOtp">
                                 <v-text-field
                                     shaped
@@ -66,7 +64,7 @@
                         Close
                     </v-btn>
                     <v-btn
-                        v-if="!sentOtp"
+                        v-if="!sentOtp && resolvedBankAccount"
                         :loading="isSendingOtp"
                         color="blue darken-1"
                         text
@@ -75,7 +73,16 @@
                         Request OTP
                     </v-btn>
                     <v-btn
-                        v-else
+                        v-if="!sentOtp && !resolvedBankAccount"
+                        :loading="isResolving"
+                        color="blue darken-1"
+                        text
+                        @click="resolveBankAccount"
+                    >
+                        Resolve
+                    </v-btn>
+                    <v-btn
+                        v-if="sentOtp && resolvedBankAccount"
                         :loading="isSaving"
                         color="blue darken-1"
                         text
@@ -99,10 +106,12 @@ export default Vue.extend({
         return {
             isSendingOtp: false,
             isSaving: false,
+            isResolving: false,
+            resolvedBankAccount: null,
             sentOtp: false,
             banks,
             form: {
-                accountName: "",
+                // accountName: "",
                 accountNumber: "",
                 otp: "",
                 bankCode: "",
@@ -152,6 +161,21 @@ export default Vue.extend({
                 this.$emit("completed");
             } finally {
                 this.isSaving = false;
+            }
+        },
+        async resolveBankAccount() {
+            try {
+                this.isResolving = true;
+
+                const res = await this.$store.dispatch(
+                    "transactions/resolveBankAccount",
+                    this.form,
+                );
+                console.log(res);
+                this.resolvedBankAccount = res.data;
+                this.$store.commit("openSnackbar", res.message, { root: true });
+            } finally {
+                this.isResolving = false;
             }
         },
     },

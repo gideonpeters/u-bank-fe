@@ -78,35 +78,55 @@ export default class AuthService {
     }
 
     static async fetchActivityLogs() {
-        const res = await http.get(`activity-logs`);
+        try {
+            const res = await http.get(`activity-logs`);
 
-        return res.data;
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
     }
 
     static async fetchProfile() {
-        const res = await http.post(`/auth/me`);
+        try {
+            const res = await http.post(`/auth/me`);
 
-        return res.data;
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
     }
 
     static async fetchReferrals() {
-        const res = await http.get(`referrals`);
+        try {
+            const res = await http.get(`referrals`);
 
-        return res.data;
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
     }
 
     static async checkUsername({ username }: { username: string }) {
-        const res = await http.get(`username/${username}`);
+        try {
+            const res = await http.get(`username/${username}`);
 
-        return res.data;
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
     }
 
     static async resolveReferrer({ referrer }: { referrer: string }) {
-        const res = await http.post(`referrer/resolve`, {
-            referrer,
-        });
+        try {
+            const res = await http.post(`referrer/resolve`, {
+                referrer,
+            });
 
-        return res.data;
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
     }
 
     static authenticateUser(token: string) {

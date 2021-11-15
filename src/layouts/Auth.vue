@@ -1,7 +1,18 @@
 <template>
     <v-row class="fill-height w-100" no-gutters>
         <v-col cols="12" md="5" class="d-md-block d-none">
-            <v-card tile flat color="primary" class="fill-height">
+            <v-card
+                tile
+                flat
+                color="primary"
+                class="fill-height"
+                :style="{
+                    backgroundImage: `url('${require('@/assets/images/abode-cover.jpeg')}')`,
+                    backgroundPosition: 'center center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                }"
+            >
                 <v-row no-gutters class="fill-height">
                     <v-col cols="12">
                         <slot name="sidebar" />
