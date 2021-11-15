@@ -250,7 +250,12 @@
                                 :items="interests"
                                 filled
                                 chips
-                                :menu-props="{ bottom: true, offsetY: true }"
+                                :menu-props="{
+                                    bottom: true,
+                                    offsetY: true,
+                                    closeOnClick: true,
+                                    closeOnContentClick: true,
+                                }"
                                 label="What kind of opportunities excite you?"
                                 multiple
                             ></v-select>
@@ -388,7 +393,7 @@ export default Vue.extend({
         expectations: string[];
     } {
         return {
-            onboardingStepper: 1,
+            onboardingStepper: 2,
             isResolving: false,
             resolvedReferrer: "",
             form: {

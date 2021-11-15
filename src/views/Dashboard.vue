@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center" class="w-100 mt-8">
-        <v-col cols="12" md="8">
+        <v-col cols="12" md="12">
             <div
                 class="
                     d-flex
@@ -144,7 +144,7 @@
                 </v-card>
             </div>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" v-if="false">
             <v-project-card />
 
             <v-card
