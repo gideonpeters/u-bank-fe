@@ -9,7 +9,7 @@
             ACCOUNT NUMBER: <br />
             0668633069 (Naira - NGN) <br />
             0668633076 (Dollar - USD) <br />
-            0668633083 (Pounds -GBP) <br />
+            0668633083 (Pounds - GBP) <br />
             0668633090 (Euros - EUR) <br />
         </b>
     </div>

@@ -187,7 +187,7 @@ export default Vue.extend({
                 max: (value: any) =>
                     !value ||
                     value.size < 2000000 ||
-                    "Avatar size should be less than 2 MB!",
+                    "File size should be less than 2 MB!",
             };
         },
         selectedPaymentOption(): string {

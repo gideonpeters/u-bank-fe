@@ -79,6 +79,7 @@ export default class ProjectService {
         type,
         units,
         bankCode,
+        proof,
     }: {
         projectId: string | number;
         amount: string | number;
@@ -86,16 +87,19 @@ export default class ProjectService {
         type: "online_transfer" | "bank_transfer" | "wallet";
         units: number;
         bankCode: string | number;
+        proof: any;
     }) {
         try {
-            const res = await http.post(`projects/${projectId}/fund`, {
-                project_id: projectId,
-                amount,
-                reference,
-                type,
-                units,
-                paying_bank_code: bankCode,
-            });
+            const formData = new FormData();
+            formData.append("project_id", projectId.toString());
+            formData.append("amount", amount.toString());
+            formData.append("reference", reference);
+            formData.append("type", type);
+            formData.append("units", units.toString());
+            formData.append("paying_bank_code", bankCode.toString());
+            formData.append("payment_proof", proof);
+
+            const res = await http.post(`projects/${projectId}/fund`, formData);
 
             return res.data;
         } catch (error) {

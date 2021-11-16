@@ -393,7 +393,7 @@ export default Vue.extend({
         expectations: string[];
     } {
         return {
-            onboardingStepper: 2,
+            onboardingStepper: 1,
             isResolving: false,
             resolvedReferrer: "",
             form: {
