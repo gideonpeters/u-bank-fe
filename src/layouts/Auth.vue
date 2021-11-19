@@ -26,6 +26,14 @@
                 flat
                 color="transparent"
                 class="px-10 py-16 fill-height"
+                :style="{
+                    backgroundImage: $vuetify.breakpoint.mdAndDown
+                        ? `url('${require('@/assets/images/abode-cover.jpeg')}')`
+                        : '',
+                    backgroundPosition: 'center center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                }"
             >
                 <v-row justify="center" align="start" class="fill-height">
                     <v-col cols="12" md="8">
