@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-100">
         <v-row justify="center" class="mt-10">
             <v-col cols="12" md="5">
                 <v-card flat class="rounded-xl pa-5 mx-auto" color="secondary">
@@ -361,7 +361,7 @@ export default Vue.extend({
         async copyLink() {
             try {
                 await navigator.clipboard.writeText(
-                    `Register on Abode using my username: ${this.loggedInUser.username}`,
+                    `Register on Abode using my username ${this.loggedInUser.username} and earn up to 5% commission`,
                 );
                 this.isCopied = true;
 
