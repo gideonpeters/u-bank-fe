@@ -1,6 +1,6 @@
 <template>
     <div class="w-100">
-        <v-row class="mt-5 w-100">
+        <v-row class="mt-5">
             <v-col cols="12">
                 <v-card
                     flat
@@ -10,7 +10,7 @@
                 ></v-card>
             </v-col>
         </v-row>
-        <v-row class="w-100">
+        <v-row>
             <v-col cols="12">
                 <v-card
                     flat

@@ -39,9 +39,31 @@
                 </v-card>
             </v-card>
             <div class="container mt-5 mx-md-10 mx-3 overflow-x-hidden">
-                <div class="d-flex w-100 justify-space-between align-center">
+                <div class="d-flex w-100 align-center">
                     <transition name="fade">
-                        <div class="d-flex align-center">
+                        <div class="d-flex align-center w-100">
+                            <div
+                                v-if="$vuetify.breakpoint.mdAndDown"
+                                class="mr-auto"
+                            >
+                                <v-img
+                                    src="./../assets/images/abode_logo--short.png"
+                                    contain
+                                    width="40px"
+                                    height="50px"
+                                ></v-img>
+                            </div>
+
+                            <div
+                                class="
+                                    text-md-h4 text-h5
+                                    font-weight-medium
+                                    mr-auto
+                                "
+                                :key="title"
+                            >
+                                {{ title }}
+                            </div>
                             <v-btn
                                 class="mr-3"
                                 depressed
@@ -51,13 +73,6 @@
                             >
                                 <v-icon>mdi-menu</v-icon>
                             </v-btn>
-
-                            <div
-                                class="text-md-h4 text-h5 font-weight-medium"
-                                :key="title"
-                            >
-                                {{ title }}
-                            </div>
                         </div>
                     </transition>
                     <!-- <div>

@@ -1,8 +1,8 @@
 <template>
-    <div class="w-100">
-        <v-row class="mt-10 w-100">
+    <div>
+        <v-row justify="center" class="mt-10">
             <v-col cols="12" md="5">
-                <v-card flat class="rounded-xl pa-5" color="secondary">
+                <v-card flat class="rounded-xl pa-5 mx-auto" color="secondary">
                     <div class="d-flex">
                         <v-icon color="black">mdi-piggy-bank</v-icon>
                         <div class="text-h6 ml-2">Balance</div>
@@ -50,7 +50,7 @@
                     </div>
                 </v-card>
             </v-col>
-            <v-col cols="12" md="2">
+            <v-col cols="12" md="3">
                 <v-card
                     flat
                     height="150px"
@@ -94,7 +94,7 @@
                     </div>
                 </v-card>
             </v-col>
-            <v-col cols="12" md="5">
+            <v-col cols="12" md="4">
                 <div class="text-h6 mb-2">Bank Accounts</div>
                 <v-card flat max-height="250px" class="overflow-y-auto">
                     <div v-if="bankAccounts.length === 0" class="py-5">
@@ -124,7 +124,7 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-row class="mt-10" align="start">
+        <v-row justify="center" align="center" class="mt-5">
             <v-col cols="12" md="8">
                 <div>
                     <v-card flat color="transparent">
@@ -201,7 +201,12 @@
                         <b>{{ loggedInUser.username }}</b> to your referrals &
                         to earn up to 5% commission
                     </div>
-                    <v-btn block color="white" class="text-none mt-16 py-5"
+                    <v-btn
+                        :loading="isCopied"
+                        @click="copyLink"
+                        block
+                        color="white"
+                        class="text-none mt-16 py-5"
                         >Copy</v-btn
                     >
                 </v-card>
@@ -251,6 +256,7 @@ export default Vue.extend({
     data() {
         return {
             isLoadingBalance: true,
+            isCopied: false,
             isLoadingBankAccounts: true,
             isLoadingTransactions: false,
             isLoadingReferrals: false,
@@ -292,7 +298,6 @@ export default Vue.extend({
     computed: {
         ...mapState("auth", ["loggedInUser"]),
     },
-
     methods: {
         formatDate,
         formatMoney,
@@ -351,6 +356,26 @@ export default Vue.extend({
                 this.isLoadingTransactions = false;
             } finally {
                 this.isLoadingTransactions = false;
+            }
+        },
+        async copyLink() {
+            try {
+                await navigator.clipboard.writeText(
+                    `Register on Abode using my username: ${this.loggedInUser.username}`,
+                );
+                this.isCopied = true;
+
+                this.$store.commit("openSnackbar", "Copied successfully", {
+                    root: true,
+                });
+
+                setTimeout(() => {
+                    this.isCopied = false;
+                }, 5000);
+            } catch ($e) {
+                this.$store.commit("openSnackbar", "Cannot copy, try again", {
+                    root: true,
+                });
             }
         },
     },

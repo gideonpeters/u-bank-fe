@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         snackbar: {
-            timeout: 5000,
+            timeout: 2500,
             text: "",
             isActive: false,
         },

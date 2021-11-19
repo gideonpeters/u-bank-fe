@@ -10,16 +10,22 @@
         <v-snackbar
             top
             right
-            outlined
             height="50"
-            color="primary"
+            color="info"
             v-model="snackbar.isActive"
             :timeout="snackbar.timeout"
         >
-            {{ snackbar.text }}
-            <v-btn small color="secondary" text @click="closeSnackbar"
-                >Close</v-btn
-            >
+            <div class="d-flex align-center">
+                {{ snackbar.text }}
+                <v-btn
+                    class="ml-auto"
+                    small
+                    color="secondary"
+                    text
+                    @click="closeSnackbar"
+                    >Close</v-btn
+                >
+            </div>
         </v-snackbar>
     </v-app>
 </template>
@@ -27,9 +33,7 @@
 <script>
 export default {
     name: "App",
-    data: () => ({
-        //
-    }),
+    data: () => ({}),
     computed: {
         layout() {
             return this.$route.meta.layout || "public";
