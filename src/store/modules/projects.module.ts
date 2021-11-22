@@ -101,6 +101,12 @@ const actions = <ActionTree<State, any>>{
 
         return res;
     },
+
+    async payBid(_, payload) {
+        const res = await ProjectService.payBid(payload);
+
+        return res;
+    },
 };
 
 export default {

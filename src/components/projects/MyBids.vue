@@ -28,10 +28,14 @@
                         depressed
                         text
                         color="success"
-                        :disabled="item.status !== 'approved'"
+                        :disabled="item.status !== 'approved' || item.payment"
                         class="ml-2"
                     >
-                        Pay
+                        {{
+                            item.payment
+                                ? `Payment ${item.payment.status}`
+                                : "Pay"
+                        }}
                     </v-btn>
                 </div>
             </template>
@@ -40,6 +44,7 @@
             v-if="selectedBid"
             v-model="payBidDialog"
             :bid="selectedBid"
+            @completed="fetchMyBids"
         />
     </v-card>
 </template>
@@ -80,6 +85,7 @@ export default Vue.extend({
         async fetchMyBids() {
             try {
                 this.isFetchingBids = true;
+                this.payBidDialog = false;
 
                 const res = await this.$store.dispatch("projects/fetchMyBids");
 

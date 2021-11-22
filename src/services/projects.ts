@@ -202,4 +202,35 @@ export default class ProjectService {
             resolveRequestError(error);
         }
     }
+
+    static async payBid({
+        bidId,
+        reference,
+        type,
+        bankCode,
+        proof,
+    }: {
+        bidId: string | number;
+        reference: string;
+        type: "online_transfer" | "bank_transfer" | "wallet";
+        units: number;
+        bankCode: string | number;
+        proof: any;
+    }) {
+        try {
+            const formData = new FormData();
+            formData.append("bid_id", bidId.toString());
+            formData.append("amount", "2500");
+            formData.append("reference", reference);
+            formData.append("type", type);
+            formData.append("paying_bank_code", bankCode.toString());
+            formData.append("payment_proof", proof);
+
+            const res = await http.post(`bids/${bidId}/pay`, formData);
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
 }
