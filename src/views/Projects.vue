@@ -7,7 +7,17 @@
                     class="rounded-xl w-100"
                     color="tertiary-light"
                     height="250px"
-                ></v-card>
+                >
+                    <v-img
+                        class="white--text align-end rounded-xl w-100 h-100"
+                        :src="image"
+                        gradient="to bottom left, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+                    >
+                        <v-card-title class="text-h6">
+                            Abode Projects
+                        </v-card-title>
+                    </v-img>
+                </v-card>
             </v-col>
         </v-row>
         <v-row>
@@ -45,6 +55,7 @@
                             <available-projects v-if="indx === 0" />
                             <my-projects v-if="indx === 1" />
                             <available-offers v-if="indx === 2" />
+                            <my-bids v-if="indx === 3" />
                         </v-tab-item>
                     </v-tabs-items>
                 </v-card>
@@ -58,6 +69,7 @@ import Vue from "vue";
 import AvailableProjects from "../components/projects/AvailableProjects.vue";
 import AvailableOffers from "../components/projects/AvailableOffers.vue";
 import MyProjects from "../components/projects/MyProjects.vue";
+import MyBids from "../components/projects/MyBids.vue";
 
 interface TabItem {
     title: string;
@@ -70,13 +82,16 @@ export default Vue.extend({
         AvailableProjects,
         MyProjects,
         AvailableOffers,
+        MyBids,
     },
     data(): {
         tab: number | string | string[] | null | undefined | TabItem;
+        image: string;
         tabItems: TabItem[];
     } {
         return {
             tab: null,
+            image: "https://images.unsplash.com/photo-1549517045-bc93de075e53?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
             tabItems: [
                 {
                     tab: "available",
@@ -93,6 +108,11 @@ export default Vue.extend({
                     tab: "available-offers",
                     title: "Asset Market",
                     content: "Tab 3 Content",
+                },
+                {
+                    tab: "my-bids",
+                    title: "My Bids",
+                    content: "Tab 4 Content",
                 },
                 // { tab: "my-bids", title: "My Bids", content: "Tab 4 Content" },
             ],

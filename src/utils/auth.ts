@@ -1,6 +1,5 @@
 /* eslint-disable */
 import app from "@/main";
-import Vue from "vue";
 
 function errorHandler(e: any) {
     let data: any = "Connection seems to be very slow";
@@ -25,11 +24,11 @@ function errorHandler(e: any) {
                 path: `/?next=${document.location.pathname}`,
             });
         }
-        app.$store.commit("openSnackbar", data);
+        app.$store.commit("openSnackbar", data, { root: true });
     } else if (e.response && e.response.status === 403) {
         data = e.response.data;
         // console.log(e.response);
-        app.$store.commit("openSnackbar", data.message);
+        app.$store.commit("openSnackbar", data.message, { root: true });
 
         // if (!data.data.profile.emailverified) {
         //     app.$store.dispatch("auth/logout", { reRoute: false });
@@ -45,6 +44,10 @@ function errorHandler(e: any) {
         data = "Oops! an error occured";
     } else {
         console.log(e.response.data);
+        app.$store.commit("openSnackbar", e.response.data.message, {
+            root: true,
+        });
+
         data = Object.values(e.response.data.errors)[0];
     }
     const status = e.response ? e.response.status : 0;
@@ -52,11 +55,10 @@ function errorHandler(e: any) {
     if (data?.data) {
         let msg = Object.values(data.data);
 
-        app.$store.commit("openSnackbar", msg[0]);
+        app.$store.commit("openSnackbar", msg[0], { root: true });
     } else {
-        app.$store.commit("openSnackbar", data);
+        app.$store.commit("openSnackbar", data, { root: true });
     }
-    app.$store.commit("openSnackbar", e.response.message);
 
     return {
         status,
@@ -83,9 +85,10 @@ function resolveRequestError(err: any, throwAll = true, popToast = true) {
 
     let text = data.message;
     if (!text) text = data;
-    if (popToast) app.$store.commit("openSnackbar", text);
+    if (popToast) app.$store.commit("openSnackbar", text, { root: true });
 
-    if (status === 0 && !popToast) app.$store.commit("openSnackbar", text);
+    if (status === 0 && !popToast)
+        app.$store.commit("openSnackbar", text, { root: true });
 
     if (throwAll) throw data;
 }

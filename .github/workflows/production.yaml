@@ -3,7 +3,7 @@ name: Continuous Integration
 on:
     push:
         branches:
-            - "develop"
+            - "main"
 
 jobs:
     deploy:
@@ -20,6 +20,6 @@ jobs:
                   ftp_username: gideonpeters@abode.ng
                   ftp_password: ${{secrets.FTP_PASSWORD}}
                   local_source_dir: "/github/workspace/dist"
-                  dist_target_dir: "/dev.abode.ng/"
+                  dist_target_dir: "/app.abode.ng/"
                   delete: "false"
                   exclude: ""

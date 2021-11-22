@@ -195,6 +195,7 @@
                 @toggle="createBidDialog = $event"
                 v-model="createBidDialog"
                 :offer="offer"
+                @completed="fetchOfferById"
             />
         </v-col>
     </v-row>
@@ -284,6 +285,7 @@ export default Vue.extend({
         async fetchOfferById() {
             try {
                 this.isLoading = true;
+                this.createBidDialog = false;
                 const offerId = this.$route.params.offerId;
 
                 const res = await this.$store.dispatch(

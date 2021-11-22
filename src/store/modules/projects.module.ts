@@ -1,4 +1,5 @@
 import { ProjectService, TransactionService } from "@/services";
+import { reject } from "lodash";
 import { GetterTree, MutationTree, ActionTree } from "vuex";
 
 class State {}
@@ -66,6 +67,37 @@ const actions = <ActionTree<State, any>>{
 
     async fetchBids(_, { offerId }) {
         const res = await ProjectService.fetchBids(offerId);
+
+        return res;
+    },
+
+    async fetchMyBids() {
+        const res = await ProjectService.fetchUserBids();
+
+        return res;
+    },
+
+    async sellAsGroup(_, { fundId, action }) {
+        const res = await ProjectService.sellAsGroup({
+            id: fundId,
+            action,
+        });
+
+        return res;
+    },
+
+    async acceptBid(_, { bidId }) {
+        const res = await ProjectService.acceptBid({
+            id: bidId,
+        });
+
+        return res;
+    },
+
+    async rejectBid(_, { bidId }) {
+        const res = await ProjectService.rejectBid({
+            id: bidId,
+        });
 
         return res;
     },

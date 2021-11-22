@@ -75,6 +75,7 @@
             <v-btn
                 color="warning"
                 block
+                :disabled="project.percent_funded == 100"
                 depressed
                 class="text-none mt-8"
                 @click="fundDialog = true"

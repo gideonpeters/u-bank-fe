@@ -1,6 +1,6 @@
 <template>
     <v-card
-        class="mx-auto py-4 px-6 rounded-xl pointer"
+        class="py-4 px-6 rounded-xl pointer mx-auto mx-md-0"
         color="tertiary-light"
         flat
         width="320"

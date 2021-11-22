@@ -30,14 +30,14 @@
                     <div class="d-flex w-100 flex-column align-center">
                         <v-avatar size="120" color="tertiary-light">
                             <img
-                                v-if="loggedInUser.client.profile_image"
-                                :src="loggedInUser.client.profile_image"
+                                v-if="client && client.profile_image"
+                                :src="client.profile_image"
                             />
                             <span
                                 class="black--text text-h4"
-                                v-if="!loggedInUser.client.profile_image"
-                                >{{ loggedInUser.client.first_name[0] }}
-                                {{ loggedInUser.client.last_name[0] }}</span
+                                v-if="client && !client.profile_image"
+                                >{{ client.first_name[0] }}
+                                {{ client.last_name[0] }}</span
                             >
                         </v-avatar>
                         <div class="mt-5 mb-1 text-h6">
@@ -136,6 +136,9 @@ export default Vue.extend({
     },
     computed: {
         ...mapState("auth", ["loggedInUser"]),
+        client() {
+            return this.loggedInUser.client || {};
+        },
     },
     methods: {
         logout() {

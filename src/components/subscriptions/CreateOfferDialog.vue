@@ -114,8 +114,12 @@ export default Vue.extend({
             }
         },
     },
+    watch: {
+        fund(v) {
+            this.form.unitPrice = v.project.unit_price;
+        },
+    },
     mounted() {
-        console.log(this.fund);
         this.form.unitPrice = this.fund.project.unit_price;
     },
 });

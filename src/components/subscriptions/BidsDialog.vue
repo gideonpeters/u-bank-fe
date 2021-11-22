@@ -22,15 +22,25 @@
                             {{ formatDate(item.created_at) }}
                         </template>
 
-                        <template #item.actions>
+                        <template #item.actions="{ item }">
                             <div class="d-flex">
-                                <v-btn depressed text color="success">
-                                    Accept
-                                </v-btn>
                                 <v-btn
                                     depressed
                                     text
+                                    :loading="isAccepting"
+                                    color="success"
+                                    :disabled="item.status !== 'pending'"
+                                    @click="accept(item.id)"
+                                >
+                                    Accept
+                                </v-btn>
+                                <v-btn
+                                    @click="reject(item.id)"
+                                    depressed
+                                    text
+                                    :loading="isRejecting"
                                     color="error"
+                                    :disabled="item.status !== 'pending'"
                                     class="ml-2"
                                 >
                                     Reject
@@ -63,9 +73,12 @@ export default Vue.extend({
     data() {
         return {
             isFetchingBids: false,
+            isAccepting: false,
+            isRejecting: false,
             bids: [],
             bidHeaders: [
-                { text: "Bid unit price", value: "amount" },
+                { text: "Bid unit price", value: "unit_price" },
+                { text: "Number of units", value: "units" },
                 {
                     text: "Status",
                     align: "start",
@@ -100,9 +113,37 @@ export default Vue.extend({
                 });
 
                 this.bids = res.data;
-                this.$store.commit("openSnackbar", res.message, { root: true });
+                // this.$store.commit("openSnackbar", res.message, { root: true });
             } finally {
                 this.isFetchingBids = false;
+            }
+        },
+        async accept(id: string | number) {
+            try {
+                this.isAccepting = true;
+
+                const res = await this.$store.dispatch("projects/acceptBid", {
+                    bidId: id,
+                });
+
+                this.$store.commit("openSnackbar", res.message, { root: true });
+            } finally {
+                this.isAccepting = false;
+                this.fetchBids();
+            }
+        },
+        async reject(id: string | number) {
+            try {
+                this.isRejecting = true;
+
+                const res = await this.$store.dispatch("projects/rejectBid", {
+                    bidId: id,
+                });
+
+                this.$store.commit("openSnackbar", res.message, { root: true });
+            } finally {
+                this.isRejecting = false;
+                this.fetchBids();
             }
         },
     },

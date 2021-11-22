@@ -85,8 +85,18 @@
                         Number of units: {{ subscription.units }} unit(s)
                     </div>
                 </v-col>
+                <v-col cols="12" md="6" class="mb-3">
+                    <div class="d-flex align-center">
+                        <v-svg name="detail-icon" class="mr-2"></v-svg>
+
+                        Payment Status:
+                        <v-chip small class="text-capitalize ml-2">
+                            {{ subscription.payment.status }}
+                        </v-chip>
+                    </div>
+                </v-col>
             </v-row>
-            <v-row class="mt-8" v-if="isOwner">
+            <v-row class="mt-8" v-if="isOwner && isApproved">
                 <v-col cols="12">
                     <div class="black--text font-weight-bold mt-5 mb-2">
                         Offers
@@ -156,31 +166,31 @@
                 >Go To Project</v-btn
             >
             <v-btn
-                v-if="!isOwner"
+                v-if="!isOwner && isApproved"
                 color="black"
                 block
-                dark
                 depressed
-                class="text-none mt-8"
+                class="text-none mt-8 white--text"
                 @click="createBidDialog = true"
                 >Bid</v-btn
             >
             <v-btn
-                v-if="isOwner"
+                v-if="isOwner && isApproved"
                 color="tertiary-light"
                 block
                 depressed
+                :disabled="subscription.project.percent_funded > 100"
                 class="text-none mt-8"
                 @click="offerDialog = true"
                 >Sell As Individual</v-btn
             >
             <v-btn
-                v-if="isOwner"
+                v-if="isOwner && isApproved"
                 color="black"
                 block
-                dark
+                :disabled="subscription.sell_as_group"
                 depressed
-                class="text-none mt-8"
+                class="text-none mt-8 white--text"
                 @click="sellAsGroupDialog = true"
                 >Sell As Group</v-btn
             >
@@ -199,16 +209,21 @@
                 "
             />
         </v-col>
-        <v-col>
+        <v-col v-if="selectedOffer">
             <bids-dialog v-model="bidsDialog" :offer="selectedOffer" />
         </v-col>
         <v-col>
-            <create-bid-dialog v-model="createBidDialog" :fund="subscription" />
+            <create-bid-dialog
+                v-model="createBidDialog"
+                :offer="subscription"
+            />
         </v-col>
         <v-col>
             <sell-as-group-dialog
+                :fund="subscription"
                 v-model="sellAsGroupDialog"
                 @toggle="sellAsGroupDialog = $event"
+                @completed="fetchSubscriptionById"
             />
         </v-col>
     </v-row>
@@ -244,8 +259,13 @@ export default Vue.extend({
             DateTime,
             selectedOffer: {},
             subscription: {
+                id: 0,
+                user_id: 0,
                 project: {
                     id: "0",
+                },
+                payment: {
+                    status: "pending",
                 },
             },
             offerHeaders: [
@@ -266,7 +286,10 @@ export default Vue.extend({
     computed: {
         ...mapState("auth", ["loggedInUser"]),
         isOwner(): boolean {
-            return this.loggedInUser.id === 2;
+            return this.loggedInUser.id === this.subscription.user_id;
+        },
+        isApproved(): boolean {
+            return this.subscription.payment.status === "approved";
         },
     },
     methods: {
@@ -276,7 +299,7 @@ export default Vue.extend({
                 {
                     title: "View Bids",
                     action: (item: any) => {
-                        console.log(item);
+                        // console.log(item);
                         this.bidsDialog = false;
                         this.selectedOffer = item;
                         this.bidsDialog = true;
@@ -284,20 +307,21 @@ export default Vue.extend({
                 },
             ];
 
-            if (offer.status) {
-                res.push({
-                    title: "Deactivate",
-                    action: () => {
-                        //
-                    },
-                });
-            }
+            // if (offer.status) {
+            //     res.push({
+            //         title: "Deactivate",
+            //         action: () => {
+            //             //
+            //         },
+            //     });
+            // }
 
             return res;
         },
         async fetchSubscriptionById() {
             try {
                 this.isLoading = true;
+                this.sellAsGroupDialog = false;
                 const subscriptionId = this.$route.params.subscriptionId;
 
                 const res = await this.$store.dispatch(
@@ -306,9 +330,8 @@ export default Vue.extend({
                 );
 
                 this.subscription = res.data;
-
-                this.isLoading = false;
             } finally {
+                this.isLoading = false;
             }
         },
         goToProjects() {

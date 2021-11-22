@@ -42,6 +42,16 @@ export default class ProjectService {
         }
     }
 
+    static async fetchUserBids() {
+        try {
+            const res = await http.get(`/bids/all`);
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
     static async fetchAllOffers() {
         try {
             const res = await http.get(`/offers`);
@@ -131,18 +141,60 @@ export default class ProjectService {
 
     static async createBid({
         offerId,
-        amount,
+        unitPrice,
         units,
     }: {
         offerId: string | number;
-        amount: string | number;
+        unitPrice: string | number;
         units: number;
     }) {
         try {
             const res = await http.post(`offers/${offerId}/bid`, {
                 offer_id: offerId,
-                amount,
+                unit_price: unitPrice,
                 units,
+            });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async sellAsGroup({
+        action,
+        id,
+    }: {
+        action: boolean;
+        id: string | number;
+    }) {
+        try {
+            const res = await http.post(`/funds/${id}/sell-as-group`, {
+                action,
+            });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async acceptBid({ id }: { id: string | number }) {
+        try {
+            const res = await http.post(`/bids/${id}/accept-or-reject`, {
+                action: true,
+            });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async rejectBid({ id }: { id: string | number }) {
+        try {
+            const res = await http.post(`/bids/${id}/accept-or-reject`, {
+                action: false,
             });
 
             return res.data;

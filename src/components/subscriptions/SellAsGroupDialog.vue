@@ -17,6 +17,7 @@
                             <v-col cols="12">
                                 <div>
                                     Are you sure you want to sell as a group?
+                                    You can not undo this action
                                 </div>
                             </v-col>
                         </v-row>
@@ -24,13 +25,17 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="success" text @click="sellAsGroup">
+                    <v-btn
+                        color="success"
+                        :loading="isSaving"
+                        text
+                        @click="sellAsGroup"
+                    >
                         Yes
                     </v-btn>
 
                     <v-btn
                         depressed
-                        :loading="isSaving"
                         color="error"
                         @click="$emit('toggle', false)"
                     >
@@ -56,10 +61,6 @@ export default Vue.extend({
     data() {
         return {
             isSaving: false,
-            form: {
-                unitPrice: 0,
-                units: 1,
-            },
         };
     },
     methods: {
@@ -67,11 +68,11 @@ export default Vue.extend({
             try {
                 this.isSaving = true;
 
-                // const res = await this.$store.dispatch("projects/createOffer", {
-                //     subscriptionId: this.fund.id,
-                //     ...this.form,
-                // });
-                // this.$store.commit("openSnackbar", res.message, { root: true });
+                const res = await this.$store.dispatch("projects/sellAsGroup", {
+                    fundId: this.fund.id,
+                    action: true,
+                });
+                this.$store.commit("openSnackbar", res.message, { root: true });
 
                 this.$emit("completed");
             } finally {
