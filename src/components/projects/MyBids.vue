@@ -24,10 +24,9 @@
                         Withdraw
                     </v-btn> -->
                     <v-btn
-                        @click="reject(item.id)"
+                        @click="pay(item)"
                         depressed
                         text
-                        :loading="isPaying"
                         color="success"
                         :disabled="item.status !== 'approved'"
                         class="ml-2"
@@ -37,20 +36,29 @@
                 </div>
             </template>
         </v-data-table>
+        <pay-bid-dialog
+            v-if="selectedBid"
+            v-model="payBidDialog"
+            :bid="selectedBid"
+        />
     </v-card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { formatDate } from "@/utils/helpers";
+import PayBidDialog from "./PayBidDialog.vue";
 
 export default Vue.extend({
+    components: { PayBidDialog },
     data() {
         return {
+            payBidDialog: false,
             isFetchingBids: false,
             isPaying: false,
             isWithdrawing: false,
             bids: [],
+            selectedBid: null,
             bidHeaders: [
                 { text: "Bid unit price", value: "unit_price" },
                 { text: "Number of units", value: "units" },
@@ -79,6 +87,10 @@ export default Vue.extend({
             } finally {
                 this.isFetchingBids = false;
             }
+        },
+        pay(item: any) {
+            this.selectedBid = item;
+            this.payBidDialog = true;
         },
     },
     mounted() {
