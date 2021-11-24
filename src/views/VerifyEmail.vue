@@ -43,7 +43,7 @@
                                 color="primary"
                                 class="py-6"
                                 @click="resendEmailVerification"
-                                >Verify</v-btn
+                                >Send Verification</v-btn
                             >
                         </v-col>
                     </v-row>
@@ -61,14 +61,21 @@ import { AuthService } from "../services";
 
 export default Vue.extend({
     components: { Auth },
-    data() {
+    data(): {
+        showPassword: boolean;
+        isLoading: boolean;
+        form: {
+            loginId: string;
+            otp: string | number;
+            rememberMe: boolean;
+        };
+    } {
         return {
             showPassword: false,
             isLoading: false,
             form: {
                 loginId: "",
                 otp: "",
-                email: "",
                 rememberMe: false,
             },
         };
@@ -85,7 +92,7 @@ export default Vue.extend({
         },
     },
     methods: {
-        async verifyEmail(url): Promise<void> {
+        async verifyEmail(url: string): Promise<void> {
             try {
                 this.isLoading = true;
                 const res = await AuthService.verifyEmail(url);
@@ -121,10 +128,10 @@ export default Vue.extend({
         const { url, email } = this.$route.query;
 
         if (url) {
-            this.verifyEmail(url);
+            this.verifyEmail(url as string);
         }
         if (email) {
-            this.form.loginId = email ?? "";
+            this.form.loginId = email as string;
         }
     },
 });

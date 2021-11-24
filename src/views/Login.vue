@@ -100,7 +100,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Auth from "../layouts/Auth.vue";
-import { DASHBOARD, SIGNUP } from "../router/endpoints";
+import { DASHBOARD, SIGNUP, VERIFY_EMAIL } from "../router/endpoints";
 
 export default Vue.extend({
     components: { Auth },
@@ -131,7 +131,20 @@ export default Vue.extend({
             try {
                 this.isLoading = true;
                 const res = await this.$store.dispatch("auth/login", this.form);
-                if (res.status) {
+
+                if (!res.data.user.email_verified_at) {
+                    this.$store.commit(
+                        "openSnackbar",
+                        "You need to verify your account",
+                        { root: true },
+                    );
+                    this.$router.push({
+                        name: VERIFY_EMAIL.NAME,
+                        query: {
+                            email: this.form.loginId,
+                        },
+                    });
+                } else if (res.status) {
                     this.$router.push({ name: DASHBOARD.NAME });
                 }
             } finally {
