@@ -1,4 +1,5 @@
 import { resolveRequestError } from "@/utils/auth";
+import axios from "axios";
 import { http } from "./../http/index";
 
 export default class AuthService {
@@ -122,6 +123,27 @@ export default class AuthService {
             const res = await http.post(`referrer/resolve`, {
                 referrer,
             });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async verifyEmail(url: string) {
+        try {
+            console.log(url);
+            const res = await axios({ method: "get", url, baseURL: "" });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async resendEmailVerification(email: string) {
+        try {
+            const res = await http.post("auth/verify-email", { email });
 
             return res.data;
         } catch (error) {

@@ -6,6 +6,14 @@ export const LOGIN = {
     },
 };
 
+export const VERIFY_EMAIL = {
+    PATH: "/verify-email",
+    NAME: "auth.verify-email",
+    META: {
+        layout: "public",
+    },
+};
+
 export const SIGNUP = {
     PATH: "/signup",
     NAME: "auth.signup",

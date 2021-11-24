@@ -396,7 +396,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Auth from "../layouts/Auth.vue";
-import { LOGIN, SIGNUP } from "../router/endpoints";
+import { LOGIN, SIGNUP, VERIFY_EMAIL } from "../router/endpoints";
 
 export default Vue.extend({
     components: { Auth },
@@ -573,7 +573,10 @@ export default Vue.extend({
                 }
             } finally {
                 this.isResolving = false;
-                this.goToLogin();
+                this.$router.push({
+                    name: VERIFY_EMAIL.NAME,
+                    query: { email: this.form.email },
+                });
             }
         },
         submit() {

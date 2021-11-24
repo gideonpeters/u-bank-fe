@@ -11,6 +11,7 @@ import {
     SETTINGS,
     SIGNUP,
     SUBSCRIPTION_DETAILS,
+    VERIFY_EMAIL,
     WALLET,
 } from "./endpoints";
 
@@ -26,6 +27,13 @@ const routes: RouteConfig[] = [
         component: () =>
             import(/* webpackChunkName: "auth" */ "@/views/Login.vue"),
         meta: LOGIN.META,
+    },
+    {
+        path: VERIFY_EMAIL.PATH,
+        name: VERIFY_EMAIL.NAME,
+        component: () =>
+            import(/* webpackChunkName: "auth" */ "@/views/VerifyEmail.vue"),
+        meta: VERIFY_EMAIL.META,
     },
     {
         path: SIGNUP.PATH,
