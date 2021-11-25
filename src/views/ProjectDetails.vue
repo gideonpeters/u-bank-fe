@@ -80,6 +80,13 @@
                             {{ project.max_duration }} month(s)
                         </div>
                     </v-col>
+                    <v-col cols="12" md="6" class="mb-3">
+                        <div class="d-flex">
+                            <v-svg name="detail-icon" class="mr-2"></v-svg>
+                            Metric:
+                            {{ project.unit_measurement }} per unit
+                        </div>
+                    </v-col>
                 </v-row>
             </v-col>
             <v-col cols="12" md="3">
