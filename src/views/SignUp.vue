@@ -598,7 +598,7 @@ export default Vue.extend({
         const { ref } = this.$route.query;
 
         if (ref) {
-            this.form.referrer = ref;
+            this.form.referrer = ref as string;
         }
     },
 });
