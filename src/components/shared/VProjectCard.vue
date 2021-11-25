@@ -63,7 +63,7 @@
                     </div>
 
                     <v-chip class="px-6 mt-4" small
-                        >Available ({{ project.expected_slots }} units)</v-chip
+                        >Available ({{ project.available_units }} units)</v-chip
                     >
                 </div>
                 <div class="mt-5">

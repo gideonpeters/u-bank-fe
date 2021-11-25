@@ -50,8 +50,15 @@
                     <v-col cols="12" md="6" class="mb-3">
                         <div class="d-flex">
                             <v-svg name="detail-icon" class="mr-2"></v-svg>
-                            Available Units:
+                            Total Units:
                             {{ project.expected_slots }} unit(s)
+                        </div>
+                    </v-col>
+                    <v-col cols="12" md="6" class="mb-3">
+                        <div class="d-flex">
+                            <v-svg name="detail-icon" class="mr-2"></v-svg>
+                            Available Units:
+                            {{ project.available_units }} unit(s)
                         </div>
                     </v-col>
                     <v-col cols="12" md="6" class="mb-3">
