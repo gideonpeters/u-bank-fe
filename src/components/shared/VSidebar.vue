@@ -2,7 +2,7 @@
     <v-card class="h-100 relative w-100" flat>
         <v-navigation-drawer
             width="100%"
-            class="z-4 w-100 py-10"
+            class="z-4 w-100"
             dark
             color="primary"
             v-bind="$attrs"
@@ -76,11 +76,11 @@
                         Logout
                     </v-btn>
                 </div>
-                <v-svg
+                <!-- <v-svg
                     name="sidebar-pattern"
                     class="sidebar__pattern z-1"
                     width="350"
-                />
+                /> -->
             </template>
         </v-navigation-drawer>
     </v-card>
