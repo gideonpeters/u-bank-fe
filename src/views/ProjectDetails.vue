@@ -3,7 +3,7 @@
         <v-row class="mt-5" justify="space-between">
             <v-col>
                 <v-btn color="tertiary-light" depressed @click="$router.go(-1)"
-                    >Go Back</v-btn
+                    >Go Back.</v-btn
                 >
             </v-col>
             <v-col cols="12">
