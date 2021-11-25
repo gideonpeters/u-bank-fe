@@ -4,6 +4,7 @@
             width="100%"
             class="z-4 w-100"
             dark
+            app
             color="primary"
             v-bind="$attrs"
         >
