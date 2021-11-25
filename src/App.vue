@@ -51,12 +51,6 @@ export default {
 </script>
 
 <style lang="scss">
-// .nw-body {
-//     height: 100vh;
-//     min-height: 100vh;
-//     box-sizing: border-box;
-// }
-
 .v-application {
     font-family: $body-font-family, sans-serif !important;
     .title {
