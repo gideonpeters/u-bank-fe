@@ -1,99 +1,111 @@
 <template>
-    <v-row class="mt-5" justify="space-between">
-        <v-col>
-            <v-btn color="tertiary-light" depressed @click="$router.go(-1)"
-                >Go Back</v-btn
-            >
-        </v-col>
-        <v-col cols="12">
-            <v-card
-                flat
-                class="rounded-xl w-100 d-flex"
-                color="tertiary-light"
-                height="250px"
-            >
-                <v-img
-                    class="white--text align-end rounded-xl w-100 h-100"
-                    :src="project.image_url"
-                    gradient="to bottom left, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+    <div class="w-100">
+        <v-row class="mt-5" justify="space-between">
+            <v-col>
+                <v-btn color="tertiary-light" depressed @click="$router.go(-1)"
+                    >Go Back</v-btn
                 >
-                    <v-card-title class="text-h4">{{
-                        project.name
-                    }}</v-card-title>
-                </v-img>
-            </v-card>
-        </v-col>
-        <v-col cols="12" md="8">
-            <div class="black--text font-weight-bold mt-5 mb-2">
-                Description
-            </div>
-            <div v-html="project.description" style="font-size: 18px"></div>
-            <div class="d-flex align-center mt-8">
-                <v-progress-linear
-                    :value="project.percent_funded"
-                    class="mr-2"
-                ></v-progress-linear>
-                {{ project.percent_funded }}%
-            </div>
-            <v-row class="mt-8">
-                <v-col cols="12" md="6" class="mb-3">
-                    <div class="d-flex">
-                        <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Unit Price: N{{ project.unit_price }}
-                    </div>
-                </v-col>
-                <v-col cols="12" md="6" class="mb-3">
-                    <div class="d-flex">
-                        <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Available Units: {{ project.expected_slots }} unit(s)
-                    </div>
-                </v-col>
-                <v-col cols="12" md="6" class="mb-3">
-                    <div class="d-flex">
-                        <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Launched On:
-                        {{ formatDate(project.launched_at, DateTime.DATE_MED) }}
-                    </div>
-                </v-col>
-                <v-col cols="12" md="6" class="mb-3">
-                    <div class="d-flex">
-                        <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Potential Growth:
-                        {{ project.potential_growth }}
-                    </div>
-                </v-col>
-                <v-col cols="12" md="6" class="mb-3">
-                    <div class="d-flex">
-                        <v-svg name="detail-icon" class="mr-2"></v-svg>
-                        Holding Period:
-                        {{ project.max_duration }} month(s)
-                    </div>
-                </v-col>
-            </v-row>
-        </v-col>
-        <v-col cols="12" md="3">
-            <v-btn
-                color="warning"
-                block
-                :disabled="project.percent_funded == 100"
-                depressed
-                class="text-none mt-8"
-                @click="fundDialog = true"
-                >Subscribe</v-btn
-            >
-            <!-- <v-btn color="tertiary-light" block depressed class="text-none mt-8"
+            </v-col>
+            <v-col cols="12">
+                <v-card
+                    flat
+                    class="rounded-xl d-flex"
+                    color="tertiary-light"
+                    height="250px"
+                    width="100%"
+                    max-width="100%"
+                >
+                    <v-img
+                        class="white--text align-end rounded-xl"
+                        :src="project.image_url"
+                        width="100%"
+                        max-width="100%"
+                        gradient="to bottom left, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+                    >
+                        <v-card-title class="text-h4">{{
+                            project.name
+                        }}</v-card-title>
+                    </v-img>
+                </v-card>
+            </v-col>
+            <v-col cols="12" md="8">
+                <div class="black--text font-weight-bold mt-5 mb-2">
+                    Description
+                </div>
+                <div v-html="project.description" style="font-size: 18px"></div>
+                <div class="d-flex align-center mt-8">
+                    <v-progress-linear
+                        :value="project.percent_funded"
+                        class="mr-2"
+                    ></v-progress-linear>
+                    {{ project.percent_funded }}%
+                </div>
+                <v-row class="mt-8">
+                    <v-col cols="12" md="6" class="mb-3">
+                        <div class="d-flex">
+                            <v-svg name="detail-icon" class="mr-2"></v-svg>
+                            Unit Price: N{{ project.unit_price }}
+                        </div>
+                    </v-col>
+                    <v-col cols="12" md="6" class="mb-3">
+                        <div class="d-flex">
+                            <v-svg name="detail-icon" class="mr-2"></v-svg>
+                            Available Units:
+                            {{ project.expected_slots }} unit(s)
+                        </div>
+                    </v-col>
+                    <v-col cols="12" md="6" class="mb-3">
+                        <div class="d-flex">
+                            <v-svg name="detail-icon" class="mr-2"></v-svg>
+                            Launched On:
+                            {{
+                                formatDate(
+                                    project.launched_at,
+                                    DateTime.DATE_MED,
+                                )
+                            }}
+                        </div>
+                    </v-col>
+                    <v-col cols="12" md="6" class="mb-3">
+                        <div class="d-flex">
+                            <v-svg name="detail-icon" class="mr-2"></v-svg>
+                            Potential Growth:
+                            {{ project.potential_growth }}
+                        </div>
+                    </v-col>
+                    <v-col cols="12" md="6" class="mb-3">
+                        <div class="d-flex">
+                            <v-svg name="detail-icon" class="mr-2"></v-svg>
+                            Holding Period:
+                            {{ project.max_duration }} month(s)
+                        </div>
+                    </v-col>
+                </v-row>
+            </v-col>
+            <v-col cols="12" md="3">
+                <v-btn
+                    color="warning"
+                    block
+                    :disabled="project.percent_funded == 100"
+                    depressed
+                    class="text-none mt-8"
+                    @click="fundDialog = true"
+                    >Subscribe</v-btn
+                >
+                <!-- <v-btn color="tertiary-light" block depressed class="text-none mt-8"
                 >Share Project</v-btn
             > -->
-        </v-col>
-        <v-col cols="12">
-            <fund-dialog
-                @completed="goToProjects"
-                v-model="fundDialog"
-                :project="project"
-                @toggle="fundDialog = $event"
-            />
-        </v-col>
-    </v-row>
+            </v-col>
+            <v-col cols="12">
+                <fund-dialog
+                    @completed="goToProjects"
+                    v-model="fundDialog"
+                    :project="project"
+                    @toggle="fundDialog = $event"
+                />
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
 <script lang="ts">
