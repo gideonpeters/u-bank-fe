@@ -368,13 +368,12 @@ export default Vue.extend({
                 );
                 this.isCopied = true;
 
-                this.$store.commit("openSnackbar", "Copied successfully", {
-                    root: true,
-                });
-
                 setTimeout(() => {
+                    this.$store.commit("openSnackbar", "Copied successfully", {
+                        root: true,
+                    });
                     this.isCopied = false;
-                }, 5000);
+                }, 2000);
             } catch ($e) {
                 this.$store.commit("openSnackbar", "Cannot copy, try again", {
                     root: true,
