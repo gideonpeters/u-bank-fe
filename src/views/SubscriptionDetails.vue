@@ -12,8 +12,12 @@
                     class="rounded-xl w-100 d-flex"
                     color="tertiary-light"
                     height="250px"
+                    width="100%"
+                    max-width="100%"
                 >
                     <v-img
+                        width="100%"
+                        max-width="100%"
                         class="white--text align-end rounded-xl w-100 h-100"
                         :src="subscription.project.image_url"
                         gradient="to bottom left, rgba(100,115,201,.33), rgba(25,32,72,.7)"
