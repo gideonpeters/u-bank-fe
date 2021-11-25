@@ -4,7 +4,6 @@
             width="100%"
             class="z-4 w-100"
             dark
-            app
             color="primary"
             v-bind="$attrs"
         >
@@ -50,7 +49,7 @@
                     </div>
                 </v-list-item>
             </template>
-            <v-list dense rounded class="z-4" style="z-index: 9999999999999">
+            <v-list dense rounded class="z-4">
                 <v-list-item
                     v-for="item in items"
                     :key="item.title"
