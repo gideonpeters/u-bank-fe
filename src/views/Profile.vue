@@ -117,7 +117,7 @@
                     <v-text-field
                         shaped
                         label="Email*"
-                        v-model="form.email"
+                        v-model="form.nextOfKinEmail"
                         hide-details
                         filled
                     ></v-text-field>
@@ -136,7 +136,7 @@
                     <v-text-field
                         shaped
                         label="Relationship"
-                        v-model="form.username"
+                        v-model="form.nextOfKinRelationship"
                         hide-details
                         filled
                     ></v-text-field>
@@ -146,7 +146,7 @@
                         shaped
                         rows="3"
                         label="Address"
-                        v-model="form.username"
+                        v-model="form.nextOfKinAddress"
                         hide-details
                         filled
                     ></v-textarea>
@@ -173,6 +173,7 @@ export default Vue.extend({
                 profileImage: "",
                 phoneNumber: "",
                 password: "",
+                dob: "",
                 confirmPassword: "",
                 referrer: "",
                 nextOfKinName: "",

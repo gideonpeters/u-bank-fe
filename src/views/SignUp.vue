@@ -443,7 +443,15 @@ export default Vue.extend({
             },
             showPassword: false,
             showConfirmPassword: false,
-            interests: ["agriculture", "bitcoin", "real estate"],
+            interests: [
+                "Agriculture",
+                "Cryptocurrency",
+                "Foreign Stocks",
+                "Local Stocks",
+                "Real Estate",
+                "Bonds",
+                "Precious Stones e.g. gold, emerald",
+            ],
             expectations: [
                 "less than ₦1,000,000",
                 "₦1,000,000 - ₦10,000,000",
@@ -585,6 +593,13 @@ export default Vue.extend({
         goToLogin() {
             this.$router.push({ name: LOGIN.NAME });
         },
+    },
+    mounted() {
+        const { ref } = this.$route.query;
+
+        if (ref) {
+            this.form.referrer = ref;
+        }
     },
 });
 </script>
