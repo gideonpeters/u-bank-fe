@@ -42,15 +42,18 @@ export default class TransactionService {
 
     static async addBank({
         accountNumber,
+        accountName,
         bankCode,
         otp,
     }: {
         accountNumber: string;
+        accountName: string;
         bankCode: string;
         otp: string;
     }) {
         try {
             const res = await http.post("/bank-accounts", {
+                account_name: accountName,
                 account_number: accountNumber,
                 bank_code: bankCode,
                 otp,

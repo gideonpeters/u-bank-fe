@@ -11,7 +11,7 @@ jobs:
         steps:
             - uses: actions/checkout@v1
             - name: Build Front End
-              run: npm install && NODE_ENV=CI npm run build
+              run: npm install && NODE_ENV=CI npm run build --prod
               working-directory: ./
             - name: FTP Deploy
               uses: kevinpainchaud/simple-ftp-deploy-action@v1.1.0

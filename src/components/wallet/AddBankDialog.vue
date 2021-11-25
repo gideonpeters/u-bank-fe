@@ -111,7 +111,7 @@ export default Vue.extend({
             sentOtp: false,
             banks,
             form: {
-                // accountName: "",
+                accountName: "",
                 accountNumber: "",
                 otp: "",
                 bankCode: "",
@@ -171,8 +171,9 @@ export default Vue.extend({
                     "transactions/resolveBankAccount",
                     this.form,
                 );
-                console.log(res);
+
                 this.resolvedBankAccount = res.data;
+                this.form.accountName = this.resolvedBankAccount.account_name;
                 this.$store.commit("openSnackbar", res.message, { root: true });
             } finally {
                 this.isResolving = false;
