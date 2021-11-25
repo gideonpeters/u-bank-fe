@@ -12,8 +12,18 @@
             height="200px"
             :src="project.image_url"
         >
-            <div class="d-flex project-card__status" v-if="false">
-                <div class="error px-4 py-2 font-weight-medium">LATEST</div>
+            <div class="d-flex project-card__status" v-if="owned">
+                <div
+                    class="px-4 py-2 font-weight-medium text-uppercase"
+                    :class="{
+                        success: paymentStatus === 'approved',
+                        error: paymentStatus !== 'approved',
+                    }"
+                >
+                    {{
+                        paymentStatus === "approved" ? "Active" : paymentStatus
+                    }}
+                </div>
             </div>
             <v-card-title>{{ project.name }}</v-card-title>
         </v-img>
@@ -104,6 +114,10 @@ export default Vue.extend({
         },
         fund: {
             type: Object,
+            required: false,
+        },
+        paymentStatus: {
+            type: String,
             required: false,
         },
     },

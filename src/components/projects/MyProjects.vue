@@ -9,6 +9,7 @@
             <v-project-card
                 :project="fundedProject.project"
                 :fund="fundedProject"
+                :paymentStatus="fundedProject.payment.status"
                 owned
             />
         </v-col>
