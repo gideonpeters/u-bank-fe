@@ -99,7 +99,7 @@ export default Vue.extend({
                 this.$store.commit("openSnackbar", res.message, { root: true });
 
                 if (res.status) {
-                    this.$router.push({ name: LOGIN.NAME });
+                    this.$router.push({ name: DASHBOARD.NAME });
                 }
             } finally {
                 this.isLoading = false;

@@ -132,8 +132,15 @@ export default class AuthService {
 
     static async verifyEmail(url: string) {
         try {
-            console.log(url);
-            const res = await axios({ method: "get", url, baseURL: "" });
+            const res = await axios({
+                method: "get",
+                url,
+                baseURL: "",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
 
             return res.data;
         } catch (error) {

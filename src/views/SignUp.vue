@@ -574,8 +574,7 @@ export default Vue.extend({
             } finally {
                 this.isResolving = false;
                 this.$router.push({
-                    name: VERIFY_EMAIL.NAME,
-                    query: { email: this.form.email },
+                    name: LOGIN.NAME,
                 });
             }
         },
