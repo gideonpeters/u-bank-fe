@@ -12,6 +12,7 @@
                 <div class="w-100 ml-md-5 ml-0 mt-5 mt-md-0">
                     <div class="d-flex flex-md-row flex-column mb-5">
                         <v-card
+                            @click="goToPage(projectPage)"
                             min-height="150px"
                             flat
                             class="
@@ -39,6 +40,7 @@
                         </v-card>
 
                         <v-card
+                            @click="goToPage(walletPage)"
                             min-height="150px"
                             flat
                             class="
@@ -164,6 +166,7 @@
 import Vue from "vue";
 
 import { formatDate, formatMoney } from "@/utils/helpers";
+import { PROJECTS, WALLET } from "../router/endpoints";
 
 export default Vue.extend({
     data() {
@@ -174,6 +177,8 @@ export default Vue.extend({
             projectsFunded: 0,
             totalInflow: 0,
             totalOutflow: 0,
+            walletPage: WALLET.NAME,
+            projectPage: PROJECTS.NAME,
             potentialNetWorth: 0,
             actualNetWorth: 0,
             activityHeaders: [
@@ -240,6 +245,9 @@ export default Vue.extend({
             } finally {
                 this.isLoadingLogs = false;
             }
+        },
+        goToPage(name: string) {
+            this.$router.push({ name });
         },
     },
     mounted() {
