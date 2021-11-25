@@ -363,7 +363,6 @@ export default Vue.extend({
             try {
                 await navigator.clipboard.writeText(
                     `Register on Abode using my username ${this.loggedInUser.username} and earn up to 5% commission
-                    
                     ${baseUrl}/signup?ref=${this.loggedInUser.username}
                     `,
                 );

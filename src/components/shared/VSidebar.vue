@@ -49,7 +49,7 @@
                     </div>
                 </v-list-item>
             </template>
-            <v-list dense rounded class="z-4">
+            <v-list dense rounded class="z-4" style="z-index: 9999999999999">
                 <v-list-item
                     v-for="item in items"
                     :key="item.title"
@@ -67,7 +67,7 @@
                 </v-list-item>
             </v-list>
             <template v-slot:append>
-                <div class="d-flex justify-center z-4">
+                <div class="d-flex justify-center z-4 my-5">
                     <v-btn
                         @click="logout"
                         depressed
