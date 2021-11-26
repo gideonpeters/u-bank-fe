@@ -35,7 +35,9 @@
 
                             <div class="d-flex">
                                 <v-icon color="black">mdi-sitemap</v-icon>
-                                <div class="ml-2">Projects Funded</div>
+                                <div class="ml-2 black--text">
+                                    Projects Funded
+                                </div>
                             </div>
                         </v-card>
 
@@ -90,7 +92,7 @@
                             </div>
                             <div class="d-flex mt-4">
                                 <v-icon color="black">mdi-chart-tree</v-icon>
-                                <div class="text-caption ml-2">
+                                <div class="ml-2 black--text">
                                     Actual Net Worth
                                 </div>
                             </div>
