@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <div class="flex nw-body">
+        <div class="">
             <component :is="layout">
                 <transition name="fade">
                     <router-view> </router-view>

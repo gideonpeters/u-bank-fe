@@ -8,7 +8,6 @@
             class="z-5"
             temporary
             v-model="drawer"
-            :fixed="false"
             v-if="$vuetify.breakpoint.mdAndDown"
         />
         <div class="d-flex overflow-y-hidden">
