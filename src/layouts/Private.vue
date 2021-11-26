@@ -19,7 +19,7 @@
                 flat
                 color="transparent"
                 class="
-                    d-none d-lg-flex
+                    d-none d-md-flex
                     align-center
                     overflow-y-hidden
                     pl-5
