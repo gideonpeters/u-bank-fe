@@ -6,6 +6,7 @@
         dark
         color="primary"
         v-bind="$attrs"
+        v-on="$listeners"
     >
         <v-btn
             v-if="isMobile"
