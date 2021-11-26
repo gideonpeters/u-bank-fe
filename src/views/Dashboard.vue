@@ -117,7 +117,7 @@
                             </div>
                             <div class="d-flex mt-4">
                                 <v-icon color="black">mdi-chart-arc</v-icon>
-                                <div class="text-caption ml-2">
+                                <div class="ml-2 black--text">
                                     Potential Net Worth
                                 </div>
                             </div>
