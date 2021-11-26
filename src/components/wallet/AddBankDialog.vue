@@ -102,7 +102,23 @@ import { banks } from "@/utils/nigerianBanks";
 
 export default Vue.extend({
     inheritAttrs: true,
-    data() {
+    data(): {
+        isSendingOtp: boolean;
+        isSaving: boolean;
+        isResolving: boolean;
+        sentOtp: boolean;
+        resolvedBankAccount: {
+            account_name: string;
+            account_number: number | string;
+        } | null;
+        banks: any;
+        form: {
+            accountName: string;
+            accountNumber: string | number;
+            otp: string | number;
+            bankCode: string | number;
+        };
+    } {
         return {
             isSendingOtp: false,
             isSaving: false,
@@ -173,7 +189,8 @@ export default Vue.extend({
                 );
 
                 this.resolvedBankAccount = res.data;
-                this.form.accountName = this.resolvedBankAccount.account_name;
+                this.form.accountName =
+                    this.resolvedBankAccount?.account_name || "";
                 this.$store.commit("openSnackbar", res.message, { root: true });
             } finally {
                 this.isResolving = false;
