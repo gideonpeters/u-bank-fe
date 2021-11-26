@@ -193,28 +193,7 @@ export default Vue.extend({
                 { text: "", value: "description" },
                 { text: "", value: "datetime" },
             ],
-            activities: [
-                {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
-                },
-                {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
-                },
-                {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
-                },
-                {
-                    status: "new",
-                    description: "Your wallet was just debited",
-                    datetime: "2 days ago",
-                },
-            ],
+            activities: [],
         };
     },
     methods: {
