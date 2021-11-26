@@ -291,7 +291,7 @@
                                     }"
                                     filled
                                     chips
-                                    label="What interest volumns do you hope to achieve?"
+                                    label="What interest volumes do you hope to achieve?"
                                 ></v-select>
                             </v-col>
 
