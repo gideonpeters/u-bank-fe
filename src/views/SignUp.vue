@@ -426,7 +426,7 @@
 import Vue from "vue";
 import Terms from "../components/Terms.vue";
 import Auth from "../layouts/Auth.vue";
-import { LOGIN } from "../router/endpoints";
+import { LOGIN, VERIFY_EMAIL } from "../router/endpoints";
 
 export default Vue.extend({
     components: { Auth, Terms },
@@ -617,7 +617,10 @@ export default Vue.extend({
             } finally {
                 this.isResolving = false;
                 this.$router.push({
-                    name: LOGIN.NAME,
+                    name: VERIFY_EMAIL.NAME,
+                    query: {
+                        email: this.form.email,
+                    },
                 });
             }
         },

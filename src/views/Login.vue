@@ -100,7 +100,12 @@
 <script lang="ts">
 import Vue from "vue";
 import Auth from "../layouts/Auth.vue";
-import { DASHBOARD, SIGNUP, VERIFY_EMAIL } from "../router/endpoints";
+import {
+    DASHBOARD,
+    FORGOT_PASSWORD,
+    SIGNUP,
+    VERIFY_EMAIL,
+} from "../router/endpoints";
 
 export default Vue.extend({
     components: { Auth },
@@ -155,8 +160,15 @@ export default Vue.extend({
             this.$router.push({ name: SIGNUP.NAME });
         },
         goToForgotPassword() {
-            this.$router.push({ name: SIGNUP.NAME });
+            this.$router.push({ name: FORGOT_PASSWORD.NAME });
         },
+    },
+    mounted() {
+        const { loginId } = this.$route.query;
+
+        if (loginId) {
+            this.form.loginId = loginId as string;
+        }
     },
 });
 </script>

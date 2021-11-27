@@ -214,6 +214,7 @@
                     <div class="d-flex justify-center">
                         <v-btn
                             depressed
+                            @click="editProfile"
                             :loading="isLoading"
                             color="info rounded-pill text-none"
                             >Save Changes</v-btn

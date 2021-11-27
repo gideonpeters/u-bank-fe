@@ -140,17 +140,33 @@ export default class AuthService {
         }
     }
 
-    static async verifyEmail(url: string) {
+    static async forgotPassword(email: string) {
         try {
-            const res = await axios({
-                method: "get",
-                url,
-                baseURL: "",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
+            const res = await http.post(`auth/forgot-password`, { email });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async resetPassword(form: {
+        otp: string | number;
+        email: string;
+        password: string;
+    }) {
+        try {
+            const res = await http.post(`auth/reset-password`, form);
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async verifyEmail(form: { otp: string | number; email: string }) {
+        try {
+            const res = await http.post(`auth/email/verify`, form);
 
             return res.data;
         } catch (error) {

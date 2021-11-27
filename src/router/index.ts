@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import {
     DASHBOARD,
+    FORGOT_PASSWORD,
     LOGIN,
     OFFER_DETAILS,
     PORTFOLIO,
@@ -34,6 +35,13 @@ const routes: RouteConfig[] = [
         component: () =>
             import(/* webpackChunkName: "auth" */ "@/views/VerifyEmail.vue"),
         meta: VERIFY_EMAIL.META,
+    },
+    {
+        path: FORGOT_PASSWORD.PATH,
+        name: FORGOT_PASSWORD.NAME,
+        component: () =>
+            import(/* webpackChunkName: "auth" */ "@/views/ForgotPassword.vue"),
+        meta: FORGOT_PASSWORD.META,
     },
     {
         path: SIGNUP.PATH,

@@ -16,11 +16,11 @@
                                 <div
                                     class="text-lg-h4 text-h5 font-weight-bold"
                                 >
-                                    Verify Email 🚪
+                                    Forgot Password 🚪
                                 </div>
                                 <div class="text-body mt-2 mb-5 grey--text">
-                                    Enter email so we send you a verification
-                                    email
+                                    Enter email/username so we send you a
+                                    password reset otp email
                                 </div>
                             </div>
                         </v-col>
@@ -45,6 +45,44 @@
                                 filled
                             ></v-text-field>
                         </v-col>
+                        <v-col cols="12" sm="12" md="12" v-if="sentOtp">
+                            <v-text-field
+                                shaped
+                                :append-icon="
+                                    showPassword ? 'mdi-eye' : 'mdi-eye-off'
+                                "
+                                :rules="[rules.required, rules.min]"
+                                @click:append="showPassword = !showPassword"
+                                :type="showPassword ? 'text' : 'password'"
+                                hint="At least 8 characters"
+                                label="Password"
+                                v-model="form.password"
+                                hide-details
+                                filled
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12" v-if="sentOtp">
+                            <v-text-field
+                                shaped
+                                :append-icon="
+                                    showConfirmPassword
+                                        ? 'mdi-eye'
+                                        : 'mdi-eye-off'
+                                "
+                                :rules="[rules.passwordMatch]"
+                                @click:append="
+                                    showConfirmPassword = !showConfirmPassword
+                                "
+                                :type="
+                                    showConfirmPassword ? 'text' : 'password'
+                                "
+                                label="Confirm Password"
+                                hint="Your password must match"
+                                v-model="form.confirmPassword"
+                                hide-details
+                                filled
+                            ></v-text-field>
+                        </v-col>
 
                         <v-col cols="12" v-if="sentOtp">
                             <v-btn
@@ -53,8 +91,8 @@
                                 depressed
                                 color="primary"
                                 class="py-6"
-                                @click="verifyEmail"
-                                >Verify</v-btn
+                                @click="resetPassword"
+                                >Reset Password</v-btn
                             >
                         </v-col>
 
@@ -65,10 +103,11 @@
                                 depressed
                                 color="primary"
                                 class="py-6"
-                                @click="resendEmailVerification"
+                                @click="forgotPassword"
                                 >Send OTP</v-btn
                             >
                         </v-col>
+
                         <v-col cols="12" v-if="sentOtp && !isLoading">
                             <v-btn
                                 block
@@ -77,7 +116,7 @@
                                 text
                                 color="primary"
                                 class="py-6"
-                                @click="resendEmailVerification"
+                                @click="forgotPassword"
                                 >Resend OTP</v-btn
                             >
                         </v-col>
@@ -97,24 +136,30 @@ import { AuthService } from "../services";
 export default Vue.extend({
     components: { Auth },
     data(): {
-        showPassword: boolean;
         isLoading: boolean;
         isSendingOtp: boolean;
+        showPassword: boolean;
+        showConfirmPassword: boolean;
         sentOtp: boolean;
         form: {
             loginId: string;
+            password: string;
+            confirmPassword: string;
             otp: string | number;
             rememberMe: boolean;
         };
     } {
         return {
-            showPassword: false,
             isLoading: false,
             sentOtp: false,
             isSendingOtp: false,
+            showPassword: false,
+            showConfirmPassword: false,
             form: {
                 loginId: "",
                 otp: "",
+                password: "",
+                confirmPassword: "",
                 rememberMe: false,
             },
         };
@@ -123,21 +168,26 @@ export default Vue.extend({
         rules(): {
             required: (val: string) => string | boolean;
             min: (val: string) => string | boolean;
+            passwordMatch: (val: string) => boolean;
         } {
             return {
                 required: (value) => !!value || "Required.",
                 min: (v) => v.length >= 8 || "Min 8 characters",
+                passwordMatch: (value) => value == this.form.password,
             };
         },
     },
     methods: {
-        async verifyEmail(): Promise<void> {
+        async resetPassword(): Promise<void> {
             try {
                 this.isLoading = true;
-                const res = await AuthService.verifyEmail({
+
+                const res = await AuthService.resetPassword({
                     email: this.form.loginId,
+                    password: this.form.password,
                     otp: this.form.otp,
                 });
+
                 this.$store.commit("openSnackbar", res.message, { root: true });
 
                 if (res.status) {
@@ -152,14 +202,12 @@ export default Vue.extend({
                 this.isLoading = false;
             }
         },
-        async resendEmailVerification(): Promise<void> {
+        async forgotPassword(): Promise<void> {
             try {
-                this.isSendingOtp = true;
                 this.sentOtp = false;
 
-                const res = await AuthService.resendEmailVerification(
-                    this.form.loginId,
-                );
+                this.isSendingOtp = true;
+                const res = await AuthService.forgotPassword(this.form.loginId);
 
                 if (res.status) {
                     this.sentOtp = true;
