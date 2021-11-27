@@ -127,8 +127,8 @@
                     <transition name="fade">
                         <div class="d-flex align-center w-100">
                             <div
-                                v-if="$vuetify.breakpoint.mdAndDown"
                                 class="mr-auto"
+                                v-if="$vuetify.breakpoint.mdAndDown"
                             >
                                 <v-btn
                                     class="mr-3"
@@ -151,7 +151,10 @@
                             >
                                 {{ title }}
                             </div>
-                            <div class="d-flex align-center">
+                            <div
+                                class="d-flex align-center"
+                                v-if="$vuetify.breakpoint.mdAndDown"
+                            >
                                 <v-img
                                     @click="goToHome"
                                     src="./../assets/images/abode_logo--short.png"
