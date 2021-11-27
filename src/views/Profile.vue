@@ -211,15 +211,16 @@
                     ></v-textarea>
                 </v-col>
                 <v-col cols="12" v-if="isEdit">
-                    <div class="d-flex justify-center">
-                        <v-btn
-                            depressed
-                            @click="editProfile"
-                            :loading="isLoading"
-                            color="info rounded-pill text-none"
-                            >Save Changes</v-btn
-                        >
-                    </div>
+                    <!-- <div class="d-flex justify-center"> -->
+                    <v-btn
+                        block
+                        depressed
+                        @click="editProfile"
+                        :loading="isLoading"
+                        color="info rounded-pill text-none py-8"
+                        >Save Changes</v-btn
+                    >
+                    <!-- </div> -->
                 </v-col>
             </v-row>
         </v-col>
