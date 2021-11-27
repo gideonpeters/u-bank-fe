@@ -426,7 +426,7 @@
 import Vue from "vue";
 import Terms from "../components/Terms.vue";
 import Auth from "../layouts/Auth.vue";
-import { LOGIN, SIGNUP, VERIFY_EMAIL } from "../router/endpoints";
+import { LOGIN } from "../router/endpoints";
 
 export default Vue.extend({
     components: { Auth, Terms },
@@ -516,7 +516,8 @@ export default Vue.extend({
                 !this.form.email ||
                 !this.form.phoneNumber ||
                 !this.form.username ||
-                !this.form.password
+                !this.form.password ||
+                !this.form.agreed
             );
         },
     },
