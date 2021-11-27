@@ -178,6 +178,35 @@
                                     filled
                                 ></v-text-field>
                             </v-col>
+                            <v-col cols="12">
+                                <v-row align="center">
+                                    <v-checkbox
+                                        v-model="form.agreed"
+                                        hide-details
+                                        class="shrink mr-2 mt-0"
+                                    ></v-checkbox>
+                                    <div class="d-flex align-center">
+                                        I agree to the
+                                        <v-btn
+                                            @click="showTerms = true"
+                                            color="info"
+                                            depressed
+                                            text
+                                            class="text-none"
+                                            >Terms & Conditions</v-btn
+                                        >
+                                    </div>
+                                </v-row>
+                            </v-col>
+                            <v-col>
+                                <terms
+                                    v-model="showTerms"
+                                    @completed="
+                                        form.agreed = $event;
+                                        showTerms = false;
+                                    "
+                                />
+                            </v-col>
                             <v-col cols="12" sm="12" md="12">
                                 <div class="d-flex justify-end mt-8">
                                     <v-btn
@@ -395,14 +424,16 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Terms from "../components/Terms.vue";
 import Auth from "../layouts/Auth.vue";
 import { LOGIN, SIGNUP, VERIFY_EMAIL } from "../router/endpoints";
 
 export default Vue.extend({
-    components: { Auth },
+    components: { Auth, Terms },
     data(): {
         onboardingStepper: number;
         isResolving: boolean;
+        showTerms: boolean;
         resolvedReferrer: string;
         form: {
             firstName: string;
@@ -417,6 +448,7 @@ export default Vue.extend({
             interests: string[];
             expectations: string;
             rememberMe: boolean;
+            agreed: boolean;
         };
         showPassword: boolean;
         showConfirmPassword: boolean;
@@ -426,6 +458,7 @@ export default Vue.extend({
         return {
             onboardingStepper: 1,
             isResolving: false,
+            showTerms: false,
             resolvedReferrer: "",
             form: {
                 firstName: "",
@@ -440,6 +473,7 @@ export default Vue.extend({
                 interests: [],
                 expectations: "",
                 rememberMe: false,
+                agreed: false,
             },
             showPassword: false,
             showConfirmPassword: false,

@@ -36,7 +36,7 @@
                             <div class="d-flex">
                                 <v-icon color="black">mdi-sitemap</v-icon>
                                 <div class="ml-2 black--text">
-                                    Projects Funded
+                                    Subscriptions
                                 </div>
                             </div>
                         </v-card>

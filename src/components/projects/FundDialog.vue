@@ -108,10 +108,37 @@
                                     label="Payment Proof"
                                 ></v-file-input>
                             </v-col>
+                            <v-col cols="12">
+                                <v-row align="center">
+                                    <v-checkbox
+                                        v-model="form.agreed"
+                                        hide-details
+                                        class="shrink mr-2 mt-0"
+                                    ></v-checkbox>
+                                    <div class="d-flex align-center">
+                                        I agree to the
+                                        <v-btn
+                                            @click="showTerms = true"
+                                            color="info"
+                                            depressed
+                                            text
+                                            class="text-none"
+                                            >Terms & Conditions</v-btn
+                                        >
+                                    </div>
+                                </v-row>
+                            </v-col>
                         </v-row>
                     </v-container>
                     <small>*indicates required field</small>
                 </v-card-text>
+                <terms
+                    v-model="showTerms"
+                    @completed="
+                        form.agreed = $event;
+                        showTerms = false;
+                    "
+                />
                 <v-card-actions class="mt-10">
                     <v-spacer></v-spacer>
                     <v-btn color="error" text @click="$emit('toggle', false)">
@@ -120,6 +147,7 @@
 
                     <v-btn
                         depressed
+                        :disabled="isDisabled"
                         :loading="isSaving"
                         color="success"
                         @click="fund"
@@ -137,9 +165,11 @@ import Vue from "vue";
 import { banks } from "@/utils/nigerianBanks";
 import PaymentInformation from "../PaymentInformation.vue";
 import { mapState } from "vuex";
+import Terms from "../Terms.vue";
 
 interface IFundDialog {
     isSaving: boolean;
+    showTerms: boolean;
     banks: { code: string; name: string }[];
     form: {
         amount: number;
@@ -148,11 +178,12 @@ interface IFundDialog {
         type: "online_transfer" | "bank_transfer" | "wallet" | string;
         bankCode: string | number;
         units: number;
+        agreed: boolean;
     };
 }
 
 export default Vue.extend({
-    components: { PaymentInformation },
+    components: { PaymentInformation, Terms },
     inheritAttrs: true,
     props: {
         project: {
@@ -163,6 +194,7 @@ export default Vue.extend({
     data(): IFundDialog {
         return {
             isSaving: false,
+            showTerms: false,
             banks,
             form: {
                 amount: 0,
@@ -171,6 +203,7 @@ export default Vue.extend({
                 type: "",
                 bankCode: "",
                 units: 1,
+                agreed: false,
             },
         };
     },
@@ -192,6 +225,14 @@ export default Vue.extend({
         },
         selectedPaymentOption(): string {
             return this.form.type;
+        },
+        isDisabled(): boolean {
+            return (
+                !this.form.type ||
+                !this.form.units ||
+                this.form.units <= 0 ||
+                !this.form.agreed
+            );
         },
     },
     methods: {
@@ -215,6 +256,7 @@ export default Vue.extend({
         selectedPaymentOption(v) {
             if (v == "wallet") {
                 this.form.reference = new Date().toString();
+                this.form.proof = null;
             }
         },
     },

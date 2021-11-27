@@ -89,7 +89,7 @@ export default class ProjectService {
         type,
         units,
         bankCode,
-        proof,
+        proof = null,
     }: {
         projectId: string | number;
         amount: string | number;
@@ -107,7 +107,9 @@ export default class ProjectService {
             formData.append("type", type);
             formData.append("units", units.toString());
             formData.append("paying_bank_code", bankCode.toString());
-            formData.append("payment_proof", proof);
+            if (proof) {
+                formData.append("payment_proof", proof);
+            }
 
             const res = await http.post(`projects/${projectId}/fund`, formData);
 

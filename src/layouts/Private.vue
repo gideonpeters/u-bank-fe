@@ -11,13 +11,14 @@
             v-if="$vuetify.breakpoint.mdAndDown"
         /> -->
         <v-navigation-drawer
-            width="100%"
-            class="z-4 w-100"
             dark
             color="primary"
-            app
+            width="100%"
+            style="height: -webkit-fill-available"
+            height="100%"
+            absolute
+            temporary
             v-model="drawer"
-            v-if="$vuetify.breakpoint.mdAndDown"
         >
             <v-btn
                 @click="drawer = false"
@@ -77,16 +78,16 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
+            <div class="d-flex justify-center z-4 my-5">
+                <v-btn
+                    @click="logout"
+                    depressed
+                    class="rounded-pill px-10 text-none my-2"
+                >
+                    Logout
+                </v-btn>
+            </div>
             <template v-slot:append>
-                <div class="d-flex justify-center z-4 my-5">
-                    <v-btn
-                        @click="logout"
-                        depressed
-                        class="rounded-pill px-10 text-none my-2"
-                    >
-                        Logout
-                    </v-btn>
-                </div>
                 <!-- <v-svg
                     name="sidebar-pattern"
                     class="sidebar__pattern z-1"
@@ -197,7 +198,7 @@ import {
 export default Vue.extend({
     data() {
         return {
-            drawer: false,
+            drawer: null,
             items: [
                 {
                     title: "Dashboard",
