@@ -131,6 +131,7 @@
                                 class="mr-auto"
                             >
                                 <v-img
+                                    @click="goToHome"
                                     src="./../assets/images/abode_logo--short.png"
                                     contain
                                     width="40px"
@@ -240,6 +241,9 @@ export default Vue.extend({
     methods: {
         logout() {
             this.$router.push({ name: LOGIN.NAME });
+        },
+        goToHome() {
+            this.$router.push({ name: DASHBOARD.NAME });
         },
     },
 });
