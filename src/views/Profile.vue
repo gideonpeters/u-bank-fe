@@ -307,11 +307,20 @@ export default Vue.extend({
                 this.isLoading = true;
                 let formData = new FormData();
                 formData.append("first_name", this.form.firstName);
-                formData.append("middle_name", this.form.middleName as string);
+                if (this.form.middleName) {
+                    formData.append(
+                        "middle_name",
+                        this.form.middleName as string,
+                    );
+                }
                 formData.append("username", this.form.username);
                 formData.append("last_name", this.form.lastName);
-                formData.append("dob", this.form.dob as string);
-                formData.append("gender", this.form.gender as string);
+                if (this.form.dob) {
+                    formData.append("dob", this.form.dob as string);
+                }
+                if (this.form.gender) {
+                    formData.append("gender", this.form.gender as string);
+                }
                 formData.append("phone_number", this.form.phoneNumber);
                 formData.append("next_of_kin_name", this.form.nextOfKinName);
                 formData.append("next_of_kin_email", this.form.nextOfKinEmail);
@@ -327,12 +336,14 @@ export default Vue.extend({
                     "next_of_kin_relationship",
                     this.form.nextOfKinRelationship,
                 );
-                await this.$store
-                    .dispatch("auth/editProfile", formData)
-                    .then(() => {
-                        this.isEdit = false;
-                        this.fetchProfile();
-                    });
+                const res = await this.$store.dispatch(
+                    "auth/editProfile",
+                    formData,
+                );
+
+                this.fetchProfile();
+                this.isEdit = false;
+                this.$store.commit("openSnackbar", res.message, { root: true });
             } finally {
                 this.isLoading = false;
             }
