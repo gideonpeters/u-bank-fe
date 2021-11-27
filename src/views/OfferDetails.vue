@@ -175,6 +175,7 @@ export default Vue.extend({
                         id: "0",
                     },
                 },
+                user_id: "0",
             },
             offerHeaders: [
                 { text: "Unit Price", value: "unit_price" },
