@@ -130,13 +130,15 @@
                                 v-if="$vuetify.breakpoint.mdAndDown"
                                 class="mr-auto"
                             >
-                                <v-img
-                                    @click="goToHome"
-                                    src="./../assets/images/abode_logo--short.png"
-                                    contain
-                                    width="40px"
-                                    height="50px"
-                                ></v-img>
+                                <v-btn
+                                    class="mr-3"
+                                    depressed
+                                    icon
+                                    @click="drawer = !drawer"
+                                    v-if="$vuetify.breakpoint.mdAndDown"
+                                >
+                                    <v-icon>mdi-menu</v-icon>
+                                </v-btn>
                             </div>
 
                             <div
@@ -149,15 +151,15 @@
                             >
                                 {{ title }}
                             </div>
-                            <v-btn
-                                class="mr-3"
-                                depressed
-                                icon
-                                @click="drawer = !drawer"
-                                v-if="$vuetify.breakpoint.mdAndDown"
-                            >
-                                <v-icon>mdi-menu</v-icon>
-                            </v-btn>
+                            <div class="d-flex align-center">
+                                <v-img
+                                    @click="goToHome"
+                                    src="./../assets/images/abode_logo--short.png"
+                                    contain
+                                    width="30px"
+                                    height="50px"
+                                ></v-img>
+                            </div>
                         </div>
                     </transition>
                     <!-- <div>
