@@ -50,7 +50,7 @@
                         </v-row>
                     </v-container>
                     <div class="info--text">
-                        By continuing, you agree to a service charge of 5% on
+                        By continuing, you agree to a service charge of 0% on
                         the accepted bid payment for this offer
                     </div>
                     <small>*indicates required field</small>
