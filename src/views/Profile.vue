@@ -108,6 +108,7 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="6">
                     <v-select
+                        :readonly="!isEdit"
                         :items="['Male', 'Female']"
                         filled
                         shaped
@@ -329,6 +330,7 @@ export default Vue.extend({
                 await this.$store
                     .dispatch("auth/editProfile", formData)
                     .then(() => {
+                        this.isEdit = false;
                         this.fetchProfile();
                     });
             } finally {
