@@ -98,6 +98,43 @@
                         filled
                     ></v-text-field>
                 </v-col>
+                <v-col cols="12" sm="12" md="6">
+                    <v-menu
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                v-model="form.dob"
+                                label="Date of Birth"
+                                prepend-inner-icon="mdi-calendar"
+                                readonly
+                                filled
+                                shaped
+                                v-bind="attrs"
+                                v-on="on"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="form.dob"
+                            :active-picker.sync="activePicker"
+                            :max="
+                                new Date(
+                                    Date.now() -
+                                        new Date().getTimezoneOffset() * 60000,
+                                )
+                                    .toISOString()
+                                    .substr(0, 10)
+                            "
+                            min="1950-01-01"
+                            @change="save"
+                        ></v-date-picker>
+                    </v-menu>
+                </v-col>
             </v-row>
             <v-row class="mt-10">
                 <v-col cols="12">
@@ -162,18 +199,22 @@ export default Vue.extend({
     data() {
         return {
             isLoading: false,
+            activePicker: null,
+            date: null,
+            menu: false,
             profile: {
                 client: {},
             },
             form: {
                 firstName: "",
                 middleName: "",
+                username: "",
                 lastName: "",
+                dob: null,
                 email: "",
                 profileImage: "",
                 phoneNumber: "",
                 password: "",
-                dob: "",
                 confirmPassword: "",
                 referrer: "",
                 nextOfKinName: "",
@@ -199,13 +240,23 @@ export default Vue.extend({
         matchForm(profile: any) {
             this.form.firstName = profile.client.first_name;
             this.form.middleName = profile.client.middle_name;
+            this.form.username = profile.username;
             this.form.lastName = profile.client.last_name;
             this.form.email = profile.email;
             this.form.phoneNumber = profile.client.phone_number;
+            this.form.referrer = profile.client.referrer.username;
+        },
+        save(date: any) {
+            this.$refs.menu.save(date);
         },
     },
     mounted() {
         this.fetchProfile();
+    },
+    watch: {
+        menu(val) {
+            val && setTimeout(() => (this.activePicker = "YEAR"));
+        },
     },
 });
 </script>
