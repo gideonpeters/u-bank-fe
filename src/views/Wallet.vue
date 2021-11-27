@@ -362,7 +362,7 @@ export default Vue.extend({
             const baseUrl = process.env.VUE_APP_APP_BASE;
             try {
                 await navigator.clipboard.writeText(
-                    `Register on Abode using my username ${this.loggedInUser.username} and earn up to 5% commission \n${baseUrl}/signup?ref=${this.loggedInUser.username}`,
+                    `Join the largest community of young people multiplying wealth through Real Estate Assets \nClick ${baseUrl}/signup?ref=${this.loggedInUser.username} to enjoy amazing deals`,
                 );
                 this.isCopied = true;
 
