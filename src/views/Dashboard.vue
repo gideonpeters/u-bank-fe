@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center" class="w-100 mt-8">
-        <v-col cols="12" v-if="projectsFunded > 0">
+        <v-col cols="12" v-if="projectsFunded === 0">
             <v-alert
                 border="left"
                 colored-border
