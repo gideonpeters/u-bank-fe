@@ -79,7 +79,8 @@
         <v-card-actions class="px-0 py-0">
             <v-btn
                 color="primary"
-                text
+                outlined
+                :block="!owned"
                 class=""
                 v-if="!owned"
                 @click="goToOffer"
@@ -91,7 +92,7 @@
                 :disabled="!offer.fund.project.status"
                 text
                 class="ml-auto"
-                v-if="!owned"
+                v-if="owned"
             >
                 Buy
             </v-btn>

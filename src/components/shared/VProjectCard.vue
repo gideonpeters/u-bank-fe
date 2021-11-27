@@ -87,6 +87,8 @@
                 color="orange"
                 :disabled="!project.status"
                 text
+                block
+                outlined
                 class="ml-auto"
                 v-if="!owned"
             >

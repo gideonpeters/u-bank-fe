@@ -28,7 +28,10 @@
                         depressed
                         text
                         color="success"
-                        :disabled="item.status !== 'approved' || item.payment"
+                        :disabled="
+                            item.status !== 'approved' ||
+                            item.payment.status !== 'approved'
+                        "
                         class="ml-2"
                     >
                         {{
@@ -95,8 +98,10 @@ export default Vue.extend({
             }
         },
         pay(item: any) {
-            this.selectedBid = item;
-            this.payBidDialog = true;
+            if (item.status !== "approved") {
+                this.selectedBid = item;
+                this.payBidDialog = true;
+            }
         },
     },
     mounted() {

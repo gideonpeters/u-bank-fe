@@ -79,65 +79,6 @@
                     </div>
                 </v-col>
             </v-row>
-            <v-row class="mt-8" v-if="isOwner">
-                <v-col cols="12">
-                    <div class="black--text font-weight-bold mt-5 mb-2">
-                        Offers
-                    </div>
-                    <div v-if="subscription.offers.length === 0">
-                        You have made no offers
-                    </div>
-                    <v-data-table
-                        hide-default-footer
-                        :loading="isLoadingOffers"
-                        :headers="offerHeaders"
-                        :items="subscription.offers"
-                        :items-per-page="5"
-                    >
-                        <template #item.created_at="{ item }">
-                            {{ formatDate(item.created_at) }}
-                        </template>
-                        <template #item.status="{ item }">
-                            <v-chip
-                                x-small
-                                :color="item.status ? 'success' : 'error'"
-                                >{{
-                                    item.status ? "Active" : "Inactive"
-                                }}</v-chip
-                            >
-                        </template>
-                        <template #item.actions="{ item }">
-                            <div class="d-flex align-center justify-center">
-                                <v-menu offset-y>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                            depressed
-                                            icon
-                                            v-bind="attrs"
-                                            v-on="on"
-                                        >
-                                            <v-icon>mdi-dots-horizontal</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <v-list>
-                                        <v-list-item
-                                            @click="offerAction.action(item)"
-                                            v-for="(
-                                                offerAction, index
-                                            ) in offerActions(item)"
-                                            :key="index"
-                                        >
-                                            <v-list-item-title>{{
-                                                offerAction.title
-                                            }}</v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-                                </v-menu>
-                            </div>
-                        </template>
-                    </v-data-table>
-                </v-col>
-            </v-row>
         </v-col>
         <v-col cols="12" md="3">
             <v-btn
@@ -253,7 +194,7 @@ export default Vue.extend({
     computed: {
         ...mapState("auth", ["loggedInUser"]),
         isOwner(): boolean {
-            return this.loggedInUser.id === 2;
+            return this.loggedInUser.id === this.offer.user_id;
         },
     },
     methods: {

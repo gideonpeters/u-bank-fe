@@ -69,6 +69,11 @@ const actions = <ActionTree<State, any>>{
         commit("setUser", res.data);
         return res;
     },
+    async editProfile(_, payload) {
+        const res = await AuthService.editProfile(payload);
+
+        return res;
+    },
     async fetchReferrals() {
         const res = await AuthService.fetchReferrals();
 

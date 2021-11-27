@@ -98,6 +98,16 @@ export default class AuthService {
         }
     }
 
+    static async editProfile(payload: any) {
+        try {
+            const res = await http.post(`/auth/me/update`, payload);
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
     static async fetchReferrals() {
         try {
             const res = await http.get(`referrals`);
