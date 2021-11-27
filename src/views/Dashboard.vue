@@ -1,5 +1,19 @@
 <template>
     <v-row justify="center" class="w-100 mt-8">
+        <v-col cols="12" v-if="projectsFunded === 0">
+            <v-alert
+                border="left"
+                colored-border
+                type="info"
+                depressed
+                color="info"
+                elevation="0"
+                dismissible
+            >
+                Welcome to Abode! Click on the "Subscriptions" card below to
+                begin owning and investing in available assets
+            </v-alert>
+        </v-col>
         <v-col cols="12" md="12">
             <div
                 class="
