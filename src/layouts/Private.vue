@@ -41,13 +41,28 @@
                         </div>
                     </transition>
                     <div>
-                        <v-badge avatar bordered overlap class="pointer">
-                            <template v-slot:badge>
-                                <v-avatar size="10"> 1 </v-avatar>
+                        <v-menu offset-y>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-avatar
+                                    color="orange"
+                                    size="62"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                >
+                                    <span class="white--text text-h5">{{
+                                        loggedInUser.name[0]
+                                    }}</span>
+                                </v-avatar>
                             </template>
-
-                            <v-icon>mdi-bell</v-icon>
-                        </v-badge>
+                            <v-list>
+                                <v-list-item @click="setup2fa">
+                                    Setup 2FA
+                                </v-list-item>
+                                <v-list-item @click="logout">
+                                    Logout
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
                     </div>
                 </div>
                 <!-- <div class="overflow-y-auto"> -->
@@ -74,6 +89,7 @@ import {
     PROJECTS,
     SETTINGS,
     WALLET,
+    MFA,
 } from "./../router/endpoints";
 
 export default Vue.extend({
@@ -113,17 +129,18 @@ export default Vue.extend({
             return routeMeta?.title;
         },
         ...mapState("auth", ["loggedInUser"]),
-        client() {
-            return this.loggedInUser.client || {};
-        },
     },
 
     methods: {
         logout() {
+            localStorage.removeItem("token");
             this.$router.push({ name: LOGIN.NAME });
         },
         goToHome() {
             this.$router.push({ name: DASHBOARD.NAME });
+        },
+        setup2fa() {
+            this.$router.push({ name: MFA.NAME });
         },
     },
 });

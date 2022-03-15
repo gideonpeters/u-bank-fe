@@ -169,7 +169,7 @@ export default Vue.extend({
                         this.loggedInUser?.has_2fa_email
                     )
                 ) {
-                    this.$router.push({ name: MFA.NAME });
+                    this.$router.push({ name: DASHBOARD.NAME });
                 }
             } finally {
                 this.isLoading = false;

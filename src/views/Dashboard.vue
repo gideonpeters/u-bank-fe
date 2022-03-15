@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center" class="w-100 mt-8">
-        <v-col cols="12" v-if="projectsFunded === 0">
+        <v-col cols="12" v-if="hasNo2fa">
             <v-alert
                 border="left"
                 colored-border
@@ -8,9 +8,9 @@
                 depressed
                 color="info"
                 elevation="0"
-                @click="goToPage(projectPage)"
+                @click="setup2fa"
             >
-                Welcome to U-Bank!
+                Welcome to U-Bank! Click Here to Setup 2FA
             </v-alert>
         </v-col>
         <v-col cols="12" md="12">
@@ -131,7 +131,7 @@
 import Vue from "vue";
 
 import { formatDate, formatMoney } from "@/utils/helpers";
-import { PROJECTS, WALLET } from "../router/endpoints";
+import { PROJECTS, WALLET, MFA } from "../router/endpoints";
 import { mapState, mapActions } from "vuex";
 
 export default Vue.extend({
@@ -162,6 +162,12 @@ export default Vue.extend({
     },
     computed: {
         ...mapState("auth", ["loggedInUser"]),
+        hasNo2fa(): boolean {
+            return !(
+                this.loggedInUser?.has_2fa_auth_app ||
+                this.loggedInUser?.has_2fa_email
+            );
+        },
     },
     methods: {
         ...mapActions("auth", ["fetchProfile"]),
@@ -170,6 +176,9 @@ export default Vue.extend({
 
         goToPage(name: string) {
             // this.$router.push({ name });
+        },
+        setup2fa() {
+            this.$router.push({ name: MFA.NAME });
         },
     },
     mounted() {
