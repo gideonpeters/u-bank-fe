@@ -140,8 +140,8 @@ export default Vue.extend({
         async login(): Promise<void> {
             try {
                 this.isLoading = true;
-                if (this.loggedInUser)
-                    this.form.email = this.loggedInUser.email;
+                if (this.loggedInUser?.name)
+                    this.form.email = this.loggedInUser?.email;
                 const res = await this.$store.dispatch("auth/login", this.form);
 
                 if (!res.data.user.email_verified_at) {
