@@ -158,18 +158,18 @@ export default Vue.extend({
                     });
                 } else if (
                     res.status &&
+                    (this.loggedInUser?.has_2fa_auth_app ||
+                        this.loggedInUser?.has_2fa_email)
+                ) {
+                    this.$router.push({ name: MFA_VERIFY.NAME });
+                } else if (
+                    res.status &&
                     !(
                         this.loggedInUser?.has_2fa_auth_app ||
                         this.loggedInUser?.has_2fa_email
                     )
                 ) {
-                    this.$router.push({ name: MFA_VERIFY.NAME });
-                } else if (
-                    res.status &&
-                    (this.loggedInUser?.has_2fa_auth_app ||
-                        this.loggedInUser?.has_2fa_email)
-                ) {
-                    this.$router.push({ name: DASHBOARD.NAME });
+                    this.$router.push({ name: MFA.NAME });
                 }
             } finally {
                 this.isLoading = false;
