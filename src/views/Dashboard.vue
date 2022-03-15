@@ -10,17 +10,12 @@
                 elevation="0"
                 @click="goToPage(projectPage)"
             >
-                Welcome Abode! Click here to see available offers.
+                Welcome to U-Bank!
             </v-alert>
         </v-col>
         <v-col cols="12" md="12">
             <div
-                class="
-                    d-flex
-                    flex-md-row flex-column
-                    justify-space-between
-                    align-center
-                "
+                class="d-flex flex-md-row flex-column justify-space-between align-center"
             >
                 <div class="w-100 ml-md-5 ml-0 mt-5 mt-md-0">
                     <div class="d-flex flex-md-row flex-column mb-5">
@@ -28,20 +23,7 @@
                             @click="goToPage(projectPage)"
                             min-height="150px"
                             flat
-                            class="
-                                pointer
-                                flex-column
-                                rounded-xl
-                                v-shadow
-                                px-5
-                                py-6
-                                mr-md-4 mr-0
-                                mb-5
-                                w-100
-                                d-flex
-                                justify-center
-                                align-center
-                            "
+                            class="pointer flex-column rounded-xl v-shadow px-5 py-6 mr-md-4 mr-0 mb-5 w-100 d-flex justify-center align-center"
                             color="#dee8eb"
                         >
                             <div class="text-h4 my-2">{{ projectsFunded }}</div>
@@ -58,19 +40,7 @@
                             @click="goToPage(walletPage)"
                             min-height="150px"
                             flat
-                            class="
-                                v-shadow
-                                pointer
-                                flex-column
-                                rounded-xl
-                                px-5
-                                py-6
-                                mb-5
-                                w-100
-                                d-flex
-                                justify-center
-                                align-center
-                            "
+                            class="v-shadow pointer flex-column rounded-xl px-5 py-6 mb-5 w-100 d-flex justify-center align-center"
                             color="#F8F2D8"
                         >
                             <div class="text-h4 my-2 black--text">
@@ -86,18 +56,7 @@
                         <v-card
                             flat
                             height="150px"
-                            class="
-                                mb-5
-                                pointer
-                                w-100
-                                rounded-xl
-                                d-flex
-                                flex-column
-                                align-center
-                                justify-center
-                                pa-4
-                                mr-md-4 mr-0
-                            "
+                            class="mb-5 pointer w-100 rounded-xl d-flex flex-column align-center justify-center pa-4 mr-md-4 mr-0"
                             color="tertiary"
                         >
                             <div class="text-h5">
@@ -113,16 +72,7 @@
                         <v-card
                             flat
                             height="150px"
-                            class="
-                                pointer
-                                w-100
-                                rounded-xl
-                                d-flex
-                                mb-5
-                                flex-column
-                                align-center
-                                justify-center
-                            "
+                            class="pointer w-100 rounded-xl d-flex mb-5 flex-column align-center justify-center"
                             color="tertiary-light pa-4"
                         >
                             <div class="text-h5">
@@ -182,6 +132,7 @@ import Vue from "vue";
 
 import { formatDate, formatMoney } from "@/utils/helpers";
 import { PROJECTS, WALLET } from "../router/endpoints";
+import { mapState, mapActions } from "vuex";
 
 export default Vue.extend({
     data() {
@@ -209,44 +160,20 @@ export default Vue.extend({
             activities: [],
         };
     },
+    computed: {
+        ...mapState("auth", ["loggedInUser"]),
+    },
     methods: {
+        ...mapActions("auth", ["fetchProfile"]),
         formatDate,
         formatMoney,
-        async fetchWallet() {
-            try {
-                this.isLoading = true;
-                const res = await this.$store.dispatch(
-                    "transactions/fetchWallet",
-                );
-                this.balance = res.data.balance;
-                this.projectsFunded = res.data.projects_funded;
-                this.totalInflow = res.data.total_inflow;
-                this.totalOutflow = res.data.total_outflow;
-                this.actualNetWorth = res.data.actual_networth;
-                this.potentialNetWorth = res.data.potential_networth;
-            } finally {
-                this.isLoading = false;
-            }
-        },
-        async fetchActivityLogs() {
-            try {
-                this.isLoadingLogs = true;
-                const res = await this.$store.dispatch(
-                    "auth/fetchActivityLogs",
-                );
 
-                this.activities = res.data;
-            } finally {
-                this.isLoadingLogs = false;
-            }
-        },
         goToPage(name: string) {
-            this.$router.push({ name });
+            // this.$router.push({ name });
         },
     },
     mounted() {
-        this.fetchWallet();
-        this.fetchActivityLogs();
+        this.fetchProfile();
     },
 });
 </script>

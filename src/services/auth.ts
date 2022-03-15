@@ -4,83 +4,42 @@ import { http } from "./../http/index";
 
 export default class AuthService {
     static async signup({
-        firstName,
-        lastName,
+        name,
         email,
         phoneNumber,
         password,
-        username,
-        referrer,
     }: {
-        firstName: string;
-        lastName: string;
+        name: string;
         email: string;
         phoneNumber: string;
         password: string;
-        username: string;
-        referrer: string;
     }) {
         try {
             const res = await http.post("/auth/register", {
-                first_name: firstName,
-                last_name: lastName,
+                name,
                 email,
-                phone_number: phoneNumber,
+                phone: phoneNumber,
                 password,
-                username,
-                referrer,
             });
 
             return res.data;
-        } catch (error: any) {
+        } catch (error) {
             resolveRequestError(error);
         }
     }
 
     static async login({
-        loginId,
+        email,
         password,
     }: {
-        loginId: string;
+        email: string;
         password: string;
     }) {
         try {
             const res = await http.post("/auth/login", {
-                login_id: loginId,
+                email,
                 password,
             });
-
-            return res.data;
-        } catch (error) {
-            resolveRequestError(error);
-        }
-    }
-
-    static async collectInterests({
-        email,
-        expectations,
-        interests,
-    }: {
-        email: string;
-        expectations: string;
-        interests: string[];
-    }) {
-        try {
-            const res = await http.post("clients/collect-interests", {
-                email,
-                type_interests: interests.toString(),
-                volume_interests: expectations,
-            });
-
-            return res.data;
-        } catch (error) {
-            resolveRequestError(error);
-        }
-    }
-
-    static async fetchActivityLogs() {
-        try {
-            const res = await http.get(`activity-logs`);
 
             return res.data;
         } catch (error) {
@@ -98,9 +57,9 @@ export default class AuthService {
         }
     }
 
-    static async editProfile(payload: any) {
+    static async generateKey() {
         try {
-            const res = await http.post(`/auth/me/update`, payload);
+            const res = await http.post(`2fa/generateSecret`);
 
             return res.data;
         } catch (error) {
@@ -108,55 +67,9 @@ export default class AuthService {
         }
     }
 
-    static async fetchReferrals() {
+    static async getQR() {
         try {
-            const res = await http.get(`referrals`);
-
-            return res.data;
-        } catch (error) {
-            resolveRequestError(error);
-        }
-    }
-
-    static async checkUsername({ username }: { username: string }) {
-        try {
-            const res = await http.get(`username/${username}`);
-
-            return res.data;
-        } catch (error) {
-            resolveRequestError(error);
-        }
-    }
-
-    static async resolveReferrer({ referrer }: { referrer: string }) {
-        try {
-            const res = await http.post(`referrer/resolve`, {
-                referrer,
-            });
-
-            return res.data;
-        } catch (error) {
-            resolveRequestError(error);
-        }
-    }
-
-    static async forgotPassword(email: string) {
-        try {
-            const res = await http.post(`auth/forgot-password`, { email });
-
-            return res.data;
-        } catch (error) {
-            resolveRequestError(error);
-        }
-    }
-
-    static async resetPassword(form: {
-        otp: string | number;
-        email: string;
-        password: string;
-    }) {
-        try {
-            const res = await http.post(`auth/reset-password`, form);
+            const res = await http.get(`2fa`);
 
             return res.data;
         } catch (error) {
@@ -174,9 +87,49 @@ export default class AuthService {
         }
     }
 
+    static async verifyEmail2Fa(form: { otp: string | number }) {
+        try {
+            const res = await http.post(`auth/2fa-otp`, form);
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async verifySecret2Fa(form: { otp: string | number }) {
+        try {
+            const res = await http.post(`2fa/verify2fa`, form);
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async enableSecret2Fa(form: { otp: string | number }) {
+        try {
+            const res = await http.post(`2fa/enable2fa`, form);
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
     static async resendEmailVerification(email: string) {
         try {
             const res = await http.post("auth/verify-email", { email });
+
+            return res.data;
+        } catch (error) {
+            resolveRequestError(error);
+        }
+    }
+
+    static async resend2FaEmailOtp() {
+        try {
+            const res = await http.post("auth/send-verify-otp");
 
             return res.data;
         } catch (error) {

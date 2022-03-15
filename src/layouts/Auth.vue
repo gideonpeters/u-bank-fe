@@ -7,7 +7,7 @@
                 color="primary"
                 class="fill-height"
                 :style="{
-                    backgroundImage: `url('${require('@/assets/images/abode-cover.jpeg')}')`,
+                    backgroundImage: `url('${require('@/assets/images/u-bank-cover.jpeg')}')`,
                     backgroundPosition: 'center center',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
@@ -28,7 +28,7 @@
                 class="px-10 py-16 fill-height"
                 :style="{
                     backgroundImage: $vuetify.breakpoint.mdAndDown
-                        ? `url('${require('@/assets/images/abode-cover.jpeg')}')`
+                        ? `url('${require('@/assets/images/u-bank-cover.jpeg')}')`
                         : '',
                     backgroundPosition: 'center center',
                     backgroundSize: 'cover',
@@ -38,12 +38,7 @@
                 <v-row justify="center" align="start" class="fill-height">
                     <v-col cols="12" md="8">
                         <div class="d-flex justify-center">
-                            <v-img
-                                src="./../assets/images/abode_logo--gold.png"
-                                contain
-                                width="180px"
-                                height="200px"
-                            ></v-img>
+                            <h1>U-Bank</h1>
                         </div>
                     </v-col>
                     <v-col cols="12" md="8">

@@ -128,3 +128,21 @@ export const SETTINGS = {
         title: "Settings",
     },
 };
+
+export const MFA = {
+    PATH: "/mfa",
+    NAME: "main.mfa",
+    META: {
+        layout: "public",
+        title: "MFA",
+    },
+};
+
+export const MFA_VERIFY = {
+    PATH: "/security",
+    NAME: "main.security",
+    META: {
+        layout: "public",
+        title: "MFA",
+    },
+};

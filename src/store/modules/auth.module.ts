@@ -7,12 +7,7 @@ class State {
 }
 
 const state = {
-    loggedInUser: {
-        client: {
-            firstName: "",
-            lastName: "",
-        },
-    },
+    loggedInUser: localStorage.getItem("user") || {},
     authToken: localStorage.getItem("token") || "",
 };
 
@@ -21,6 +16,7 @@ const getters = {};
 const mutations = <MutationTree<State>>{
     setUser(_, payload) {
         state.loggedInUser = payload;
+        localStorage.setItem("user", JSON.stringify(payload));
     },
 };
 
@@ -30,9 +26,9 @@ const actions = <ActionTree<State, any>>{
 
         return res;
     },
-    async login({ commit, dispatch }, { loginId, password }) {
+    async login({ commit, dispatch }, { email, password }) {
         const res = await AuthService.login({
-            loginId,
+            email,
             password,
         });
 
@@ -44,46 +40,14 @@ const actions = <ActionTree<State, any>>{
         commit("openSnackbar", res.message, { root: true });
         return res;
     },
-    async checkUsername(_, { username }) {
-        const res = await AuthService.checkUsername({
-            username,
-        });
 
-        return res;
-    },
-    async resolveReferrer(_, { referrer }) {
-        const res = await AuthService.resolveReferrer({
-            referrer,
-        });
-
-        return res;
-    },
-    async fetchActivityLogs() {
-        const res = await AuthService.fetchActivityLogs();
-
-        return res;
-    },
     async fetchProfile({ commit }) {
         const res = await AuthService.fetchProfile();
 
         commit("setUser", res.data);
         return res;
     },
-    async editProfile(_, payload) {
-        const res = await AuthService.editProfile(payload);
 
-        return res;
-    },
-    async fetchReferrals() {
-        const res = await AuthService.fetchReferrals();
-
-        return res;
-    },
-    async collectInterests(_, payload) {
-        const res = await AuthService.collectInterests(payload);
-
-        return res;
-    },
     async logout() {
         localStorage.clear();
     },

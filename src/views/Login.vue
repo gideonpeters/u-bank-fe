@@ -1,6 +1,6 @@
 <template>
     <auth>
-        <v-row justify="center" align="center" class="w-100"> </v-row>
+        <v-row justify="center" align="center" class="w-100"></v-row>
         <v-row>
             <v-col cols="12">
                 <v-card
@@ -16,19 +16,24 @@
                                 <div
                                     class="text-lg-h4 text-h5 font-weight-bold"
                                 >
-                                    Login 🚪
+                                    {{
+                                        !loggedInUser
+                                            ? "Login"
+                                            : `Welcome back ${loggedInUser.name}`
+                                    }}
+                                    🚪
                                 </div>
                                 <div class="text-body mt-2 mb-5 grey--text">
-                                    Welcome to Abode, Let's get you logged in
+                                    Let's get you logged in
                                 </div>
                             </div>
                         </v-col>
-                        <v-col cols="12">
+                        <v-col cols="12" v-if="!loggedInUser">
                             <v-text-field
                                 shaped
-                                label="Email/Username"
+                                label="Email"
                                 :rules="[rules.required]"
-                                v-model="form.loginId"
+                                v-model="form.email"
                                 hide-details
                                 filled
                             ></v-text-field>
@@ -49,13 +54,7 @@
                                 filled
                             ></v-text-field>
                         </v-col>
-                        <v-col cols="12">
-                            <v-checkbox
-                                hide-details
-                                v-model="form.rememberMe"
-                                label="Remember Me"
-                            ></v-checkbox>
-                        </v-col>
+
                         <v-col cols="12">
                             <v-btn
                                 block
@@ -67,30 +66,31 @@
                                 >Login</v-btn
                             >
                         </v-col>
-                        <v-col cols="12">
+                        <v-col cols="12" v-if="loggedInUser">
                             <div class="d-flex justify-center text-subtitle-1">
-                                <div class="mr-1">Don't have an account?</div>
+                                <div class="mr-1">
+                                    Not {{ loggedInUser.email }}?
+                                </div>
                                 <div
                                     class="pointer primary--text"
-                                    @click="goToSignUp"
+                                    @click="clearUser"
                                 >
-                                    Sign up
+                                    Sign In with different account
                                 </div>
                             </div>
                         </v-col>
-                        <v-col cols="12">
-                            <div class="d-flex justify-center">
-                                <v-btn
-                                    depressed
-                                    text
-                                    @click="goToForgotPassword"
-                                    color="primary"
-                                    class="text-none text-subtitle-1"
-                                    >Forgot Password?</v-btn
-                                >
-                            </div>
-                        </v-col>
                     </v-row>
+                    <v-col cols="12">
+                        <div class="d-flex justify-center text-subtitle-1">
+                            <div class="mr-1">Don't have an account?</div>
+                            <div
+                                class="pointer primary--text"
+                                @click="goToSignUp"
+                            >
+                                Sign up
+                            </div>
+                        </div>
+                    </v-col>
                 </v-card>
             </v-col>
         </v-row>
@@ -105,7 +105,9 @@ import {
     FORGOT_PASSWORD,
     SIGNUP,
     VERIFY_EMAIL,
+    MFA_VERIFY,
 } from "../router/endpoints";
+import { mapState, mapMutations } from "vuex";
 
 export default Vue.extend({
     components: { Auth },
@@ -114,8 +116,9 @@ export default Vue.extend({
             showPassword: false,
             isLoading: false,
             form: {
-                loginId: "",
+                email: "",
                 password: "",
+                otp: "",
                 rememberMe: false,
             },
         };
@@ -130,11 +133,15 @@ export default Vue.extend({
                 min: (v) => v.length >= 8 || "Min 8 characters",
             };
         },
+        ...mapState("auth", ["loggedInUser"]),
     },
     methods: {
+        ...mapMutations("auth", ["setUser"]),
         async login(): Promise<void> {
             try {
                 this.isLoading = true;
+                if (this.loggedInUser)
+                    this.form.email = this.loggedInUser.email;
                 const res = await this.$store.dispatch("auth/login", this.form);
 
                 if (!res.data.user.email_verified_at) {
@@ -146,10 +153,22 @@ export default Vue.extend({
                     this.$router.push({
                         name: VERIFY_EMAIL.NAME,
                         query: {
-                            email: this.form.loginId,
+                            email: this.form.email,
                         },
                     });
-                } else if (res.status) {
+                } else if (
+                    res.status &&
+                    (this.loggedInUser?.has_2fa_auth_app ||
+                        this.loggedInUser?.has_2fa_email)
+                ) {
+                    this.$router.push({ name: MFA_VERIFY.NAME });
+                } else if (
+                    res.status &&
+                    !(
+                        this.loggedInUser?.has_2fa_auth_app ||
+                        this.loggedInUser?.has_2fa_email
+                    )
+                ) {
                     this.$router.push({ name: DASHBOARD.NAME });
                 }
             } finally {
@@ -162,12 +181,15 @@ export default Vue.extend({
         goToForgotPassword() {
             this.$router.push({ name: FORGOT_PASSWORD.NAME });
         },
+        clearUser() {
+            this.setUser(null);
+        },
     },
     mounted() {
-        const { loginId } = this.$route.query;
+        const { email } = this.$route.query;
 
-        if (loginId) {
-            this.form.loginId = loginId as string;
+        if (email) {
+            this.form.email = email as string;
         }
     },
 });

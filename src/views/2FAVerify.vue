@@ -16,25 +16,22 @@
                                 <div
                                     class="text-lg-h4 text-h5 font-weight-bold"
                                 >
-                                    Verify Email 🚪
+                                    Multi-Factor Authentication 🚪
                                 </div>
                                 <div class="text-body mt-2 mb-5 grey--text">
-                                    Enter email so we send you a verification
-                                    email
+                                    {{
+                                        loggedInUser.has_2fa_auth_app
+                                            ? "Enter OTP from Google Authenticator App"
+                                            : "Click proceed to receive an OTP to complete login"
+                                    }}
                                 </div>
                             </div>
                         </v-col>
-                        <v-col cols="12" v-if="!sentOtp">
-                            <v-text-field
-                                shaped
-                                label="Email"
-                                :rules="[rules.required]"
-                                v-model="form.email"
-                                hide-details
-                                filled
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" v-if="sentOtp">
+
+                        <v-col
+                            cols="12"
+                            v-if="sentOtp || loggedInUser.has_2fa_auth_app"
+                        >
                             <v-text-field
                                 shaped
                                 label="OTP"
@@ -46,30 +43,43 @@
                             ></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" v-if="sentOtp">
+                        <v-col
+                            cols="12"
+                            v-if="sentOtp || loggedInUser.has_2fa_auth_app"
+                        >
                             <v-btn
                                 block
                                 :loading="isLoading"
                                 depressed
                                 color="primary"
                                 class="py-6"
-                                @click="verifyEmail"
+                                @click="handleSubmit"
                                 >Verify</v-btn
                             >
                         </v-col>
 
-                        <v-col cols="12" v-if="!sentOtp">
+                        <v-col
+                            cols="12"
+                            v-if="!sentOtp && loggedInUser.has_2fa_email"
+                        >
                             <v-btn
                                 block
                                 :loading="isSendingOtp"
                                 depressed
                                 color="primary"
                                 class="py-6"
-                                @click="resendEmailVerification"
+                                @click="handleResend"
                                 >Send OTP</v-btn
                             >
                         </v-col>
-                        <v-col cols="12" v-if="sentOtp && !isLoading">
+                        <v-col
+                            cols="12"
+                            v-if="
+                                sentOtp &&
+                                !isLoading &&
+                                loggedInUser.has_2fa_email
+                            "
+                        >
                             <v-btn
                                 block
                                 :loading="isSendingOtp"
@@ -77,7 +87,7 @@
                                 text
                                 color="primary"
                                 class="py-6"
-                                @click="resendEmailVerification"
+                                @click="handleResend"
                                 >Resend OTP</v-btn
                             >
                         </v-col>
@@ -93,6 +103,7 @@ import Vue from "vue";
 import Auth from "../layouts/Auth.vue";
 import { DASHBOARD, LOGIN, SIGNUP } from "../router/endpoints";
 import { AuthService } from "../services";
+import { mapState } from "vuex";
 
 export default Vue.extend({
     components: { Auth },
@@ -129,15 +140,16 @@ export default Vue.extend({
                 min: (v) => v.length >= 8 || "Min 8 characters",
             };
         },
+        ...mapState("auth", ["loggedInUser"]),
     },
     methods: {
-        async verifyEmail(): Promise<void> {
+        async verifyEmail2Fa(): Promise<void> {
             try {
                 this.isLoading = true;
-                const res = await AuthService.verifyEmail({
-                    email: this.form.email,
+                const res = await AuthService.verifyEmail2Fa({
                     otp: this.form.otp,
                 });
+
                 this.$store.commit("openSnackbar", res.message, { root: true });
 
                 if (res.status) {
@@ -149,14 +161,30 @@ export default Vue.extend({
                 this.isLoading = false;
             }
         },
-        async resendEmailVerification(): Promise<void> {
+        async verifySecret2Fa(): Promise<void> {
+            try {
+                this.isLoading = true;
+                const res = await AuthService.verifySecret2Fa({
+                    otp: this.form.otp,
+                });
+
+                this.$store.commit("openSnackbar", res.message, { root: true });
+
+                if (res.status) {
+                    this.$router.push({
+                        name: DASHBOARD.NAME,
+                    });
+                }
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        async resend2FaEmailOtp(): Promise<void> {
             try {
                 this.isSendingOtp = true;
                 this.sentOtp = false;
 
-                const res = await AuthService.resendEmailVerification(
-                    this.form.email,
-                );
+                const res = await AuthService.resend2FaEmailOtp();
 
                 if (res.status) {
                     this.sentOtp = true;
@@ -167,19 +195,19 @@ export default Vue.extend({
                 this.isSendingOtp = false;
             }
         },
-        goToSignUp() {
-            this.$router.push({ name: SIGNUP.NAME });
+        handleResend() {
+            //
+            if (this.loggedInUser?.has_2fa_email) {
+                this.resend2FaEmailOtp();
+            }
         },
-        goToForgotPassword() {
-            this.$router.push({ name: SIGNUP.NAME });
+        handleSubmit() {
+            if (this.loggedInUser?.has_2fa_email) {
+                this.verifyEmail2Fa();
+            } else if (this.loggedInUser?.has_2fa_auth_app) {
+                this.verifySecret2Fa();
+            }
         },
-    },
-    mounted() {
-        const { email } = this.$route.query;
-
-        if (email) {
-            this.form.email = email as string;
-        }
     },
 });
 </script>

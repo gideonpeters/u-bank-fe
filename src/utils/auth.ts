@@ -6,7 +6,7 @@ function errorHandler(e: any) {
     if (e.response && e.response.status === 400) {
         data = e.response.data;
     } else if (e.response && e.response.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("token");
         // removeAuthHeader();
         data = e.response.data.message;
 
