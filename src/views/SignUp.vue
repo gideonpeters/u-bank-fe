@@ -24,7 +24,7 @@
                                     </div>
                                 </div>
                             </v-col>
-                            <v-col cols="12" sm="12" md="6">
+                            <v-col cols="12" sm="12" md="12">
                                 <v-text-field
                                     shaped
                                     label="Full Name*"
@@ -34,7 +34,7 @@
                                 ></v-text-field>
                             </v-col>
 
-                            <v-col cols="12" sm="12" md="6">
+                            <v-col cols="12" sm="12" md="12">
                                 <v-text-field
                                     shaped
                                     label="Email*"
@@ -43,7 +43,7 @@
                                     filled
                                 ></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="12" md="6">
+                            <v-col cols="12" sm="12" md="12">
                                 <v-text-field
                                     shaped
                                     label="Phone Number*"
