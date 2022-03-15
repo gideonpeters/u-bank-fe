@@ -214,6 +214,8 @@ export default Vue.extend({
                 this.$store.commit("openSnackbar", res.message, {
                     root: true,
                 });
+
+                this.goToLogin();
             } finally {
                 this.isResolving = false;
             }
