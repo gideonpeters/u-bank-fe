@@ -17,7 +17,7 @@
                                     class="text-lg-h4 text-h5 font-weight-bold"
                                 >
                                     {{
-                                        !loggedInUser
+                                        !loggedInUser.name
                                             ? "Login"
                                             : `Welcome back ${loggedInUser.name}`
                                     }}
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         </v-col>
-                        <v-col cols="12" v-if="!loggedInUser">
+                        <v-col cols="12" v-if="!loggedInUser.name">
                             <v-text-field
                                 shaped
                                 label="Email"
@@ -66,7 +66,7 @@
                                 >Login</v-btn
                             >
                         </v-col>
-                        <v-col cols="12" v-if="loggedInUser">
+                        <v-col cols="12" v-if="loggedInUser.name">
                             <div class="d-flex justify-center text-subtitle-1">
                                 <div class="mr-1">
                                     Not {{ loggedInUser.email }}?
